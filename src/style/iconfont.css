@@ -13,6 +13,34 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-caidan:before {
+  content: "\e610";
+}
+
+.icon-shoucang:before {
+  content: "\e69b";
+}
+
+.icon-suijibofang:before {
+  content: "\e6a0";
+}
+
+.icon-danquxunhuan:before {
+  content: "\e6a2";
+}
+
+.icon-liebiaoxunhuan:before {
+  content: "\e6a3";
+}
+
+.icon-tianjiadao:before {
+  content: "\e604";
+}
+
+.icon-AppleMusic:before {
+  content: "\e733";
+}
+
 .icon-yinlemusic215:before {
   content: "\e618";
 }
@@ -23,10 +51,6 @@
 
 .icon-yonghu:before {
   content: "\e638";
-}
-
-.icon-shoucang:before {
-  content: "\e63b";
 }
 
 .icon-gongzhonghao:before {
@@ -61,10 +85,6 @@
   content: "\e60a";
 }
 
-.icon-shoucang1:before {
-  content: "\e603";
-}
-
 .icon-24gf-playCircle:before {
   content: "\ea82";
 }
@@ -93,10 +113,6 @@
   content: "\e63a";
 }
 
-.icon-bofang09:before {
-  content: "\e690";
-}
-
 .icon-shengyin01-mianxing:before {
   content: "\e6e5";
 }
@@ -120,4 +136,3 @@
 .icon-pause-fill:before {
   content: "\e6bc";
 }
-

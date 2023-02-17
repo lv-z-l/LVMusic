@@ -44,7 +44,13 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {}
-        }
+        },
+		"safearea": {  
+		    "background": "RGB(245,245,245,0.5)",  
+		    "bottom": {  
+		        "offset": "auto"  
+		    }  
+		}
     },
     /* 快应用特有相关 */
     "quickapp" : {},
@@ -67,6 +73,11 @@
     },
     "uniStatistics": {  
         "enable": false
+    },
+    "h5": {
+        "devServer": {
+            "port": 3000
+        }
     },
     "vueVersion" : "3"
 }

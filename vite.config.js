@@ -6,5 +6,12 @@ import uni from '@dcloudio/vite-plugin-uni'
 export default defineConfig({
   plugins: [
     uni(),
-  ]
+  ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "@/style/var.scss";'
+      }
+    }
+  }
 })

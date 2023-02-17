@@ -1,13 +1,24 @@
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
+export const useStore = defineStore('main', {
+  state: () => ({ 
+	  currentBar: '',
+    
+		currentSong: {
+			
+		},
+    voiceBarWidth: 20,
+    playerShow: false,
+	}),
   getters: {
-    double: (state) => state.count * 2,
+
   },
   actions: {
-    increment() {
-      this.count++
+    setCurrentBar(curr) {
+      this.currentBar = curr
     },
+    setPlayerShow(show) {
+      this.playerShow = show
+    }
   },
 })

@@ -10,11 +10,11 @@
     </view>
     <transition name="playbar">
       <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">
-        <image class="song-image slide-in-blurred-br" src="https://y.gtimg.cn/music/photo_new/T002R300x300M000002HcXA60aeTLD.jpg"></image>
+        <image class="song-image slide-in-blurred-br" :src="store.currentSong.image"></image>
         <text class="song-name">Song Name</text>
         <view class="song-btns">
-          <text :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
-          <text class="icon-next-fill song-btn"></text>
+          <text @click.stop="playOrPause" :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
+          <text @click.stop="next" class="icon-next-fill song-btn"></text>
         </view>
       </view>
     </transition>
@@ -31,26 +31,39 @@
 </template>
 
 <script setup name="main">
-import MainConfig from '@/config/index'
-import player from '@/pages/player/index'
-import { reactive, nextTick } from 'vue';
-import { useStore } from '@/store/main/index'
+  import MainConfig from '@/config/index'
+  import player from '@/pages/player/index'
+  import { reactive, nextTick } from 'vue';
+  import { useStore } from '@/store/main/index'
 
-const iconList = reactive(MainConfig.mainBottomBar.icons)
+  const iconList = reactive(MainConfig.mainBottomBar.icons)
 
-const store = useStore()
+  const store = useStore()
 
-function barItemClick(icon) {
-  store.setCurrentBar(icon.text)
-}
+  function barItemClick(icon) {
+    store.setCurrentBar(icon.text)
+  }
 
-function onPlayerBarClick() {
-  store.setPlayerShow(true)
-}
+  function onPlayerBarClick() {
+    store.setPlayerShow(true)
+  }
 
-function onLoad() {
+  function onLoad() {
 
-}
+  }
+
+  function next() {
+
+  }
+
+  function playOrPause() {
+    store.currentSong.playing = !store.currentSong.playing
+    if (store.currentSong.playing) { // 暂停
+      
+    } else {
+
+    }
+  }
 </script>
 
 <style lang="scss">
@@ -126,13 +139,32 @@ function onLoad() {
     flex: 8 0 auto;
   }
   .song-btns {
-    width: $play-song-btns-width;
     display: flex;
     justify-content: space-between;
     flex: 1 0 auto;
-    .song-btn{
+    .song-btn {
+      height: $play-song-btns-height;
+      width: $play-song-btns-height;
+      line-height: $play-song-btns-height;
+      text-align: center;
       font-size: $play-song-btn-size;
+      border-radius: 50%;
+      &:active:hover {
+        animation: larger .8s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+      }
+      
     }
+  }
+}
+
+@keyframes larger {
+  0% {
+    font-size: calc($play-song-btn-size / 2);
+    background-color: $play-song-btn-active-bg;
+  }
+  100% {
+    font-size: $play-song-btn-size;
+    background-color: none;
   }
 }
   /*
@@ -158,11 +190,11 @@ function onLoad() {
   }
 
   .slide-in-blurred-br {
-    animation: slide-in-blurred-br 0.4s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+    animation: slide-in-blurred-br 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) .2s both;
   }
   @keyframes slide-in-blurred-br {
     from {
-      transform: translate(2 * $bottom-bar-height, 2 * $bottom-bar-height);
+      transform: translate($bottom-bar-height, $bottom-bar-height);
       opacity: $opacity-zero;
     }
     to {

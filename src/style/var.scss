@@ -17,10 +17,41 @@ $play-song-name-width: 362rpx;
 $play-song-name-margin: 0 32rpx;
 $play-song-name-size: 32rpx;
 $play-song-btns-width: 148rpx;
-$play-song-btn-size: 32px;
-
+$play-song-btns-height: 76rpx;
+$play-song-btn-size: 64rpx;
+$play-song-btn-active-bg: RGB(214,214,214);
 $transition: all .4s cubic-bezier(.29,.95,.49,.97);
 
 $opacity-zero: 0;
 $opacity-one: 1;
+
+$player-padding: 0 6.4%;
+$player-top-line-width: 72rpx;
+$player-top-line-height: 10rpx;
+$player-top-line-radius: 16rpx;
+$player-top-line-margin-top: 40rpx;
+
+$player-image-width: 480rpx;
+$player-image-width-l: 654rpx;
+$player-image-margin-top: 74rpx;
+
+$player-voice-bar-margin: 0 24rpx;
+$player-voice-bar-icon-size: 38rpx;
+$player-voice-bar-width: 530rpx;
+$player-voice-icon-color: RGBA(255,255,255);
+
+$process-padding: 18rpx;
+$process-height: 14rpx;
+$process-text-margin-top: 24rpx;
+
+$player-song-time-margin-top: 56rpx;
+
+$player-btns-width: 506rpx;
+$player-song-info-name-size: 40rpx;
+$player-song-info-icon-size: 56rpx;
+$player-song-info-margin-top: 90rpx;
+
+$player-btns-margin-top: 74rpx;
+$player-voice-margin-top: 104rpx;
+
 /* music E*/

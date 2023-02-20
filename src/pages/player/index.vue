@@ -127,13 +127,15 @@
     margin-top: $player-song-time-margin-top;
     &:active,
     &.moving {
-      transform: scaleX(1.04) scaleY(1.2);
       :deep(.process-text) {
         color: $uni-bg-color; 
       }
-      :deep(.process) {
+      :deep(.process){
         background-color: $uni-bg-color;
         opacity: 1;
+      }
+      :deep(.process-bar) {
+        transform: scaleX(1.04) scaleY(2);
       }
     }
   }
@@ -156,13 +158,15 @@
     }
     &:active,
     &.moving {
-      transform: scaleX(1.04) scaleY(1.2);
       [class^=icon] {
         color: $uni-bg-color;
       }
-      :deep(.process) {
+      :deep(.process){
         background-color: $uni-bg-color;
         opacity: 1;
+      }
+      :deep(.process-bar) {
+        transform: scaleX(1.04) scaleY(2);
       }
     }
   }
@@ -177,8 +181,17 @@
       transform: rotate(180deg);
     }
     [class^=icon] {
-      font-size: $play-song-btn-size;
+      border-radius: 50%;
+      $w-h: calc(1.4 * $play-song-btns-height);
+      height: $w-h;
+      width: $w-h;
+      line-height: $w-h;
+      text-align: center;
+      font-size: calc(1.4 * $play-song-btn-size);
       color: $uni-bg-color;
+      &:active:hover {
+        animation: $player-btn-active-animation
+      }
     }
   }
   .player-song-info {
@@ -204,6 +217,17 @@
       font-size: $player-song-info-icon-size;
       color: $uni-bg-color;
     }
+  }
+}
+
+@keyframes larger {
+  0% {
+    font-size: calc(1.4 * $play-song-btn-size / 2);
+    background-color: $play-song-btn-active-bg;
+  }
+  100% {
+    font-size: calc(1.4 * $play-song-btn-size);
+    background-color: none;
   }
 }
 

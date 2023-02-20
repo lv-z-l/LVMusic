@@ -4,9 +4,9 @@
       <!-- 这里是状态栏 -->
     </view>
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']">
-      <view class="music-content">
-
-      </view>
+      <keep-alive>
+        <component :is="comp"></component>
+      </keep-alive>
     </view>
     <transition name="playbar">
       <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">
@@ -33,8 +33,16 @@
 <script setup name="main">
   import MainConfig from '@/config/index'
   import player from '@/pages/player/index'
-  import { reactive, nextTick } from 'vue';
+  import { reactive, shallowRef, defineAsyncComponent } from 'vue';
   import { useStore } from '@/store/main/index'
+
+  const compMap = {
+    category: defineAsyncComponent(() => import(/* webpackChunkName: "category" */'../category/index.vue')),
+    recommend: defineAsyncComponent(() => import(/* webpackChunkName: "recommend" */'../recommend/index.vue')),
+    search: defineAsyncComponent(() => import(/* webpackChunkName: "search" */'../search/index.vue'))
+  }
+
+  const comp = shallowRef({})
 
   const iconList = reactive(MainConfig.mainBottomBar.icons)
 
@@ -42,6 +50,7 @@
 
   function barItemClick(icon) {
     store.setCurrentBar(icon.text)
+    comp.value = compMap[icon.comp]
   }
 
   function onPlayerBarClick() {
@@ -73,7 +82,6 @@
 }
 .music-scroll {
   height: calc(100vh - 2 * $bottom-bar-height);
-  background-color: aqua;
   overflow: auto;
   transition: $transition;
   &.hide {
@@ -92,7 +100,7 @@
   flex-wrap: nowrap;
   justify-content: space-around;
   box-sizing: border-box;
-  border-top: 1px solid $bottom-bar-split-color;
+  border-top: 1rpx solid $bottom-bar-split-color;
   background-color: $bottom-bar-bg-color;
   align-items: center;
   bottom: 0;
@@ -131,6 +139,7 @@
 	.song-image {
 		width: $play-song-image-width;
 		height: $play-song-image-width;
+    border-radius: $player-top-line-radius;
 	}
   .song-name {
     width: $play-song-name-width;
@@ -150,7 +159,7 @@
       font-size: $play-song-btn-size;
       border-radius: 50%;
       &:active:hover {
-        animation: larger .8s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+        animation: $player-btn-active-animation
       }
       
     }
@@ -187,6 +196,7 @@
   .bottombar-enter-from,
   .bottombar-leave-to {
     transform: translateY($bottom-bar-height);
+    opacity: $opacity-zero;
   }
 
   .slide-in-blurred-br {

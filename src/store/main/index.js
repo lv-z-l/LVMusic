@@ -8,9 +8,11 @@ export const useStore = defineStore('main', {
       name: '泡沫',
       singer: '邓紫棋',
       playing: false,
-			image: 'http://127.0.0.1:3000/wangyiyun//U10EUHljYZWT07TWezJg8g==/109951166677557030.jpg',
+			image: '',
 		},
+    imageW: 100,
     cacheSongImageBG: {},
+    fixed: false,
     voiceBarWidth: 20,
     playerShow: false,
     timeMoving: false,
@@ -20,6 +22,16 @@ export const useStore = defineStore('main', {
     
   },
   actions: {
+    setImageWidth(w) {
+      this.imageW = w
+    },
+    updateScrollHeight(event) {
+      const el = event.instance.$el
+      const scrollTop = el.scrollTop
+      // const take = el.querySelector('.take')
+      const scrollBar = el.querySelector('.scroll-bar')
+      this.fixed = scrollBar.clientHeight / 2 < scrollTop
+    },
     setTimeMoving(bool) {
       this.timeMoving = bool
     },

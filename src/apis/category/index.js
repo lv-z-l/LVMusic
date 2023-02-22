@@ -1,11 +1,11 @@
-import { uni } from '@dcloudio/uni-h5';
-import { proxyPrefix } from '@config/index'
+import { req } from '../expandunirequest'
 
-const req = (args) => {
-  args.url = proxyPrefix + args.url
-  return uni.request(args)
+
+export function getCategoryTags() {
+  return req({
+    url: 'playlist/highquality/tags'
+  })
 }
-
 
 export function getHotCategoryList() {
   return req({
@@ -15,7 +15,7 @@ export function getHotCategoryList() {
 
 export function getCategoryPlayList(data) {
   return req({
-    url: '/top/playlist',
+    url: '/top/playlist/highquality',
     data
   })
 }

@@ -1,63 +1,74 @@
 <template>
   <view class="page-frame">
-    <transition name="scrool-bar">
-      <view v-show="!noScroll" class="scroll-bar">
-        <text class="scroll-text">{{ props.frameName || 'Default' }}</text>
-      </view>
-    </transition>
-    <text class="no-scroll-text">{{ props.frameName || 'Default' }}</text>
-    <view class="page-frame-content">
-      <view @click="noScroll = !noScroll">sss</view>
+    <view class="take" v-show="!store.fixed"></view>
+    <view :class="['scroll-bar', store.fixed ? 'fixed' : '']">
+      <text class="text">{{ props.frameName || 'Default' }}</text>
+    </view>
+    <view ref="pfc" class="page-frame-content">
       <slot></slot>
     </view>
   </view>
 </template>
   
 <script setup name="pageframe">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useStore } from '../../store/main'
 
+const store = useStore()
 const props = defineProps(
   { frameName: String }
 )
 
+const pfc = ref()
+
 const noScroll = ref(false)
+
+onMounted(() => {
+  const w = pfc.value.$el.clientWidth
+  // 0.53 是 padding
+  const contentW = Number.parseInt((w - (0.053 * w * 3)) / 3)
+  store.setImageWidth(contentW)
+})
 </script>
 <style lang="scss">
 // 118 26 32 56
 .page-frame {
+  .take {
+    width: 100%;
+    height: $page-frame-scroll-margin-top;
+  }
+
   .page-frame-content {
     padding: $global-padding;
   }
-  .no-scroll-text {
-    margin-top: $page-frame-no-scroll-margin-top;
-    display: inline-block;
-    font-size: $page-frame-no-scroll-text-size;
-    padding: $global-padding;
-  }
+
   .scroll-bar {
     width: 100%;
-    position: sticky;
-    background-color: $bg;
-    top: 0;
-    border-bottom: 1rpx solid $bottom-bar-split-color;
-  }
-  .scroll-text {
-    width: 100%;
-    margin: $page-frame-scroll-margin;
-    display: inline-block;
-    text-align: center;
-    line-height: $page-frame-scroll-text-size;
-    font-size: $page-frame-scroll-text-size;
-  }
+    box-sizing: border-box;
+    padding: $global-padding;
+    transition: $transition;
+    display: flex;
 
-  .scrool-bar-enter-active,
-  .scrool-bar-leave-active {
-    transition: all .4s ease;
-  }
-  .scrool-bar-enter-from,
-  .scrool-bar-leave-to {
-    // transform: translateY(-$page-frame-no-scroll-text-size);
-    opacity: $opacity-zero;
+    .text {
+      font-size: $page-frame-scroll-text-size;
+    }
+
+    &.fixed {
+      height: $page-frame-scroll-margin-top;
+      z-index: 2;
+      position: sticky;
+      background-color: $bg;
+      top: 0;
+      border-bottom: 1rpx solid $bottom-bar-split-color;
+      text-align: center;
+      padding: $page-frame-fixed-margin;
+      align-items: center;
+      justify-content: center;
+
+      .text {
+        font-size: $page-frame-fixed-text-size;
+      }
+    }
   }
 }
 </style>

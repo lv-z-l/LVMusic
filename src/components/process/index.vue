@@ -1,12 +1,6 @@
 <template>
-  <view class="process-bar" 
-    @touchstart.stop="onTouchS" 
-    @touchmove.stop="throttledM" 
-    @touchend="onTouchE"
-    @mousedown.stop="onTouchS" 
-    @mousemove.stop="throttledM" 
-    @mouseup="onTouchE"
-  >
+  <view class="process-bar" @touchstart.stop="onTouchS" @touchmove.stop="throttledM" @touchend="onTouchE"
+    @mousedown.stop="onTouchS" @mousemove.stop="throttledM" @mouseup="onTouchE">
     <view class="process" :style="{ width: processW }"></view>
   </view>
   <view v-if="showText" class="process-text">
@@ -51,12 +45,12 @@ function onTouchS(event) {
 }
 function onTouchM(event) {
   const newX = event.changedTouches[0].clientX
-  if(!clientX || newX > clientX) {
-    if(selfVal.value < props.max) {
+  if (!clientX || newX > clientX) {
+    if (selfVal.value < props.max) {
       selfVal.value += props.step
     }
   } else {
-    if(selfVal.value > props.min) {
+    if (selfVal.value > props.min) {
       selfVal.value -= props.step
     }
   }
@@ -71,7 +65,7 @@ function onTouchE(event) {
 
 const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${selfVal.value} / ${props.max}))`)
 
-  
+
 </script>
   
 <style lang="scss">
@@ -81,20 +75,22 @@ const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${selfVal
   border-radius: $player-top-line-radius;
   background-color: $bottom-bar-split-color;
   display: flex;
+
   .process {
     height: $process-height;
     border-radius: $player-top-line-radius;
-    background-color: $uni-bg-color;
+    background-color: $white-color;
     opacity: .8;
   }
 }
-  .process-text {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: $player-voice-icon-color;
-    font-size: $process-height;
-    margin-top: $process-text-margin-top;
-  }
+
+.process-text {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $player-voice-icon-color;
+  font-size: $process-height;
+  margin-top: $process-text-margin-top;
+}
 </style>

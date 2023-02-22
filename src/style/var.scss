@@ -3,13 +3,16 @@ $bottom-bar-height: 128rpx;
 $bottom-bar-icon-size: 48rpx;
 $bottom-bar-text-size: 24rpx;
 $bottom-bar-icon-margin: 0px 0 6rpx 0;
-$bottom-bar-icon-color: RGB(135,135,135);
-$bottom-bar-text-color: RGB(148,148,148);
-$bottom-bar-split-color: RGBA(167,167,167,0.5);
-$bottom-bar-active-color: RGB(241,18,56);
+$bottom-bar-icon-color: RGB(135, 135, 135);
+$bottom-bar-text-color: RGB(148, 148, 148);
+$bottom-bar-split-color: RGBA(167, 167, 167, 0.5);
+$bottom-bar-active-color: RGB(241, 18, 56);
 
-$bg: RGB(255,255,255,0.8);
-$bottom-bar-bg-color: RGB(245,245,245,0.5);
+$white-color: RGB(255, 255, 255);
+$bg: RGB(245, 245, 245, 0.8);
+$box-shadow: 10px -10px 20px rgba(0, 0, 0, 0.2),
+  -10px 10px 20px rgba(255, 255, 255, 0.1);
+$backdrop-filter: blur(6px);
 
 $global-padding: 0 5.33%;
 
@@ -20,10 +23,10 @@ $play-song-name-size: 32rpx;
 $play-song-btns-width: 148rpx;
 $play-song-btns-height: 76rpx;
 $play-song-btn-size: 64rpx;
-$play-song-btn-active-bg: RGB(214,214,214,.5);
-$transition: all .4s cubic-bezier(.29,.95,.49,.97);
+$play-song-btn-active-bg: RGB(214, 214, 214, .5);
+$transition: all .4s cubic-bezier(.29, .95, .49, .97);
 
-$player-btn-active-animation: larger .6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+$player-btn-active-animation: larger .4s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
 
 $opacity-zero: 0;
 $opacity-one: 1;
@@ -41,7 +44,7 @@ $player-image-margin-top: 74rpx;
 $player-voice-bar-margin: 0 24rpx;
 $player-voice-bar-icon-size: 38rpx;
 $player-voice-bar-width: 530rpx;
-$player-voice-icon-color: RGBA(255,255,255);
+$player-voice-icon-color: RGBA(255, 255, 255);
 $player-voice-margin-top: 84rpx;
 
 $process-padding: 18rpx;
@@ -57,8 +60,10 @@ $player-song-info-name-size: 40rpx;
 $player-song-info-icon-size: 56rpx;
 $player-song-info-margin-top: 90rpx;
 
-$page-frame-no-scroll-text-size: 64rpx;
-$page-frame-scroll-text-size: 32rpx;
-$page-frame-no-scroll-margin-top: 132rpx;
-$page-frame-scroll-margin: 56rpx 0 26rpx 0
+$page-frame-scroll-text-size: 64rpx;
+$page-frame-fixed-text-size: 32rpx;
+$page-frame-scroll-margin-top: 100rpx;
+$page-frame-fixed-margin: 49rpx 0 19rpx 0;
+
+$category-text-margin: 40rpx;
 /* music E*/

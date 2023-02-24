@@ -1,17 +1,20 @@
 <template>
-  <view class="content">
+  <view ref="content" class="content">
     <view class="status_bar">
       <!-- 这里是状态栏 -->
     </view>
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll="onContentScroll">
-      <keep-alive>
-        <component :is="comp"></component>
-      </keep-alive>
+      <transition name="fade" mode="out-in">
+        <keep-alive>
+          <component :is="store.currentComp" @show-songlist="showShowList"></component>
+        </keep-alive>
+      </transition>
     </view>
     <transition name="playbar">
       <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">
-        <image class="song-image slide-in-blurred-br" :src="store.currentSong.image"></image>
-        <text class="song-name">Song Name</text>
+        <image class="song-image slide-in-blurred-br"
+          :src="store.currentSong.url + `?param=${store.songImageW}y${store.songImageW}`"></image>
+        <text class="song-name">{{ store.currentSong.name }}</text>
         <view class="song-btns">
           <text @click.stop="playOrPause"
             :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
@@ -21,46 +24,54 @@
     </transition>
     <transition name="bottombar">
       <view class="bottom-bar" v-show="!store.playerShow">
-        <view :class="icon.text === store.currentBar ? 'bar-item active' : 'bar-item'" @click="barItemClick(icon)"
+        <view :class="icon.comp === store.currentBar ? 'bar-item active' : 'bar-item'" @click="barItemClick(icon)"
           v-for="icon in iconList" :key="icon.icon">
           <text :class="icon.icon"></text>
           <text class="icontext">{{ icon.text }}</text>
         </view>
       </view>
     </transition>
-    <player />
+    <Player />
   </view>
 </template>
 
-<script setup name="main">
+<script setup>
 import MainConfig from '@/config/index'
-import player from '@/pages/player/index'
-import { reactive, shallowRef, defineAsyncComponent } from 'vue';
+import Player from '@/pages/player/Player'
+import { throttle } from '@/utils/index'
+import { ref, reactive, onMounted } from 'vue';
 import { useStore } from '@/store/main/index'
 
-const compMap = {
-  category: defineAsyncComponent(() => import(/* webpackChunkName: "category" */'../category/index.vue')),
-  recommend: defineAsyncComponent(() => import(/* webpackChunkName: "recommend" */'../recommend/index.vue')),
-  search: defineAsyncComponent(() => import(/* webpackChunkName: "search" */'../search/index.vue'))
-}
+const content = ref()
 
-const comp = shallowRef({})
+onMounted(() => {
+  const w = content.value.$el.clientWidth
+  const h = content.value.$el.parentNode.parentNode.clientHeight
+  // 0.53 是 padding
+  const contentW = Number.parseInt((w - (0.053 * w * 3)) / 2)
+  const cw = Number.parseInt((w - (0.053 * w * 2)))
+  const _w = Number.parseInt(cw * 0.143)
+  store.setImageWidth(contentW, w, h * 0.6, _w)
+})
 
 const iconList = reactive(MainConfig.mainBottomBar.icons)
 
 const store = useStore()
 
-function onContentScroll(event) {
+const onContentScroll = throttle((event) => {
   store.updateScrollHeight(event)
-}
+}, 60)
 
 function barItemClick(icon) {
-  store.setCurrentBar(icon.text)
-  comp.value = compMap[icon.comp]
+  store.setCurrentBar(icon.comp)
 }
 
 function onPlayerBarClick() {
   store.setPlayerShow(true)
+}
+
+function showShowList() {
+  store.setCurrentBar('songlist')
 }
 
 function onLoad() {
@@ -88,7 +99,7 @@ function playOrPause() {
 }
 
 .music-scroll {
-  height: calc(100vh - 2 * $bottom-bar-height);
+  height: 100vh;
   overflow: auto;
   transition: $transition;
 
@@ -112,6 +123,7 @@ function playOrPause() {
   box-sizing: border-box;
   border-top: 1rpx solid $bottom-bar-split-color;
   background-color: $bg;
+  backdrop-filter: $backdrop-filter;
   align-items: center;
   bottom: 0;
 
@@ -147,6 +159,7 @@ function playOrPause() {
   width: 100%;
   height: $bottom-bar-height;
   background-color: $bg;
+  backdrop-filter: $backdrop-filter;
   padding: $global-padding;
   display: flex;
   flex-direction: row;
@@ -156,13 +169,13 @@ function playOrPause() {
 
   .song-image {
     width: $play-song-image-width;
-    height: $play-song-image-width;
-    border-radius: calc($player-top-line-radius / 2);
+    height: $play-song-image-height;
+    border-radius: calc($border-radius / 2);
+    margin-right: $play-song-name-margin;
+    flex: 0 0 auto;
   }
 
   .song-name {
-    width: $play-song-name-width;
-    margin: $play-song-name-margin;
     font-size: $play-song-name-size;
     flex: 8 0 auto;
   }
@@ -171,6 +184,7 @@ function playOrPause() {
     display: flex;
     justify-content: space-between;
     flex: 1 0 auto;
+    margin-left: $play-song-name-margin;
 
     .song-btn {
       height: $play-song-btns-height;
@@ -237,4 +251,5 @@ function playOrPause() {
     transform: translate(0, 0);
     opacity: $opacity-one;
   }
-}</style>
+}
+</style>

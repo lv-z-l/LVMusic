@@ -9,16 +9,20 @@ $bottom-bar-split-color: RGBA(167, 167, 167, 0.5);
 $bottom-bar-active-color: RGB(241, 18, 56);
 
 $white-color: RGB(255, 255, 255);
-$bg: RGB(245, 245, 245, 0.8);
+$black-color: RGB(0, 0, 0);
+
+$bg: RGBA(245, 245, 245, 0.5);
+$bg-d: RGBA(0, 0, 0, 0.5);
 $box-shadow: 10px -10px 20px rgba(0, 0, 0, 0.2),
   -10px 10px 20px rgba(255, 255, 255, 0.1);
-$backdrop-filter: blur(6px);
+$backdrop-filter: blur(12px);
 
 $global-padding: 0 5.33%;
+$border-radius: 16rpx;
 
-$play-song-image-width: 96rpx;
-$play-song-name-width: 362rpx;
-$play-song-name-margin: 0 32rpx;
+$play-song-image-width: 14.3%;
+$play-song-image-height: 75%;
+$play-song-name-margin: 32rpx;
 $play-song-name-size: 32rpx;
 $play-song-btns-width: 148rpx;
 $play-song-btns-height: 76rpx;
@@ -34,7 +38,6 @@ $opacity-one: 1;
 $player-padding: 0 6.4%;
 $player-top-line-width: 72rpx;
 $player-top-line-height: 10rpx;
-$player-top-line-radius: 16rpx;
 $player-top-line-margin-top: 40rpx;
 
 $player-image-width: 480rpx;
@@ -47,7 +50,7 @@ $player-voice-bar-width: 530rpx;
 $player-voice-icon-color: RGBA(255, 255, 255);
 $player-voice-margin-top: 84rpx;
 
-$process-padding: 18rpx;
+$process-padding: 16rpx;
 $process-height: 14rpx;
 $process-text-margin-top: 24rpx;
 
@@ -66,4 +69,18 @@ $page-frame-scroll-margin-top: 100rpx;
 $page-frame-fixed-margin: 49rpx 0 19rpx 0;
 
 $category-text-margin: 40rpx;
+
+$scroll-bar-fixed-top: 0rpx;
+
+$category-padding: 40rpx 5.33% 40rpx 5.33%;
+
+$song-sheet-margin: 0 0 16rpx 0;
+$song-sheet-playcount-size: 16rpx;
+
+
+@media (prefers-color-scheme: dark) {
+  $black-color: RGB(255, 255, 255);
+  $white-color: RGB(0, 0, 0);
+}
+
 /* music E*/

@@ -9,7 +9,7 @@
   </view>
 </template>
   
-<script setup name='Process'>
+<script setup>
 import { computed, ref } from 'vue'
 import { throttle } from '@/utils/index'
 
@@ -72,13 +72,13 @@ const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${selfVal
 .process-bar {
   width: 100%;
   height: $process-height;
-  border-radius: $player-top-line-radius;
+  border-radius: $border-radius;
   background-color: $bottom-bar-split-color;
   display: flex;
 
   .process {
     height: $process-height;
-    border-radius: $player-top-line-radius;
+    border-radius: $border-radius;
     background-color: $white-color;
     opacity: .8;
   }

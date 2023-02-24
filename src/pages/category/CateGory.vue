@@ -1,26 +1,29 @@
 <template>
   <view class="category">
-    <pageframe frame-name="歌单">
+    <PageFrame frame-name="歌单">
       <view :class="['category-tags', store.fixed ? 'fixed' : '']">
         <text :class="['tag-text', current === tag.id ? 'current' : '']" @click="tagClick(tag)"
           v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
       <view class="song-sheets">
-        <songsheet v-for="sheet in currentTagLists" :key="sheet.id" :sheet="sheet"></songsheet>
+        <SongSheet v-for="sheet in currentTagLists" @sheet-click="onSheetClick" :key="sheet.id" :sheet="sheet">
+        </SongSheet>
       </view>
-    </pageframe>
+    </PageFrame>
   </view>
 </template>
   
-<script setup name="category">
-import pageframe from '@/components/pageframe/index'
-import { getCategoryTags, getCategoryPlayList } from '@/apis/category'
+<script setup>
+import PageFrame from '@/components/pageframe/PageFrame'
+import { getCategoryTags, getCategoryPlayList, getSongListByCateId } from '@/apis/category'
 import { onMounted, reactive, ref, defineAsyncComponent } from 'vue';
 import { useStore } from '../../store/main';
 
+const emit = defineEmits(['show-songlist'])
+
 const store = useStore()
 
-const songsheet = defineAsyncComponent(() => import(/* webpackChunkName: "songsheet" */'@/components/songsheet/index.vue'))
+const SongSheet = defineAsyncComponent(() => import(/* webpackChunkName: "songsheet" */'@/components/songsheet/SongSheet.vue'))
 const categoryTags = reactive([])
 
 const currentTagLists = reactive([])
@@ -44,6 +47,28 @@ function loadTagCategoryList(id) {
   })
 }
 
+function onSheetClick(sheet) {
+  getSongListByCateId({ id: sheet.id, limit: 20 }).then(res => {
+    const { description, coverImgUrl, name, tracks } = res.playlist
+    const lists = tracks.map(track => {
+      const { name, id, al, ar } = track
+      return {
+        name,
+        id,
+        url: al.picUrl,
+        author: ar.map(t => t.name).join('、')
+      }
+    })
+    store.setSongs({
+      coverImgUrl,
+      description,
+      name,
+      lists
+    })
+    emit('show-songlist')
+  })
+}
+
 </script>
   
 <style lang="scss">
@@ -52,16 +77,18 @@ function loadTagCategoryList(id) {
     overflow-x: auto;
     display: flex;
     position: sticky;
-    top: $page-frame-scroll-margin-top;
+    top: calc($page-frame-scroll-margin-top + $scroll-bar-fixed-top);
     flex-direction: row;
-    padding: $category-text-margin 0;
+    padding: $category-padding;
     align-items: center;
     z-index: 2;
     justify-content: flex-start;
     background-color: $white-color;
 
     &.fixed {
-      background-color: $bg;
+      background-color: $white-color;
+      // backdrop-filter: $backdrop-filter;
+      // box-shadow: $box-shadow;
     }
 
     &::-webkit-scrollbar {
@@ -81,9 +108,11 @@ function loadTagCategoryList(id) {
   }
 
   .song-sheets {
+    padding: $global-padding;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    justify-content: space-between;
   }
 }
 </style>

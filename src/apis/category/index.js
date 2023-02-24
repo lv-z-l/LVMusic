@@ -19,3 +19,16 @@ export function getCategoryPlayList(data) {
     data
   })
 }
+
+export function getSongListByCateId(data) {
+  return req({
+    url: '/playlist/detail',
+    data
+  })
+}
+
+export function getSongUrlById(id) {
+  return req({
+    url: `/song/url/v1?id=${id}&level=higher`
+  })
+}

@@ -3,14 +3,14 @@
     <image class="image" :style="{ width: store.imageW + 'px', height: store.imageW + 'px' }"
       :src="props.sheet.coverImgUrl + `?param=${store.imageW}y${store.imageW}`"></image>
     <view class="play-count">
-      <text class="icon-play-fill"></text>
-      <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) }}</text>
+      <text class="icon-24gf-playCircle"></text>
+      <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + '万' }}</text>
     </view>
     <view class="name">{{ props.sheet.name }}</view>
   </view>
 </template>
   
-<script setup name='songsheet'>
+<script setup>
 import { useStore } from '../../store/main';
 const store = useStore()
 const props = defineProps({
@@ -23,17 +23,34 @@ const emit = defineEmits(['sheet-click'])
   
 <style lang="scss">
 .song-sheet {
-  width: 33.3%;
+  width: 47%;
   position: relative;
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  margin: $song-sheet-margin;
 
   .play-count {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: $song-sheet-playcount-size;
+    right: $song-sheet-playcount-size;
+    background-color: $bg-d;
+    display: flex;
+    align-items: center;
+    padding: calc($song-sheet-playcount-size / 2);
+    border-radius: $song-sheet-playcount-size;
+    font-size: $song-sheet-playcount-size;
+    color: $white-color;
+
+    [class^=icon-] {
+      padding-right: calc($song-sheet-playcount-size / 2);
+    }
+
+  }
+
+  .image {
+    border-radius: $border-radius;
   }
 
   .name {
@@ -41,6 +58,7 @@ const emit = defineEmits(['sheet-click'])
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    font-size: $song-sheet-playcount-size;
   }
 }
 </style>

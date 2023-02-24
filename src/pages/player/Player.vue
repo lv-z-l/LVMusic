@@ -2,13 +2,13 @@
   <view :class="['player', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage }">
     <view class="top-line" @click="topLineClick"></view>
     <view class="player-image-box">
-      <image :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']" :src="store.currentSong.image">
+      <image :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']" :src="store.currentSong.url">
       </image>
     </view>
     <view class="player-song-info">
       <view class="left">
         <text class="name">{{ store.currentSong.name }}</text>
-        <text class="singer">{{ store.currentSong.singer }}</text>
+        <text class="singer">{{ store.currentSong.author }}</text>
       </view>
       <text class="icon-gengduo"></text>
     </view>
@@ -33,18 +33,20 @@
   </view>
 </template>
   
-<script setup name="player">
+<script setup>
 import analyze from 'rgbaster'
-import Process from '@/components/process/index'
+import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
 import { watch, ref } from 'vue';
-
 
 const backgroundImage = ref('linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))')
 const store = useStore()
 
-watch(() => store.currentSong.image, async (old, newV) => {
-  const newVal = old || newV
+watch(() => store.currentSong.url, async (newV, old) => {
+  const newVal = newV || old
+  if (!newVal) {
+    return
+  }
   if (Reflect.has(store.cacheSongImageBG, newVal)) {
     return store.cacheSongImageBG[newVal]
   }
@@ -100,7 +102,7 @@ function topLineClick() {
   .top-line {
     width: $player-top-line-width;
     height: $player-top-line-height;
-    border-radius: $player-top-line-radius;
+    border-radius: $border-radius;
     background-color: $bottom-bar-split-color;
     margin-top: $player-top-line-margin-top;
   }
@@ -115,7 +117,7 @@ function topLineClick() {
     align-items: center;
 
     .player-image {
-      border-radius: $player-top-line-radius;
+      border-radius: $border-radius;
       transition: all .4s cubic-bezier(0.230, 1.000, 0.320, 1.000);
 
       &.playing {

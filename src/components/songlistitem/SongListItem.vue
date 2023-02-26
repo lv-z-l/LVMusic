@@ -22,10 +22,12 @@ const props = defineProps({
 function playSong() {
   getSongUrlById(props.song.id).then(res => {
     const copy = Object.assign({}, props.song)
-    store.setPlayerShow(true)
     copy.playing = true
     copy.musicUrl = res.data[0].url
+    copy.time = res.data[0].time
+    copy.start = 0
     store.$patch({ currentSong: copy })
+    store.setPlayerShow(true)
     Audio.play(copy.musicUrl)
   })
 }

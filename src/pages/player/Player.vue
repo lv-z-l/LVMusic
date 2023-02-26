@@ -14,19 +14,23 @@
     </view>
     <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
       <view class="songtime-bar">
-        <Process :init="30" show-text @moves="store.setTimeMoving(true)" @movee="store.setTimeMoving(false)"></Process>
+        <Process :init="store.currentSong.start" :auto-move-step="1000" :max="store.currentSong.time" auto-move
+          :formatShowText="formatShowText" :min="0" :step="10000" show-text @moves="store.setTimeMoving(true)"
+          @movee="onTimeMoveEnd">
+        </Process>
       </view>
     </view>
     <view class="player-btns">
       <text class="icon-next-fill roate"></text>
-      <text @click.stop="playOrPause"
+      <text @click.stop="store.playOrPause"
         :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
       <text class="icon-next-fill"></text>
     </view>
     <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
       <text class="icon-shengyin03-mianxing"></text>
       <view class="voice-bar">
-        <Process :init="30" @moves="store.setVoiceMoving(true)" @movee="store.setVoiceMoving(false)"></Process>
+        <Process :init="0.5" :step="0.04" :max="1" :min="0" @moves="store.setVoiceMoving(true)" @movee="onVoiceMoveEnd">
+        </Process>
       </view>
       <text class="icon-shengyin01-mianxing"></text>
     </view>
@@ -37,7 +41,8 @@
 import analyze from 'rgbaster'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
-import { watch, ref } from 'vue';
+import { watch, ref } from 'vue'
+import Audio from '@/controlaudio'
 
 const backgroundImage = ref('linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))')
 const store = useStore()
@@ -56,21 +61,37 @@ watch(() => store.currentSong.url, async (newV, old) => {
   if (colors.length > 0) {
     bg = `linear-gradient(${colors[0]}, ${colors[colors.length - 1]})`
   }
-  store.putCacheSongImageBG(newVal, bg)
-  backgroundImage.value = bg
-}, { immediate: true })
-
-function playOrPause() {
-  store.currentSong.playing = !store.currentSong.playing
-  if (store.currentSong.playing) { // 暂停
-
-  } else {
-
+  if (bg) {
+    store.putCacheSongImageBG(newVal, bg)
+    backgroundImage.value = bg
   }
-}
+}, { immediate: true })
 
 function topLineClick() {
   store.setPlayerShow(false)
+}
+
+function formatShowText(type, val) {
+  if (type === 'min') {
+    return val
+  } else {
+    if (val === 0) {
+      return '0 分 0 秒'
+    }
+    const float = (val / 1000 / 60).toFixed(2).split('.')
+
+    return float[0] + '分' + Math.ceil((Number('0.' + float[1]) * 60)) + '秒'
+  }
+}
+
+function onTimeMoveEnd(val) {
+  Audio.seek(val / 1000)
+  store.setTimeMoving(false)
+}
+
+function onVoiceMoveEnd(val) {
+  Audio.setVolume(val)
+  store.setVoiceMoving(false)
 }
 </script>
   
@@ -100,11 +121,21 @@ function topLineClick() {
   }
 
   .top-line {
-    width: $player-top-line-width;
-    height: $player-top-line-height;
-    border-radius: $border-radius;
-    background-color: $bottom-bar-split-color;
-    margin-top: $player-top-line-margin-top;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: calc($player-top-line-margin-top + $player-top-line-height) 0 0 0;
+    position: relative;
+
+    &::after {
+      content: " ";
+      width: $player-top-line-width;
+      height: $player-top-line-height;
+      border-radius: $border-radius;
+      background-color: $bottom-bar-split-color;
+      position: absolute;
+      bottom: 0;
+    }
   }
 
   .player-image-box {
@@ -149,7 +180,7 @@ function topLineClick() {
       }
 
       :deep(.process-bar) {
-        transform: scaleX(1.04) scaleY(2);
+        transform: scaleX(1.04) scaleY(1.6);
       }
     }
   }
@@ -186,7 +217,7 @@ function topLineClick() {
       }
 
       :deep(.process-bar) {
-        transform: scaleX(1.04) scaleY(2);
+        transform: scaleX(1.04) scaleY(1.6);
       }
     }
   }

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { defineAsyncComponent } from 'vue'
 import Recommend from '../../pages/recommend/Recommend.vue'
+import Audio from '@/controlaudio'
 
 const compMap = {
   recommend: Recommend,
@@ -19,14 +20,19 @@ export const useStore = defineStore('main', {
       playing: false,
       url: '',
       musicUrl: '',
-      id: ''
+      id: '',
+      start: 0,
+      time: 1000 * 60 * 3
     },
     songs: {},
+    playList: [],
+    historyList: [],
     imageW: 140,
     clientW: 350,
     clientH: 750,
     songImageW: 49,
     cacheSongImageBG: {},
+    backFixed: false,
     fixed: false,
     voiceBarWidth: 20,
     playerShow: false,
@@ -38,10 +44,20 @@ export const useStore = defineStore('main', {
       if (this.compQuene[this.compQuene] !== this.currentBar) {
         this.compQuene.push(this.currentBar)
       }
+      this.backFixed = false
+      this.fixed = false
       return compMap[this.currentBar]
     }
   },
   actions: {
+    playOrPause() {
+      if (this.currentSong.playing) { // 暂停
+        Audio.pause()
+      } else {
+        Audio.play()
+      }
+      this.currentSong.playing = !this.currentSong.playing
+    },
     back() {
       this.compQuene.pop()
       this.currentBar = this.compQuene[this.compQuene.length - 1]
@@ -58,12 +74,10 @@ export const useStore = defineStore('main', {
     updateScrollHeight(event) {
       const el = event.instance.$el
       const scrollTop = el.scrollTop
-      // const take = el.querySelector('.take')
+      const back = el.querySelector('.back')
       const scrollBar = el.querySelector('.scroll-bar')
-      if (!scrollBar) {
-        return
-      }
-      this.fixed = scrollBar.clientHeight / 2 < scrollTop
+      back && (this.backFixed = back.clientHeight / 2 < scrollTop)
+      scrollBar && (this.fixed = scrollBar.clientHeight / 2 < scrollTop)
     },
     setSongs(s) {
       this.songs = s

@@ -1,6 +1,6 @@
 <template>
   <view class="songlist">
-    <Back />
+    <Back :title="store.songs.name"></Back>
     <PageFrame>
       <view class="song-info"
         :style="{ width: store.clientW + 'px', height: store.clientH + 'px', backgroundImage: 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.clientH}` + ')' }">

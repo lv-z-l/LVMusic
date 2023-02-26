@@ -1,6 +1,6 @@
 <template>
   <view class="recommend">
-    <PageFrame frame-name="随便看看"></PageFrame>
+    <PageFrame frame-name="热门排行"></PageFrame>
   </view>
 </template>
   

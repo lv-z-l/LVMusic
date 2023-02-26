@@ -1,9 +1,11 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 3898371 */
+  font-family: "iconfont";
+  /* Project id 3898371 */
   src: url('../static/font/iconfont.woff2?t=1676468610010') format('woff2'),
-       url('../static/font/iconfont.woff?t=1676468610010') format('woff'),
-       url('../static/font/iconfont.ttf?t=1676468610010') format('truetype');
+    url('../static/font/iconfont.woff?t=1676468610010') format('woff'),
+    url('../static/font/iconfont.ttf?t=1676468610010') format('truetype');
 }
+
 [class^=icon-],
 .iconfont {
   font-family: "iconfont" !important;
@@ -11,6 +13,26 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-plus:before {
+  content: "\e656";
+}
+
+.icon-fenxiang:before {
+  content: "\e601";
+}
+
+.icon-31paixingbang:before {
+  content: "\e602";
+}
+
+.icon-gengduo1:before {
+  content: "\e719";
+}
+
+.icon-phb:before {
+  content: "\e60d";
 }
 
 .icon-caidan:before {
@@ -33,16 +55,8 @@
   content: "\e6a3";
 }
 
-.icon-tianjiadao:before {
-  content: "\e604";
-}
-
 .icon-AppleMusic:before {
   content: "\e733";
-}
-
-.icon-yinlemusic215:before {
-  content: "\e618";
 }
 
 .icon-shanchu:before {
@@ -63,10 +77,6 @@
 
 .icon-sousuo:before {
   content: "\e663";
-}
-
-.icon-zanting:before {
-  content: "\e67d";
 }
 
 .icon-liebiao:before {

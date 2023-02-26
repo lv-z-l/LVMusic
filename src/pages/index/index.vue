@@ -3,12 +3,14 @@
     <view class="status_bar">
       <!-- 这里是状态栏 -->
     </view>
-    <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll="onContentScroll">
+    <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll.passive="onContentScroll">
       <transition name="fade" mode="out-in">
         <keep-alive>
           <component :is="store.currentComp" @show-songlist="showShowList"></component>
         </keep-alive>
       </transition>
+      <view class="blank-block"></view>
+      <view class="blank-block"></view>
     </view>
     <transition name="playbar">
       <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">
@@ -16,7 +18,7 @@
           :src="store.currentSong.url + `?param=${store.songImageW}y${store.songImageW}`"></image>
         <text class="song-name">{{ store.currentSong.name }}</text>
         <view class="song-btns">
-          <text @click.stop="playOrPause"
+          <text @click.stop="store.playOrPause"
             :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
           <text @click.stop="next" class="icon-next-fill song-btn"></text>
         </view>
@@ -81,15 +83,6 @@ function onLoad() {
 function next() {
 
 }
-
-function playOrPause() {
-  store.currentSong.playing = !store.currentSong.playing
-  if (store.currentSong.playing) { // 暂停
-
-  } else {
-
-  }
-}
 </script>
 
 <style lang="scss">
@@ -109,6 +102,11 @@ function playOrPause() {
 
   &.show {
     transform: scale(1);
+  }
+
+  .blank-block {
+    width: 100%;
+    height: $bottom-bar-height;
   }
 }
 

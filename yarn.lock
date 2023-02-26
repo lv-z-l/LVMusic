@@ -2948,6 +2948,11 @@ vue-i18n@^9.1.9:
     "@intlify/vue-devtools" "9.2.2"
     "@vue/devtools-api" "^6.2.1"
 
+vue-next-directive@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/vue-next-directive/-/vue-next-directive-1.0.1.tgz#ddd0d7c59f9614932abb7dee598721ae1145c0ec"
+  integrity sha512-QXEvhWWehUPmEBuMzDd0lniZgaFCFJ8SWACCjz+vsMj6X8hQtfR5fhewsbRrtKVwg8mhKlW9rArzEtKQoy/eCQ==
+
 vue-router@^4.1.6:
   version "4.1.6"
   resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.1.6.tgz"

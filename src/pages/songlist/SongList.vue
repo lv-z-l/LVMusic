@@ -26,7 +26,25 @@ import Back from '@/components/back/Back.vue'
 import SongListItem from '@/components/songlistitem/SongListItem.vue';
 import { useStore } from '../../store/main';
 
+import { getSongListByCateId } from '@/apis/category'
+
 const store = useStore()
+
+store.regLoadMore('songlist', () => {
+  getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
+    const { tracks } = res.playlist
+    const lists = tracks.map(track => {
+      const { name, id, al, ar } = track
+      return {
+        name,
+        id,
+        url: al.picUrl,
+        author: ar.map(t => t.name).join('、')
+      }
+    })
+    store.songs.lists.push(...lists)
+  })
+})
 </script>
 <style lang="scss">
 .songlist {

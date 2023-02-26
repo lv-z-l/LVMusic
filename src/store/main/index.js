@@ -2,7 +2,11 @@ import { defineStore } from 'pinia'
 import { defineAsyncComponent } from 'vue'
 import Recommend from '../../pages/recommend/Recommend.vue'
 import Audio from '@/controlaudio'
+import { debounce } from '../../utils'
+import config from '../../config'
 
+
+const bars = config.mainBottomBar.icons.map(icon => icon.comp)
 const compMap = {
   recommend: Recommend,
   songlist: defineAsyncComponent(() => import(/* webpackChunkName: "songlist" */'../../pages/songlist/SongList.vue')),
@@ -12,7 +16,8 @@ const compMap = {
 
 export const useStore = defineStore('main', {
   state: () => ({
-    currentBar: ['recommend'],
+    currentBar: 'recommend',
+    currentCompKey: 'recommend',
     compQuene: [],
     currentSong: {
       name: '泡沫',
@@ -24,6 +29,7 @@ export const useStore = defineStore('main', {
       start: 0,
       time: 1000 * 60 * 3
     },
+    loadMoreMap: {},
     songs: {},
     playList: [],
     historyList: [],
@@ -41,15 +47,18 @@ export const useStore = defineStore('main', {
   }),
   getters: {
     currentComp() {
-      if (this.compQuene[this.compQuene] !== this.currentBar) {
-        this.compQuene.push(this.currentBar)
+      if (this.compQuene[this.compQuene.length - 1] !== this.currentCompKey) {
+        this.compQuene.push(this.currentCompKey)
       }
       this.backFixed = false
       this.fixed = false
-      return compMap[this.currentBar]
+      return compMap[this.currentCompKey]
     }
   },
   actions: {
+    regLoadMore(key, fn) {
+      this.loadMoreMap[key] = debounce(fn, 100)
+    },
     playOrPause() {
       if (this.currentSong.playing) { // 暂停
         Audio.pause()
@@ -60,7 +69,7 @@ export const useStore = defineStore('main', {
     },
     back() {
       this.compQuene.pop()
-      this.currentBar = this.compQuene[this.compQuene.length - 1]
+      this.currentCompKey = this.compQuene[this.compQuene.length - 1]
     },
     pushCompQuene(comp) {
       this.compQuene.push(comp)
@@ -73,11 +82,16 @@ export const useStore = defineStore('main', {
     },
     updateScrollHeight(event) {
       const el = event.instance.$el
-      const scrollTop = el.scrollTop
+      const { scrollTop, clientHeight, scrollHeight } = el
       const back = el.querySelector('.back')
       const scrollBar = el.querySelector('.scroll-bar')
+      const blankBlock = el.querySelector('.blank-block')
       back && (this.backFixed = back.clientHeight / 2 < scrollTop)
       scrollBar && (this.fixed = scrollBar.clientHeight / 2 < scrollTop)
+      if ((scrollHeight - scrollTop - clientHeight) <= 3 * blankBlock.clientHeight) {
+        console.log('load-more')
+        this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
+      }
     },
     setSongs(s) {
       this.songs = s
@@ -89,7 +103,10 @@ export const useStore = defineStore('main', {
       this.vioceMoving = bool
     },
     setCurrentBar(curr) {
-      this.currentBar = curr
+      this.currentCompKey = curr
+      if (bars.includes(curr)) {
+        this.currentBar = curr
+      }
     },
     setPlayerShow(show) {
       this.playerShow = show

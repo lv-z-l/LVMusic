@@ -1,7 +1,9 @@
 <template>
   <view class="song-sheet" @click="$emit('sheet-click', props.sheet)">
-    <image class="image" :style="{ width: store.imageW + 'px', height: store.imageW + 'px' }"
-      :src="props.sheet.coverImgUrl + `?param=${store.imageW}y${store.imageW}`"></image>
+    <LazyLoader :w="store.imageW + 'px'" :h="store.imageW + 'px'">
+      <image class="image" :style="{ width: store.imageW + 'px', height: store.imageW + 'px' }"
+        :src="props.sheet.coverImgUrl + `?param=${store.imageW}y${store.imageW}`"></image>
+    </LazyLoader>
     <view class="play-count">
       <text class="icon-24gf-playCircle"></text>
       <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + '万' }}</text>
@@ -12,6 +14,7 @@
   
 <script setup>
 import { useStore } from '../../store/main';
+import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 const store = useStore()
 const props = defineProps({
   sheet: Object

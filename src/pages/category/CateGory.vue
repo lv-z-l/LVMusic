@@ -2,10 +2,10 @@
   <view class="category">
     <PageFrame frame-name="歌单">
       <view :class="['category-tags', store.fixed ? 'fixed' : '']">
-        <text :class="['tag-text', current === tag.id ? 'current' : '']" @click="tagClick(tag)"
+        <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @click="tagClick(tag)"
           v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
-      <view class="song-sheets">
+      <view class="song-sheets" v-loading="loading">
         <SongSheet v-for="sheet in currentTagLists" @sheet-click="onSheetClick" :key="sheet.id" :sheet="sheet">
         </SongSheet>
       </view>
@@ -23,6 +23,12 @@ const emit = defineEmits(['show-songlist'])
 
 const store = useStore()
 
+const loading = ref(false)
+
+function changeLoading() {
+  loading.value = !loading.value
+}
+
 const SongSheet = defineAsyncComponent(() => import(/* webpackChunkName: "songsheet" */'@/components/songsheet/SongSheet.vue'))
 const categoryTags = reactive([])
 
@@ -34,16 +40,24 @@ onMounted(() => {
   })
 })
 
-const current = ref('')
+let current = reactive({})
 
 function tagClick(tag) {
-  current.value = tag.id
+  if (current.id === tag.id) {
+    return
+  }
+  changeLoading()
+  current = tag
   loadTagCategoryList(tag.name)
 }
 
-function loadTagCategoryList(id) {
-  getCategoryPlayList({ cat: id, limit: 20 }).then(res => {
-    currentTagLists.push(...res.playlists)
+function loadTagCategoryList(id, offset = 0) {
+  getCategoryPlayList({ cat: id, limit: 20, offset }).then(res => {
+    current.more = res.more
+    offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
+    changeLoading()
+  }).catch(() => {
+    changeLoading()
   })
 }
 
@@ -60,6 +74,7 @@ function onSheetClick(sheet) {
       }
     })
     store.setSongs({
+      sheetId: sheet.id,
       coverImgUrl,
       description,
       name,
@@ -69,6 +84,12 @@ function onSheetClick(sheet) {
   })
 }
 
+store.regLoadMore('category', () => {
+  if (current.more) {
+    changeLoading()
+    loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length - 1 : 0)
+  }
+})
 </script>
   
 <style lang="scss">

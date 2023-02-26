@@ -41,7 +41,7 @@
 import MainConfig from '@/config/index'
 import Player from '@/pages/player/Player'
 import { throttle } from '@/utils/index'
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted } from 'vue'
 import { useStore } from '@/store/main/index'
 
 const content = ref()
@@ -60,7 +60,7 @@ const iconList = reactive(MainConfig.mainBottomBar.icons)
 
 const store = useStore()
 
-const onContentScroll = throttle((event) => {
+const onContentScroll = throttle(event => {
   store.updateScrollHeight(event)
 }, 60)
 

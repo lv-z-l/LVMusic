@@ -1,6 +1,8 @@
 <template>
   <view class="song-list-item" @click="playSong">
-    <image class="song-image" :src="props.song.url + `?param=${store.songImageW}y${store.songImageW}`"></image>
+    <LazyLoader :w="w + 'px'" :h="w + 'px'">
+      <image class="song-image" :src="props.song.url + `?param=${w}y${w}`"></image>
+    </LazyLoader>
     <view class="right">
       <view class="name-author">
         <text>{{ props.song.name }}</text>
@@ -11,7 +13,9 @@
   </view>
 </template>
 <script setup>
+import { computed } from 'vue';
 import { useStore } from '../../store/main';
+import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 import { getSongUrlById } from '@/apis/category'
 import Audio from '@/controlaudio'
 const store = useStore()
@@ -19,6 +23,7 @@ const props = defineProps({
   song: Object
 })
 
+const w = computed(() => store.songImageW)
 function playSong() {
   getSongUrlById(props.song.id).then(res => {
     const copy = Object.assign({}, props.song)

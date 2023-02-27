@@ -1,20 +1,26 @@
 <template>
   <slot v-if="load"></slot>
-  <view v-else ref="imgbox" :style="{ height: h, width: w }">
+  <view v-else ref="box" :style="{ height: h, width: w }">
   </view>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { initLazyIntersectionObserver } from '@/utils'
 
 const props = defineProps({
-  w: String,
-  h: String
+  w: {
+    type: String,
+    default: '100%'
+  },
+  h: {
+    type: String,
+    default: '100%'
+  }
 })
 
 const load = ref(false)
 
-const imgbox = ref()
+const box = ref()
 
 let observer
 
@@ -22,11 +28,13 @@ onMounted(() => {
   observer = initLazyIntersectionObserver(entry => {
     if (entry.isIntersecting) {
       load.value = true
-      observer.unobserve(imgbox.value.$el)
+      observer.unobserve(box.value.$el)
       observer = null
     }
   })
-  observer.observe(imgbox.value.$el)
+  observer.observe(box.value.$el)
 })
+
+onBeforeUnmount(() => observer.unobserve(box.value.$el))
 
 </script>

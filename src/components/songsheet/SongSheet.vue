@@ -1,8 +1,8 @@
 <template>
   <view class="song-sheet" @click="$emit('sheet-click', props.sheet)">
-    <LazyLoader :w="store.imageW + 'px'" :h="store.imageW + 'px'">
-      <image class="image" :style="{ width: store.imageW + 'px', height: store.imageW + 'px' }"
-        :src="props.sheet.coverImgUrl + `?param=${store.imageW}y${store.imageW}`"></image>
+    <LazyLoader :w="pxw" :h="pxw">
+      <image class="image" :style="{ width: pxw, height: pxw }" :src="props.sheet.coverImgUrl + `?param=${w}y${w}`">
+      </image>
     </LazyLoader>
     <view class="play-count">
       <text class="icon-24gf-playCircle"></text>
@@ -14,11 +14,16 @@
   
 <script setup>
 import { useStore } from '../../store/main';
+import { computed } from 'vue';
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 const store = useStore()
 const props = defineProps({
   sheet: Object
 })
+
+const w = computed(() => store.imageW)
+
+const pxw = computed(() => w.value + 'px')
 
 const emit = defineEmits(['sheet-click'])
 

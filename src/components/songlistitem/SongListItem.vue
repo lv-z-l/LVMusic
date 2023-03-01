@@ -16,7 +16,7 @@
 import { computed } from 'vue';
 import { useStore } from '../../store/main';
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
-import { getSongUrlById } from '@/apis/category'
+import { getSongUrlById } from '@/apis/song'
 import Audio from '@/controlaudio'
 const store = useStore()
 const props = defineProps({

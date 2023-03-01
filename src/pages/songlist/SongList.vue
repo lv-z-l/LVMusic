@@ -6,12 +6,12 @@
         :style="{ width: store.clientW + 'px', height: store.clientH + 'px', backgroundImage: 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.clientH}` + ')' }">
         <view class="name">{{ store.songs.name }}</view>
         <view class="btns">
-          <view class="icon-play-fill btn">播放</view>
-          <view class="icon-suijibofang btn">随机播放</view>
+          <view class="icon-play-fill btn">{{ store.langObj.play }}</view>
+          <view class="icon-suijibofang btn">{{ store.langObj.anyPlay }}</view>
         </view>
         <view class="desc">
           {{ store.songs.description }}
-          <view class="more">更多</view>
+          <view class="more">{{ store.langObj.more }}</view>
         </view>
       </view>
       <view class="list">

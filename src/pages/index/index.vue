@@ -29,7 +29,7 @@
         <view :class="icon.comp === store.currentBar ? 'bar-item active' : 'bar-item'" @click="barItemClick(icon)"
           v-for="icon in iconList" :key="icon.icon">
           <text :class="icon.icon"></text>
-          <text class="icontext">{{ icon.text }}</text>
+          <text class="icontext">{{ store.langObj[icon.text] }}</text>
         </view>
       </view>
     </transition>

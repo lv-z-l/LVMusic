@@ -35,6 +35,6 @@ onMounted(() => {
   observer.observe(box.value.$el)
 })
 
-onBeforeUnmount(() => observer.unobserve(box.value.$el))
+onBeforeUnmount(() => observer && observer.unobserve(box.value.$el))
 
 </script>

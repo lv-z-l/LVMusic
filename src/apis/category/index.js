@@ -19,6 +19,17 @@ export function getCategoryPlayList(data) {
     data
   })
 }
+/**
+ * 获取网友精选碟歌单
+ * @param {} data 
+ * @returns 
+ */
+export function getHotOrNewCategoryPlayList(data) {
+  return req({
+    url: '/top/playlist',
+    data
+  })
+}
 
 export function getSongListByCateId(data) {
   return req({
@@ -27,8 +38,3 @@ export function getSongListByCateId(data) {
   })
 }
 
-export function getSongUrlById(id) {
-  return req({
-    url: `/song/url/v1?id=${id}&level=higher`
-  })
-}

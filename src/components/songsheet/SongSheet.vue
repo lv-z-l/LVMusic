@@ -6,7 +6,7 @@
     </LazyLoader>
     <view class="play-count">
       <text class="icon-24gf-playCircle"></text>
-      <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + '万' }}</text>
+      <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + 'w' }}</text>
     </view>
     <view class="name">{{ props.sheet.name }}</view>
   </view>

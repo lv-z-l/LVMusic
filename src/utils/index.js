@@ -36,3 +36,8 @@ export function initLazyIntersectionObserver(fn) {
   );
   return observer;
 }
+
+export function loadLang() {
+  const langModules = import.meta.glob('../lang/*.js', { eager: true })
+  return langModules
+}

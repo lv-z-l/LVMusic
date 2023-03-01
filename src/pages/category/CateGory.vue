@@ -1,6 +1,6 @@
 <template>
   <view class="category">
-    <PageFrame frame-name="歌单">
+    <PageFrame :frame-name="store.langObj.category">
       <view :class="['category-tags', store.fixed ? 'fixed' : '']">
         <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @click="tagClick(tag)"
           v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
@@ -10,14 +10,16 @@
         </SongSheet>
       </view>
     </PageFrame>
+    <NoData v-show="!loading && currentTagLists.length === 0" />
   </view>
 </template>
   
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
-import { getCategoryTags, getCategoryPlayList, getSongListByCateId } from '@/apis/category'
+import { getCategoryTags, getCategoryPlayList, getSongListByCateId, getHotOrNewCategoryPlayList } from '@/apis/category'
 import { onMounted, reactive, ref, defineAsyncComponent } from 'vue';
 import { useStore } from '../../store/main';
+import NoData from '@/common/nodata/NoData.vue'
 
 const emit = defineEmits(['show-songlist'])
 
@@ -30,17 +32,19 @@ function changeLoading() {
 }
 
 const SongSheet = defineAsyncComponent(() => import(/* webpackChunkName: "songsheet" */'@/components/songsheet/SongSheet.vue'))
-const categoryTags = reactive([])
+const categoryTags = reactive([{ id: 'HOT', name: 'HOT' }, { id: 'NEW', name: 'NEW' }])
 
 const currentTagLists = reactive([])
 
+let current = reactive(categoryTags[0])
+
 onMounted(() => {
+  changeLoading()
+  loadTagCategoryList(current.name)
   getCategoryTags().then(res => {
     categoryTags.push(...res.tags)
   })
 })
-
-let current = reactive({})
 
 function tagClick(tag) {
   if (current.id === tag.id) {
@@ -51,14 +55,28 @@ function tagClick(tag) {
   loadTagCategoryList(tag.name)
 }
 
-function loadTagCategoryList(id, offset = 0) {
-  getCategoryPlayList({ cat: id, limit: 20, offset }).then(res => {
+function loadHotOrNewCategoryList(id, offset = 0) {
+  getHotOrNewCategoryPlayList({ order: id, limit: 20, offset }).then(res => {
     current.more = res.more
     offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
     changeLoading()
   }).catch(() => {
     changeLoading()
   })
+}
+
+function loadTagCategoryList(id, offset = 0) {
+  if ('HOT,NEW'.includes(id)) {
+    loadHotOrNewCategoryList(id, offset)
+  } else {
+    getCategoryPlayList({ cat: id, limit: 20, offset }).then(res => {
+      current.more = res.more
+      offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
+      changeLoading()
+    }).catch(() => {
+      changeLoading()
+    })
+  }
 }
 
 function onSheetClick(sheet) {

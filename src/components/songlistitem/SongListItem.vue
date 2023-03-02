@@ -29,6 +29,9 @@ function playSong() {
     const copy = Object.assign({}, props.song)
     copy.playing = true
     copy.musicUrl = res.data[0].url
+    if (!copy.musicUrl) {
+      return store.msg.open({ i: 'icon-suijibofang', msg: store.langObj.cantPlay })
+    }
     copy.time = res.data[0].time
     copy.start = 0
     store.$patch({ currentSong: copy })
@@ -68,14 +71,14 @@ function playSong() {
       justify-content: center;
       height: 100%;
       font-size: $play-song-name-size;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
 
       .author {
         font-size: calc(0.6 * $play-song-name-size);
         color: $bottom-bar-text-color;
         padding-top: calc(0.4 * $play-song-name-size);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
 

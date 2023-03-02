@@ -11,9 +11,3 @@ export function getRecommendResource() {
     url: '/recommend/resource'
   })
 }
-
-export function getHomePageData() {
-  return req({
-    url: '/homepage/block/page'
-  })
-}

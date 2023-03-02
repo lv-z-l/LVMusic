@@ -1,5 +1,5 @@
 <template>
-  <view class="songlist">
+  <view class="songlist" v-loading="loading">
     <Back :title="store.songs.name"></Back>
     <PageFrame>
       <view class="song-info"
@@ -27,8 +27,13 @@ import SongListItem from '@/components/songlistitem/SongListItem.vue';
 import { useStore } from '../../store/main';
 
 import { getSongListByCateId } from '@/apis/category'
+import { onMounted, ref } from 'vue';
 
 const store = useStore()
+
+const loading = ref(true)
+
+onMounted(() => setTimeout(() => loading.value = false, 1000))
 
 store.regLoadMore('songlist', () => {
   getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length - 1 }).then(res => {

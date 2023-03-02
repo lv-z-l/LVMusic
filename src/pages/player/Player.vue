@@ -74,6 +74,10 @@ function topLineClick() {
 function formatShowText(type, val) {
   if (type === 'min') {
     return val
+  } else if (type === 'cur') {
+    const m = Number.parseInt(val / 60)
+    const s = (val % 60)
+    return m + '分' + Number.parseInt(s) + '秒'
   } else {
     if (val === 0) {
       return '0 分 0 秒'

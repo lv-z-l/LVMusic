@@ -44,26 +44,30 @@ const props = defineProps({
 })
 
 let timer
+
+watch(() => props.init, (val) => {
+  selfVal.value = val
+})
+
 if (props.autoMove) {
-  watch(() => store.currentSong.playing, (val) => {
-    selfVal.value = store.currentSong.start
-    if (val) {
-      timer = setTimeout(moveByStep, 1000)
-    } else {
-      clearTimeout(timer)
-    }
+  watch(() => store.currentSong.playing, (val) => startMove(val))
+  watch(() => store.currentSong.name, (val) => startMove(val))
+  watch(() => store.currentSong.start, (val) => {
+    selfVal.value = val
   })
 }
 
-function moveByStep() {
-  if (store.currentSong.start < store.currentSong.time) {
-    selfVal.value += props.autoMoveStep
-    store.currentSong.start = selfVal.value
+function startMove(val) {
+  if (val) {
+    clearTimeout(timer)
+    timer = setTimeout(moveByStep, 1000)
   } else {
-    selfVal.value = 0
-    store.currentSong.start = 0
-    store.currentSong.playing = false
+    clearTimeout(timer)
   }
+}
+
+function moveByStep() {
+  store.getCurrentTime()
   clearTimeout(timer)
   if (store.currentSong.playing) {
     timer = setTimeout(moveByStep, 1000)
@@ -79,6 +83,7 @@ function onTouchS(event) {
   clientX = event.changedTouches[0].clientX
   emit('moves')
 }
+
 function onTouchM(event) {
   const newX = event.changedTouches[0].clientX
   if (newX > clientX) {

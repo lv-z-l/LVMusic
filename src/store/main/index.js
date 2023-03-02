@@ -57,14 +57,19 @@ export const useStore = defineStore('main', {
       if (this.compQuene[this.compQuene.length - 1] !== this.currentCompKey) {
         this.compQuene.push(this.currentCompKey)
       }
-      this.backFixed = false
-      this.fixed = false
       return compMap[this.currentCompKey]
     }
   },
   actions: {
+    regMessage(msg) {
+      this.msg = msg
+    },
     regLoadMore(key, fn) {
       this.loadMoreMap[key] = debounce(fn, 100)
+    },
+    getCurrentTime() {
+      const currentTime = Audio.getCurrentTime()
+      this.currentSong.start = currentTime
     },
     playOrPause() {
       if (this.currentSong.playing) { // 暂停
@@ -110,6 +115,8 @@ export const useStore = defineStore('main', {
       this.vioceMoving = bool
     },
     setCurrentBar(curr) {
+      this.backFixed = false
+      this.fixed = false
       this.currentCompKey = curr
       if (bars.includes(curr)) {
         this.currentBar = curr

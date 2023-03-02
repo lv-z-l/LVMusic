@@ -7,5 +7,6 @@ export default {
   play: '播放',
   anyPlay: '随机播放',
   more: '更多',
-  needLogin: '登录以后更精彩'
+  needLogin: '登录以后更精彩',
+  cantPlay: '暂时不能播放这首歌'
 }

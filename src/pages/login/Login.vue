@@ -32,19 +32,16 @@ onBeforeMount(async () => {
 function check(key) {
   timer = setTimeout(async () => {
     const status = await checkLoginStatus(key)
+    clearTimeout(timer)
     if (status.code === 801) {
-      clearTimeout(timer)
       check(key)
     } else if (status.code === 800) {
-      clearTimeout(timer)
       msg.value = status.message
     } else if (status.code === 802) {
-      clearTimeout(timer)
       avatarUrl.value = status.avatarUrl
       msg.value = status.message
       check(key)
     } else {
-      clearTimeout(timer)
       msg.value = status.message
     }
   }, 2000)

@@ -34,6 +34,7 @@
       </view>
     </transition>
     <Player />
+    <Message ref="msg" />
   </view>
 </template>
 
@@ -43,8 +44,11 @@ import Player from '@/pages/player/Player'
 import { throttle } from '@/utils/index'
 import { ref, reactive, onMounted } from 'vue'
 import { useStore } from '@/store/main/index'
+import Message from '../../components/message/Message.vue'
 
 const content = ref()
+
+const msg = ref()
 
 onMounted(() => {
   const w = content.value.$el.clientWidth
@@ -54,6 +58,7 @@ onMounted(() => {
   const cw = Number.parseInt((w - (0.053 * w * 2)))
   const _w = Number.parseInt(cw * 0.143)
   store.setImageWidth(contentW, w, h * 0.6, _w)
+  store.regMessage(msg)
 })
 
 const iconList = reactive(MainConfig.mainBottomBar.icons)

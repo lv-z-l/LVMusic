@@ -1,6 +1,6 @@
 class MyAudio {
   constructor() {
-    this.instance = uni.createInnerAudioContext()
+    this.instance = uni.getBackgroundAudioManager ? uni.getBackgroundAudioManager() : uni.createInnerAudioContext()
     this.instance.onError(err => {
       console.log(err)
     })
@@ -9,12 +9,8 @@ class MyAudio {
   play(url) {
     if (url) {
       this.instance.src = url
-      this.instance.onCanplay(() => {
-        this.instance.play()
-      })
-    } else {
-      this.instance.play()
     }
+    this.instance.play()
   }
   pause() {
     this.instance.pause()
@@ -27,6 +23,9 @@ class MyAudio {
   }
   setVolume(v) {
     this.instance.volume = v < 0 ? 0 : v > 1 ? 1 : v
+  }
+  getCurrentTime() {
+    return this.instance.currentTime
   }
 }
 

@@ -2,7 +2,8 @@
   <view :class="['player', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage }">
     <view class="top-line" @click="topLineClick"></view>
     <view class="player-image-box">
-      <image :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']" :src="store.currentSong.url">
+      <image ref="bg" :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
+        :src="store.currentSong.url">
       </image>
     </view>
     <view class="player-song-info">
@@ -42,6 +43,7 @@ import analyze from 'rgbaster'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
 import { watch, ref } from 'vue'
+import { analyzeBg } from '@/utils'
 import Audio from '@/controlaudio'
 
 const backgroundImage = ref('linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))')
@@ -49,7 +51,7 @@ const store = useStore()
 
 const { minute, second } = store.langObj
 
-watch(() => store.currentSong.url, async (newV, old) => {
+watch(() => store.currentSong.url, (newV, old) => {
   const newVal = newV || old
   if (!newVal) {
     return
@@ -57,16 +59,13 @@ watch(() => store.currentSong.url, async (newV, old) => {
   if (Reflect.has(store.cacheSongImageBG, newVal)) {
     return store.cacheSongImageBG[newVal]
   }
-  const result = await analyze(newVal, { scale: 0.1 })
-  const colors = result.filter(r => r.count > 20).map(r => r.color)
-  let bg
-  if (colors.length > 0) {
-    bg = `linear-gradient(${colors[0]}, ${colors[colors.length - 1]})`
-  }
-  if (bg) {
-    store.putCacheSongImageBG(newVal, bg)
-    backgroundImage.value = bg
-  }
+  analyzeBg(newVal).then(res => {
+    const bg = res
+    if (bg) {
+      store.putCacheSongImageBG(newVal, bg)
+      backgroundImage.value = bg
+    }
+  })
 }, { immediate: true })
 
 function topLineClick() {

@@ -2,7 +2,7 @@
   <view :class="['player', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage }">
     <view class="top-line" @click="topLineClick"></view>
     <view class="player-image-box">
-      <image ref="bg" :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
+      <image ref="bg" @load="onImageLoaded" :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
         :src="store.currentSong.url">
       </image>
     </view>
@@ -51,11 +51,8 @@ const store = useStore()
 
 const { minute, second } = store.langObj
 
-watch(() => store.currentSong.url, (newV, old) => {
-  const newVal = newV || old
-  if (!newVal) {
-    return
-  }
+function onImageLoaded() {
+  const newVal = store.currentSong.url
   if (Reflect.has(store.cacheSongImageBG, newVal)) {
     return store.cacheSongImageBG[newVal]
   }
@@ -66,7 +63,7 @@ watch(() => store.currentSong.url, (newV, old) => {
       backgroundImage.value = bg
     }
   })
-}, { immediate: true })
+}
 
 function topLineClick() {
   store.setPlayerShow(false)

@@ -11,4 +11,5 @@ export default {
   cantPlay: '暂时不能播放这首歌',
   second: '秒',
   minute: '分',
+  adv: '广告'
 }

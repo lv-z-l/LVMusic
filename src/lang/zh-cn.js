@@ -8,5 +8,7 @@ export default {
   anyPlay: '随机播放',
   more: '更多',
   needLogin: '登录以后更精彩',
-  cantPlay: '暂时不能播放这首歌'
+  cantPlay: '暂时不能播放这首歌',
+  second: '秒',
+  minute: '分',
 }

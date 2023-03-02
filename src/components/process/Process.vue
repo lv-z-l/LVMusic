@@ -104,7 +104,7 @@ function onTouchE(event) {
   emit('movee', selfVal.value)
 }
 
-const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${selfVal.value} / ${props.max}))`)
+const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${props.autoMove ? selfVal.value * 1000 : selfVal.value} / ${props.max}))`)
 
 
 </script>

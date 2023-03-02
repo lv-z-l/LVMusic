@@ -27,11 +27,15 @@ import SongListItem from '@/components/songlistitem/SongListItem.vue';
 import { useStore } from '../../store/main';
 
 import { getSongListByCateId } from '@/apis/category'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, onDeactivated, onActivated } from 'vue';
 
 const store = useStore()
 
 const loading = ref(true)
+
+onDeactivated(() => loading.value = true)
+
+onActivated(() => setTimeout(() => loading.value = false, 1000))
 
 onMounted(() => setTimeout(() => loading.value = false, 1000))
 

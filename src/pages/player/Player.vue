@@ -15,7 +15,7 @@
     <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
       <view class="songtime-bar">
         <Process :init="store.currentSong.start" :auto-move-step="1000" :max="store.currentSong.time" auto-move
-          :formatShowText="formatShowText" :min="0" :step="10000" show-text @moves="store.setTimeMoving(true)"
+          :formatShowText="formatShowText" :min="0" :step="10" show-text @moves="store.setTimeMoving(true)"
           @movee="onTimeMoveEnd">
         </Process>
       </view>
@@ -47,6 +47,8 @@ import Audio from '@/controlaudio'
 const backgroundImage = ref('linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))')
 const store = useStore()
 
+const { minute, second } = store.langObj
+
 watch(() => store.currentSong.url, async (newV, old) => {
   const newVal = newV || old
   if (!newVal) {
@@ -77,19 +79,19 @@ function formatShowText(type, val) {
   } else if (type === 'cur') {
     const m = Number.parseInt(val / 60)
     const s = (val % 60)
-    return m + '分' + Number.parseInt(s) + '秒'
+    return m + minute + Number.parseInt(s) + second
   } else {
     if (val === 0) {
-      return '0 分 0 秒'
+      return '0' + second
     }
     const float = (val / 1000 / 60).toFixed(2).split('.')
 
-    return float[0] + '分' + Math.ceil((Number('0.' + float[1]) * 60)) + '秒'
+    return float[0] + minute + Math.ceil((Number('0.' + float[1]) * 60)) + second
   }
 }
 
 function onTimeMoveEnd(val) {
-  Audio.seek(val / 1000)
+  Audio.seek(val)
   store.setTimeMoving(false)
 }
 

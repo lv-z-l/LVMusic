@@ -12,7 +12,9 @@
       <view class="song-palylist" v-for="(block, index) in mainBlocks" :key="block.title">
         <view class="title">{{ block.title }}</view>
         <view class="song-content" v-if="index === 1">
-          <SongListItem v-for="song in block.resources" :song="song"></SongListItem>
+          <view class="song-content-child" v-for="childRes in block.resources">
+            <SongListItem v-for="song in childRes" :song="song"></SongListItem>
+          </view>
         </view>
         <view class="playlist-content" v-else>
           <SongSheet v-for="resource in block.resources" :sheet="resource" margin-r></SongSheet>
@@ -113,11 +115,11 @@ function resolveSongs(data) {
       author: resourceExtInfo.artists.map(t => t.name).join('、')
     }
   }
-  songs.splice(0)
-  creatives.forEach(creative => {
+  creatives.forEach((creative, cindex) => {
     const resources = creative.resources
-    const temp = resources.map((resource) => genPlayList(resource))
-    songs.push(...temp)
+    resources.forEach(resource => {
+      (songs[cindex] ? songs[cindex] : (songs[cindex] = [])).push(genPlayList(resource))
+    })
   })
 }
 
@@ -207,9 +209,18 @@ watch(() => store.noLogin, (val) => {
 
   .song-content {
     display: flex;
-    flex-wrap: wrap;
-    width: calc(3 * 100%);
+    width: 100%;
     overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    .song-content-child {
+      width: calc(100% - 5.33%);
+      flex: 0 0 auto;
+    }
   }
 
   .playlist-content {

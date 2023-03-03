@@ -14,6 +14,7 @@ export default {
 @import url(./style/iconfont.css);
 /**loading指令的样式 */
 @import url('vue-next-directive/lib/assets/loading.css');
+@import url('./style/compact.scss');
 
 uni-page-wrapper {
   overflow: hidden;

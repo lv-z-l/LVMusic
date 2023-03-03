@@ -11,7 +11,7 @@
           <text class="icon-24gf-playCircle"></text>
           <text class="text">{{ Number.parseInt(st.playCount / 10000) + 'w' }}</text>
         </view>
-        <view class="name">{{ st.name }}</view>
+        <view class="name" :style="{ maxWidth: pxw }">{{ st.name }}</view>
       </view>
     </swiper-item>
   </swiper>
@@ -24,7 +24,7 @@
       <text class="icon-24gf-playCircle"></text>
       <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + 'w' }}</text>
     </view>
-    <view class="name">{{ props.sheet.name }}</view>
+    <view class="name" :style="{ maxWidth: pxw }">{{ props.sheet.name }}</view>
   </view>
 </template>
   

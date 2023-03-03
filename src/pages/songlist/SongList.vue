@@ -15,7 +15,7 @@
         </view>
       </view>
       <view class="list">
-        <SongListItem v-for="song in store.songs.lists" :key="song.id" :song="song"></SongListItem>
+        <SongListItem v-for="song in store.songs.lists" show-icon :key="song.id" :song="song"></SongListItem>
       </view>
     </PageFrame>
   </view>

@@ -108,9 +108,9 @@ export const useStore = defineStore('main', {
       this.compQuene.push(comp)
     },
     setImageWidth(cateW, w, h, sw, cw) {
-      this.imageW = cateW
+      this.imageW = cateW > 200 ? 200 : cateW
       this.clientW = w
-      this.songListImgH = h
+      this.songListImgH = h > 600 ? 600 : h
       this.songImageW = sw
       this.clientWNoPadding = cw
     },

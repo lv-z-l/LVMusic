@@ -8,7 +8,7 @@ export function req(args) {
   args.url = config.proxyPrefix + args.url
   return new Promise((resolve, reject) => {
     uni.request(args).then(res => {
-      if (res.data && rightCode.includes(res.data.code)) {
+      if (res.data && rightCode.includes(res.statusCode || res.data.code)) {
         if (args.needCache) {
           delete args.needCache
           requestCache[JSON.stringify(args)] = { ...res }

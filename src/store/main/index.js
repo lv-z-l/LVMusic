@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import { defineAsyncComponent } from 'vue'
 import Recommend from '../../pages/recommend/Recommend.vue'
 import Audio from '@/controlaudio'
-import { debounce, loadLang } from '../../utils'
+import { debounce, loadLang } from '@/utils'
+import { getLoginStatus } from '@/apis/login'
 import config from '../../config'
 
 const langModules = loadLang()
@@ -18,6 +19,7 @@ const compMap = {
 
 export const useStore = defineStore('main', {
   state: () => ({
+    userInfo: {},
     currentBar: 'recommend',
     currentCompKey: 'recommend',
     compQuene: [],
@@ -39,8 +41,9 @@ export const useStore = defineStore('main', {
     historyList: [],
     imageW: 140,
     clientW: 350,
-    clientH: 750,
+    songListImgH: 750,
     songImageW: 49,
+    clientWNoPadding: 350,
     cacheSongImageBG: {},
     backFixed: false,
     fixed: false,
@@ -61,6 +64,24 @@ export const useStore = defineStore('main', {
     }
   },
   actions: {
+    loginStatus() {
+      getLoginStatus().then(res => {
+        const { profile } = res.data
+        if (profile.userId) {
+          this.noLogin = false
+          const { userId, nickname, userName, backgroundUrl, avatarUrl, gender } = profile
+          const userInfo = {
+            userId,
+            nickname,
+            userName,
+            backgroundUrl,
+            avatarUrl,
+            gender
+          }
+          Object.assign(this.userInfo, userInfo)
+        }
+      })
+    },
     regMessage(msg) {
       this.msg = msg
     },
@@ -86,11 +107,12 @@ export const useStore = defineStore('main', {
     pushCompQuene(comp) {
       this.compQuene.push(comp)
     },
-    setImageWidth(cateW, w, h, sw) {
+    setImageWidth(cateW, w, h, sw, cw) {
       this.imageW = cateW
       this.clientW = w
-      this.clientH = h
+      this.songListImgH = h
       this.songImageW = sw
+      this.clientWNoPadding = cw
     },
     updateScrollHeight(event) {
       const el = event.instance.$el

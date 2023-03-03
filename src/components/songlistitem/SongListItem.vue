@@ -5,11 +5,11 @@
     </LazyLoader>
     <view class="right">
       <view class="name-author">
-        <text>{{ props.song.name }}</text>
+        <text class="name">{{ props.song.name }}</text>
         <text class="author">{{ props.song.author }}</text>
       </view>
-      <view class="icon-gengduo menu"></view>
     </view>
+    <view class="icon-gengduo menu"></view>
   </view>
 </template>
 <script setup>
@@ -43,11 +43,12 @@ function playSong() {
 </script>
 <style lang="scss">
 .song-list-item {
-  width: 100%;
+  width: calc(100vw - 10.66vw);
   height: $bottom-bar-height;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
 
   .song-image {
     flex: 0 0 auto;
@@ -63,7 +64,7 @@ function playSong() {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: calc(100% - $play-song-name-margin - $play-song-image-width);
+    width: calc(100% - $play-song-name-margin - 2 * $play-song-image-width);
 
     .name-author {
       display: flex;
@@ -71,6 +72,12 @@ function playSong() {
       justify-content: center;
       height: 100%;
       font-size: $play-song-name-size;
+
+      .name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
 
       .author {
         font-size: calc(0.6 * $play-song-name-size);
@@ -81,11 +88,11 @@ function playSong() {
         text-overflow: ellipsis;
       }
     }
+  }
 
-    .menu {
-      font-size: calc(1.5 * $play-song-name-size);
-      color: $black-color;
-    }
+  .menu {
+    font-size: calc(1.5 * $play-song-name-size);
+    color: $black-color;
   }
 }
 </style>

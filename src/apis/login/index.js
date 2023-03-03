@@ -17,3 +17,9 @@ export function checkLoginStatus(key) {
     url: '/login/qr/check?key=' + key + '&timestamp=' + Date.now()
   })
 }
+
+export function getLoginStatus() {
+  return req({
+    url: '/login/status'
+  })
+}

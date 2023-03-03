@@ -1,5 +1,5 @@
 <template>
-  <Login />
+  <Login v-if="noLogin" />
 </template>
 <script setup>
 import Login from '../login/Login.vue'

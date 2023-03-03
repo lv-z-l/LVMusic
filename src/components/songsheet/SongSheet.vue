@@ -1,5 +1,21 @@
 <template>
-  <view class="song-sheet" @click="$emit('sheet-click', props.sheet)">
+  <swiper v-if="props.sheet.length" :class="['swiper-sheet', props.marginR ? 'need-margin-r' : '']"
+    :style="{ width: pxw }" vertical circular autoplay indicator-dots :interval="3000">
+    <swiper-item class="swiper-item" v-for="st in props.sheet" :key="st.id">
+      <view class="song-sheet" @click="$emit('sheet-click', st)">
+        <LazyLoader :w="pxw" :h="pxw">
+          <image class="image" :style="{ width: pxw, height: pxw }" :src="st.coverImgUrl + `?param=${w}y${w}`">
+          </image>
+        </LazyLoader>
+        <view class="play-count">
+          <text class="icon-24gf-playCircle"></text>
+          <text class="text">{{ Number.parseInt(st.playCount / 10000) + 'w' }}</text>
+        </view>
+        <view class="name">{{ st.name }}</view>
+      </view>
+    </swiper-item>
+  </swiper>
+  <view v-else :class="['song-sheet', props.marginR ? 'need-margin-r' : '']" @click="$emit('sheet-click', props.sheet)">
     <LazyLoader :w="pxw" :h="pxw">
       <image class="image" :style="{ width: pxw, height: pxw }" :src="props.sheet.coverImgUrl + `?param=${w}y${w}`">
       </image>
@@ -18,7 +34,8 @@ import { computed } from 'vue';
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 const store = useStore()
 const props = defineProps({
-  sheet: Object
+  sheet: Object | Array,
+  marginR: Boolean
 })
 
 const w = computed(() => store.imageW)
@@ -38,6 +55,10 @@ const emit = defineEmits(['sheet-click'])
   flex-direction: column;
   align-items: flex-start;
   margin: $song-sheet-margin;
+
+  &.need-margin-r {
+    margin-right: 5.33%;
+  }
 
   .play-count {
     position: absolute;
@@ -67,6 +88,19 @@ const emit = defineEmits(['sheet-click'])
     white-space: nowrap;
     overflow: hidden;
     font-size: $song-sheet-playcount-size;
+  }
+}
+
+.swiper-sheet {
+  flex: 0 0 auto;
+  height: auto;
+
+  &.need-margin-r {
+    margin-right: 5.33%;
+  }
+
+  .song-sheet {
+    width: 100%;
   }
 }
 </style>

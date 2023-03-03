@@ -42,13 +42,17 @@
 import MainConfig from '@/config/index'
 import Player from '@/pages/player/Player'
 import { throttle } from '@/utils/index'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useStore } from '@/store/main/index'
 import Message from '../../components/message/Message.vue'
 
 const content = ref()
 
 const msg = ref()
+
+onBeforeMount(() => {
+  store.loginStatus()
+})
 
 onMounted(() => {
   const w = content.value.$el.clientWidth
@@ -57,7 +61,7 @@ onMounted(() => {
   const contentW = Number.parseInt((w - (0.053 * w * 3)) / 2)
   const cw = Number.parseInt((w - (0.053 * w * 2)))
   const _w = Number.parseInt(cw * 0.143)
-  store.setImageWidth(contentW, w, h * 0.6, _w)
+  store.setImageWidth(contentW, w, h * 0.6, _w, cw)
   store.regMessage(msg)
 })
 

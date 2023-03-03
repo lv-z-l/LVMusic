@@ -3,7 +3,7 @@
     <Back :title="store.songs.name"></Back>
     <PageFrame>
       <view class="song-info"
-        :style="{ width: store.clientW + 'px', height: store.clientH + 'px', backgroundImage: 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.clientH}` + ')' }">
+        :style="{ width: store.clientW + 'px', height: store.songListImgH + 'px', backgroundImage: 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.songListImgH}` + ')' }">
         <view class="name">{{ store.songs.name }}</view>
         <view class="btns">
           <view class="icon-play-fill btn">{{ store.langObj.play }}</view>

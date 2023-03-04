@@ -34,7 +34,7 @@ function playSong() {
     copy.time = res.data[0].time
     copy.start = 0
     store.$patch({ currentSong: copy })
-    store.setPlayerShow(true)
+    // store.setPlayerShow(true)
     Audio.play(copy.musicUrl)
   })
 }

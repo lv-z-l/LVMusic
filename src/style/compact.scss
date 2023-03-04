@@ -9,17 +9,29 @@
   }
 }
 
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: 800px) {
 
   .song-content-child {
     width: 50% !important;
   }
+
+  .player {
+    padding: 0 25% !important;
+  }
+
+  .player-bar .song-image {
+    width: 5.9% !important;
+  }
 }
 
-@media only screen and (min-width: 1100px) {
+@media only screen and (min-width: 1280px) {
 
 
   .song-content-child {
-    width: 33.3% !important;
+    width: 25% !important;
+  }
+
+  .player-bar .song-image {
+    width: 3.6% !important;
   }
 }

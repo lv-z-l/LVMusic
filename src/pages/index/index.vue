@@ -57,11 +57,14 @@ onBeforeMount(() => {
 onMounted(() => {
   const w = content.value.$el.clientWidth
   const h = content.value.$el.parentNode.parentNode.clientHeight
-  // 0.53 是 padding
-  const contentW = Number.parseInt((w - (0.053 * w * 3)) / 2)
-  const cw = Number.parseInt((w - (0.053 * w * 2)))
-  const _w = Number.parseInt(cw * 0.143)
-  store.setImageWidth(contentW, w, h * 0.6, _w, cw)
+  // 5.33% 是 padding
+  const PLAY_LIST_ITEM_W = Number.parseInt((w - (0.0533 * w * 3)) / 2)
+  const C_W_NO_PADDING = Number.parseInt((w - (0.0533 * w * 2)))
+  const SONG_IMAGE_W_LITTLE = Number.parseInt(C_W_NO_PADDING * 0.143)
+  const SONG_IMAGE_W_BIG = w * 0.64
+  const PLAY_LIST_IMAGE_H = h * 0.6
+  const SONG_IMAGE_W_BIG_P = w * 0.872
+  store.setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P)
   store.regMessage(msg)
 })
 

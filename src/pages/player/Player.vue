@@ -1,68 +1,74 @@
 <template>
-  <view :class="['player', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage }">
-    <view class="top-line" @click="topLineClick"></view>
-    <view class="player-image-box">
-      <image ref="bg" @load="onImageLoaded" :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
-        :src="store.currentSong.url">
-      </image>
-    </view>
-    <view class="player-song-info">
-      <view class="left">
-        <text class="name">{{ store.currentSong.name }}</text>
-        <text class="singer">{{ store.currentSong.author }}</text>
+  <view :class="['player-box', store.playerShow ? 'show' : 'hide']"
+    :style="{ backgroundImage: 'url(' + store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}` + ')' }">
+    <view class="player">
+      <view class="top-line" @click="topLineClick"></view>
+      <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
+        <image ref="bg" @load="onImageLoaded"
+          :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
+          :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
+          :src="store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}`">
+        </image>
       </view>
-      <text class="icon-gengduo"></text>
-    </view>
-    <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
-      <view class="songtime-bar">
-        <Process :init="store.currentSong.start" :auto-move-step="1000" :max="store.currentSong.time" auto-move
-          :formatShowText="formatShowText" :min="0" :step="10" show-text @moves="store.setTimeMoving(true)"
-          @movee="onTimeMoveEnd">
-        </Process>
+      <view class="player-song-info">
+        <view class="left">
+          <text class="name">{{ store.currentSong.name }}</text>
+          <text class="singer">{{ store.currentSong.author }}</text>
+        </view>
+        <text class="icon-gengduo"></text>
       </view>
-    </view>
-    <view class="player-btns">
-      <text class="icon-next-fill roate"></text>
-      <text @click.stop="store.playOrPause"
-        :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
-      <text class="icon-next-fill"></text>
-    </view>
-    <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
-      <text class="icon-shengyin03-mianxing"></text>
-      <view class="voice-bar">
-        <Process :init="0.5" :step="0.04" :max="1" :min="0" @moves="store.setVoiceMoving(true)" @movee="onVoiceMoveEnd">
-        </Process>
+      <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
+        <view class="songtime-bar">
+          <Process :init="store.currentSong.start" :auto-move-step="1000" :max="store.currentSong.time" auto-move
+            :formatShowText="formatShowText" :min="0" :step="10" show-text @moves="store.setTimeMoving(true)"
+            @movee="onTimeMoveEnd">
+          </Process>
+        </view>
       </view>
-      <text class="icon-shengyin01-mianxing"></text>
+      <view class="player-btns">
+        <text class="icon-next-fill roate"></text>
+        <text @click.stop="store.playOrPause"
+          :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
+        <text class="icon-next-fill"></text>
+      </view>
+      <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
+        <text class="icon-shengyin03-mianxing"></text>
+        <view class="voice-bar">
+          <Process :init="0.5" :step="0.04" :max="1" :min="0" @moves="store.setVoiceMoving(true)" @movee="onVoiceMoveEnd">
+          </Process>
+        </view>
+        <text class="icon-shengyin01-mianxing"></text>
+      </view>
     </view>
   </view>
 </template>
   
 <script setup>
-import analyze from 'rgbaster'
+// import analyze from 'rgbaster'
+// import { analyzeBg } from '@/utils'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
-import { watch, ref } from 'vue'
-import { analyzeBg } from '@/utils'
+import { ref } from 'vue'
 import Audio from '@/controlaudio'
 
-const backgroundImage = ref('linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))')
 const store = useStore()
 
 const { minute, second } = store.langObj
 
+// const backgroundImage = ref('linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))')
 function onImageLoaded() {
-  const newVal = store.currentSong.url
-  if (Reflect.has(store.cacheSongImageBG, newVal)) {
-    return store.cacheSongImageBG[newVal]
-  }
-  analyzeBg(newVal).then(res => {
-    const bg = res
-    if (bg) {
-      store.putCacheSongImageBG(newVal, bg)
-      backgroundImage.value = bg
-    }
-  })
+  // const newVal = store.currentSong.url
+  // if (Reflect.has(store.cacheSongImageBG, newVal)) {
+  //   return store.cacheSongImageBG[newVal]
+  // }
+  // analyzeBg(newVal).then(res => {
+  //   const bg = res
+  //   if (bg) {
+  //     store.putCacheSongImageBG(newVal, bg)
+  //     backgroundImage.value = bg
+  //   }
+  // })
+  store.setPlayerShow(true)
 }
 
 function topLineClick() {
@@ -98,18 +104,14 @@ function onVoiceMoveEnd(val) {
 </script>
   
 <style lang="scss">
-.player {
+.player-box {
   width: 100%;
   height: 100vh;
-  padding: $player-padding;
-  box-sizing: border-box;
-  z-index: 2;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: center;
   position: absolute;
   top: 0;
+  z-index: 2;
+  background-repeat: no-repeat;
+  background-size: cover;
   transition: all .6s cubic-bezier(0.230, 1.000, 0.320, 1.000);
 
   &.show {
@@ -121,6 +123,18 @@ function onVoiceMoveEnd(val) {
     transform: translateY(100vh);
     opacity: 0;
   }
+}
+
+.player {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: $player-padding;
+  backdrop-filter: blur(48px);
+  box-sizing: border-box;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
 
   .top-line {
     width: 100%;
@@ -141,8 +155,8 @@ function onVoiceMoveEnd(val) {
   }
 
   .player-image-box {
-    width: $player-image-width-l;
-    height: $player-image-width-l;
+    // width: $player-image-width-l;
+    // height: $player-image-width-l;
     margin-top: $player-image-margin-top;
     margin-bottom: $player-song-info-margin-top;
     display: flex;
@@ -154,13 +168,8 @@ function onVoiceMoveEnd(val) {
       transition: all .4s cubic-bezier(0.230, 1.000, 0.320, 1.000);
 
       &.playing {
-        width: 100%;
-        height: 100%;
-      }
-
-      &.stop {
-        width: $player-image-width;
-        height: $player-image-width;
+        width: 100% !important;
+        height: 100% !important;
       }
     }
   }

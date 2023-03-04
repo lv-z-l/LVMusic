@@ -11,7 +11,7 @@ const langModules = loadLang()
 const bars = config.mainBottomBar.icons.map(icon => icon.comp)
 const compMap = {
   recommend: Recommend,
-  mine: defineAsyncComponent(() => import(/* webpackChunkName: "login" */'../../pages/mine/Mine.vue')),
+  mine: defineAsyncComponent(() => import(/* webpackChunkName: "mine" */'../../pages/mine/Mine.vue')),
   songlist: defineAsyncComponent(() => import(/* webpackChunkName: "songlist" */'../../pages/songlist/SongList.vue')),
   category: defineAsyncComponent(() => import(/* webpackChunkName: "category" */'../../pages/category/CateGory.vue')),
   search: defineAsyncComponent(() => import(/* webpackChunkName: "search" */'../../pages/search/Search.vue'))
@@ -43,6 +43,8 @@ export const useStore = defineStore('main', {
     clientW: 350,
     songListImgH: 750,
     songImageW: 49,
+    songImageWBig: 200,
+    songImageWBigP: 300,
     clientWNoPadding: 350,
     cacheSongImageBG: {},
     backFixed: false,
@@ -107,12 +109,14 @@ export const useStore = defineStore('main', {
     pushCompQuene(comp) {
       this.compQuene.push(comp)
     },
-    setImageWidth(cateW, w, h, sw, cw) {
-      this.imageW = cateW > 200 ? 200 : cateW
+    setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P) {
+      this.imageW = PLAY_LIST_ITEM_W > 200 ? 200 : PLAY_LIST_ITEM_W
       this.clientW = w
-      this.songListImgH = h > 600 ? 600 : h
-      this.songImageW = sw
-      this.clientWNoPadding = cw
+      this.songListImgH = PLAY_LIST_IMAGE_H > 600 ? 600 : PLAY_LIST_IMAGE_H
+      this.songImageW = SONG_IMAGE_W_LITTLE
+      this.clientWNoPadding = C_W_NO_PADDING
+      this.songImageWBig = SONG_IMAGE_W_BIG > 320 ? 320 : SONG_IMAGE_W_BIG
+      this.songImageWBigP = SONG_IMAGE_W_BIG_P > 400 ? 400 : SONG_IMAGE_W_BIG_P
     },
     updateScrollHeight(event) {
       const el = event.instance.$el

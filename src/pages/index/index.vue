@@ -6,7 +6,7 @@
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll.passive="onContentScroll">
       <transition name="fade" mode="out-in">
         <keep-alive>
-          <component :is="store.currentComp" @show-songlist="showShowList"></component>
+          <component :is="store.currentComp"></component>
         </keep-alive>
       </transition>
       <view class="blank-block"></view>
@@ -82,10 +82,6 @@ function barItemClick(icon) {
 
 function onPlayerBarClick() {
   store.setPlayerShow(true)
-}
-
-function showShowList() {
-  store.setCurrentBar('songlist')
 }
 
 function onLoad() {

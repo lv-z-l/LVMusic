@@ -1,6 +1,6 @@
 <template>
   <view :class="['back', store.backFixed ? 'fixed' : '']" @click="store.back">
-    <text class="icon-fenxiang"></text>
+    <view class="icon-fenxiang"></view>
     <text class="title" v-show="store.backFixed">{{ props.title }}</text>
   </view>
 </template>
@@ -17,18 +17,25 @@ const store = useStore()
 <style lang="scss">
 .back {
   width: 100%;
-  padding: 5.33%;
+  padding: $global-padding;
+  height: $page-frame-scroll-margin-top;
   position: absolute;
   box-sizing: border-box;
   display: flex;
+  align-items: center;
   transition: $transition;
   font-size: $page-frame-fixed-text-size;
   top: 0;
 
+  $temp: calc($page-frame-scroll-margin-top / 2);
+
   [class^=icon] {
+    width: $temp;
+    height: $temp;
     border-radius: 50%;
     background-color: $bg;
-    padding: calc($page-frame-fixed-text-size / 2);
+    text-align: center;
+    line-height: $temp;
   }
 
   .title {
@@ -38,16 +45,15 @@ const store = useStore()
 
   &.fixed {
     position: sticky;
-    height: $page-frame-scroll-margin-top;
     z-index: 2;
     background-color: $white-color;
     border-bottom: 1rpx solid $bottom-bar-split-color;
-    padding: $back-fixed-margin;
     align-items: center;
     justify-content: center;
 
     // backdrop-filter: $backdrop-filter;
     // box-shadow: $box-shadow;
+
     [class^=icon] {
       border-radius: 0;
       background-color: unset;

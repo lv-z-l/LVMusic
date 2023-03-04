@@ -43,14 +43,11 @@ const noScroll = ref(false)
       margin-top: 0;
       top: $scroll-bar-fixed-top;
       border-bottom: 1rpx solid $bottom-bar-split-color;
-      text-align: center;
-      padding: $page-frame-fixed-margin;
       align-items: center;
       justify-content: center;
       // backdrop-filter: $backdrop-filter;
       // box-shadow: $box-shadow;
       font-size: $page-frame-fixed-text-size;
-
     }
   }
 }

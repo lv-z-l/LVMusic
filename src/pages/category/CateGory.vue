@@ -6,7 +6,7 @@
           v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
       <view class="song-sheets" v-loading="loading">
-        <SongSheet v-for="sheet in currentTagLists" @sheet-click="onSheetClick" :key="sheet.id" :sheet="sheet">
+        <SongSheet v-for="sheet in currentTagLists" :key="sheet.id" :sheet="sheet">
         </SongSheet>
       </view>
     </PageFrame>
@@ -16,12 +16,10 @@
   
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
-import { getCategoryTags, getCategoryPlayList, getSongListByCateId, getHotOrNewCategoryPlayList } from '@/apis/category'
+import { getCategoryTags, getCategoryPlayList, getHotOrNewCategoryPlayList } from '@/apis/category'
 import { onMounted, reactive, ref, defineAsyncComponent } from 'vue';
 import { useStore } from '../../store/main';
 import NoData from '@/common/nodata/NoData.vue'
-
-const emit = defineEmits(['show-songlist'])
 
 const store = useStore()
 
@@ -77,29 +75,6 @@ function loadTagCategoryList(id, offset = 0) {
       changeLoading()
     })
   }
-}
-
-function onSheetClick(sheet) {
-  getSongListByCateId({ id: sheet.id, limit: 20 }).then(res => {
-    const { description, coverImgUrl, name, tracks } = res.playlist
-    const lists = tracks.map(track => {
-      const { name, id, al, ar } = track
-      return {
-        name,
-        id,
-        url: al.picUrl,
-        author: ar.map(t => t.name).join('、')
-      }
-    })
-    store.setSongs({
-      sheetId: sheet.id,
-      coverImgUrl,
-      description,
-      name,
-      lists
-    })
-    emit('show-songlist')
-  })
 }
 
 store.regLoadMore('category', () => {

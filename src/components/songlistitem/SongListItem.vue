@@ -83,8 +83,9 @@ function playSong() {
 
 
   .menu {
+    flex: 2 0 auto;
+    text-align: right;
     font-size: calc(1.5 * $play-song-name-size);
-    color: $black-color;
   }
 }
 </style>

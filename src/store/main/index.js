@@ -41,6 +41,7 @@ export const useStore = defineStore('main', {
     historyList: [],
     imageW: 140,
     clientW: 350,
+    clientH: 750,
     songListImgH: 750,
     songImageW: 49,
     songImageWBig: 200,
@@ -109,7 +110,7 @@ export const useStore = defineStore('main', {
     pushCompQuene(comp) {
       this.compQuene.push(comp)
     },
-    setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P) {
+    setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h) {
       this.imageW = PLAY_LIST_ITEM_W > 200 ? 200 : PLAY_LIST_ITEM_W
       this.clientW = w
       this.songListImgH = PLAY_LIST_IMAGE_H > 600 ? 600 : PLAY_LIST_IMAGE_H
@@ -117,6 +118,7 @@ export const useStore = defineStore('main', {
       this.clientWNoPadding = C_W_NO_PADDING
       this.songImageWBig = SONG_IMAGE_W_BIG > 320 ? 320 : SONG_IMAGE_W_BIG
       this.songImageWBigP = SONG_IMAGE_W_BIG_P > 400 ? 400 : SONG_IMAGE_W_BIG_P
+      this.clientH = h
     },
     updateScrollHeight(event) {
       const el = event.instance.$el

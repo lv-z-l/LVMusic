@@ -64,7 +64,7 @@ onMounted(() => {
   const SONG_IMAGE_W_BIG = w * 0.64
   const PLAY_LIST_IMAGE_H = h * 0.6
   const SONG_IMAGE_W_BIG_P = w * 0.872
-  store.setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P)
+  store.setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h)
   store.regMessage(msg)
 })
 

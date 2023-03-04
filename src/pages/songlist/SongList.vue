@@ -40,8 +40,14 @@ onActivated(() => setTimeout(() => loading.value = false, 1000))
 onMounted(() => setTimeout(() => loading.value = false, 1000))
 
 store.regLoadMore('songlist', () => {
+  if (!store.songs.more) {
+    return
+  }
   getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
     const { tracks } = res.playlist
+    if (!tracks || tracks.length === 0) {
+      return
+    }
     const lists = tracks.map(track => {
       const { name, id, al, ar } = track
       return {

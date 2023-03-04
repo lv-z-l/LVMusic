@@ -8,6 +8,10 @@
           <image class="img" :style="{ width: pxw, height: pxh }" :src="s.pic + `?param=${w}y${h}`"></image>
         </swiper-item>
       </swiper>
+      <view class="song-palylist">
+        <view class="title">{{ store.langObj.dayrecom }}</view>
+        <DayRecommend />
+      </view>
       <!-- 歌曲、歌单 -->
       <view class="song-palylist" v-for="(block, index) in mainBlocks" :key="block.title">
         <view class="title">{{ block.title }}</view>
@@ -33,6 +37,7 @@ import { useStore } from '../../store/main'
 import { getHomePageData } from '@/apis/recommend'
 import SongSheet from '../../components/songsheet/SongSheet.vue'
 import SongListItem from '@/components/songlistitem/SongListItem.vue'
+import DayRecommend from '../dayrecommend/DayRecommend.vue'
 
 
 const w = computed(() => store.clientWNoPadding)

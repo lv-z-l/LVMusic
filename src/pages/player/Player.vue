@@ -1,6 +1,6 @@
 <template>
   <view :class="['player-box', store.playerShow ? 'show' : 'hide']"
-    :style="{ backgroundImage: 'url(' + store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}` + ')' }">
+    :style="{ backgroundImage: 'url(' + store.currentSong.url + ')' }">
     <view class="player">
       <view class="top-line" @click="topLineClick"></view>
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">

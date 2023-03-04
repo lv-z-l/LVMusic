@@ -178,18 +178,20 @@ function next() {
     height: $play-song-image-height;
     border-radius: calc($border-radius / 2);
     margin-right: $play-song-name-margin;
-    flex: 0 0 auto;
   }
 
   .song-name {
     font-size: $play-song-name-size;
-    flex: 8 0 auto;
+    flex: 1 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: calc(100% - $play-song-name-margin - $play-song-image-width - $play-song-name-margin - 2 * $play-song-btns-height);
   }
 
   .song-btns {
     display: flex;
     justify-content: space-between;
-    flex: 1 0 auto;
     margin-left: $play-song-name-margin;
 
     .song-btn {

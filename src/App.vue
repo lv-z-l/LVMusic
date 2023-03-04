@@ -19,4 +19,8 @@ export default {
 uni-page-wrapper {
   overflow: hidden;
 }
+
+image {
+  will-change: transform
+}
 </style>

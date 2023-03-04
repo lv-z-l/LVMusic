@@ -2,7 +2,7 @@ import { req } from '../expandunirequest'
 
 export function getRecommendSongs() {
   return req({
-    url: 'recommend/songs'
+    url: '/recommend/songs'
   })
 }
 

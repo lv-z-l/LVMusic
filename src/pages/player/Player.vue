@@ -155,8 +155,6 @@ function onVoiceMoveEnd(val) {
   }
 
   .player-image-box {
-    // width: $player-image-width-l;
-    // height: $player-image-width-l;
     margin-top: $player-image-margin-top;
     margin-bottom: $player-song-info-margin-top;
     display: flex;

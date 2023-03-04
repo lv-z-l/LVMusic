@@ -40,8 +40,6 @@ $player-top-line-width: 72rpx;
 $player-top-line-height: 10rpx;
 $player-top-line-margin-top: 40rpx;
 
-$player-image-width: 64%;
-$player-image-width-l: 87.2%;
 $player-image-margin-top: 74rpx;
 
 $player-voice-bar-margin: 0 24rpx;
@@ -56,7 +54,7 @@ $process-text-margin-top: 24rpx;
 
 $player-song-time-margin-top: 56rpx;
 
-$player-btns-width: 506rpx;
+$player-btns-width: 67.5%;
 $player-btns-margin-top: 54rpx;
 
 $player-song-info-name-size: 40rpx;
@@ -83,10 +81,5 @@ $back-fixed-margin: 49rpx 5.33% 19rpx 5.33%;
 $avatar-width: 96rpx;
 
 $message-bg: rgba(245, 245, 245, 0.9);
-
-@media (prefers-color-scheme: dark) {
-  $black-color: rgb(255, 255, 255);
-  $white-color: rgb(0, 0, 0);
-}
 
 /* music E*/

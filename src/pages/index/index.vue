@@ -74,7 +74,7 @@ const store = useStore()
 
 const onContentScroll = throttle(event => {
   store.updateScrollHeight(event)
-}, 60)
+}, 100)
 
 function barItemClick(icon) {
   store.setCurrentBar(icon.comp)
@@ -248,12 +248,12 @@ function next() {
 }
 
 .slide-in-blurred-br {
-  animation: slide-in-blurred-br 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) .2s both;
+  animation: slide-in-blurred-br 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
 @keyframes slide-in-blurred-br {
   from {
-    transform: translate($bottom-bar-height, $bottom-bar-height);
+    transform: translate($bottom-bar-height, -$bottom-bar-height);
     opacity: $opacity-zero;
   }
 

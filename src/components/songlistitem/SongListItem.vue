@@ -1,5 +1,5 @@
 <template>
-  <view class="song-list-item" @click="playSong">
+  <view class="song-list-item" @click="playSong(store, props.song)">
     <LazyLoader :w="w + 'px'" :h="w + 'px'">
       <image class="song-image" :src="props.song.url + `?param=${w}y${w}`"></image>
     </LazyLoader>
@@ -14,8 +14,8 @@
 import { computed } from 'vue';
 import { useStore } from '../../store/main';
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
-import { getSongUrlById } from '@/apis/song'
-import Audio from '@/controlaudio'
+import { playSong } from '@/use/useSongSheetClick.js'
+
 const store = useStore()
 const props = defineProps({
   song: Object,
@@ -23,21 +23,7 @@ const props = defineProps({
 })
 
 const w = computed(() => store.songImageW)
-function playSong() {
-  getSongUrlById(props.song.id).then(res => {
-    const copy = Object.assign({}, props.song)
-    copy.playing = true
-    copy.musicUrl = res.data[0].url
-    if (!copy.musicUrl) {
-      return store.msg.open({ i: 'icon-suijibofang', msg: store.langObj.cantPlay })
-    }
-    copy.time = res.data[0].time
-    copy.start = 0
-    store.$patch({ currentSong: copy })
-    // store.setPlayerShow(true)
-    Audio.play(copy.musicUrl)
-  })
-}
+
 
 </script>
 <style lang="scss">

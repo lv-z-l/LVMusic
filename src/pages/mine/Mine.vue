@@ -1,12 +1,10 @@
 <template>
   <Login v-if="store.noLogin" />
-  <PageFrame v-else :frame-name="store.langObj.mine">
-
-  </PageFrame>
+  <MySpace v-else />
 </template>
 <script setup>
 import Login from '../login/Login.vue'
-import PageFrame from '@/components/pageframe/PageFrame'
+import MySpace from '../myspace/MySpace.vue';
 import { useStore } from '@/store/main'
 
 const store = useStore()

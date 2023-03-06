@@ -2,12 +2,12 @@
   <swiper v-if="props.sheet.length" :class="['swiper-sheet', props.marginR ? 'need-margin-r' : '']"
     :style="{ width: pxw }" vertical circular autoplay indicator-dots :interval="3000">
     <swiper-item class="swiper-item" v-for="st in props.sheet" :key="st.id">
-      <view class="song-sheet" @click="onSheetClick(st)">
+      <view class="song-sheet" @click="onSheetClick(store, st)">
         <LazyLoader :w="pxw" :h="pxw">
           <image class="image" :style="{ width: pxw, height: pxw }" :src="st.coverImgUrl + `?param=${w}y${w}`">
           </image>
         </LazyLoader>
-        <view class="play-count">
+        <view class="play-count" v-if="props.showPlayCount">
           <text class="icon-24gf-playCircle"></text>
           <text class="text">{{ Number.parseInt(st.playCount / 10000) + 'w' }}</text>
         </view>
@@ -15,12 +15,13 @@
       </view>
     </swiper-item>
   </swiper>
-  <view v-else :class="['song-sheet', props.marginR ? 'need-margin-r' : '']" @click="onSheetClick(props.sheet)">
+  <view v-else :style="{ width: pxw }" :class="['song-sheet', props.marginR ? 'need-margin-r' : '']"
+    @click="onSheetClick(store, props.sheet)">
     <LazyLoader :w="pxw" :h="pxw">
       <image class="image" :style="{ width: pxw, height: pxw }" :src="props.sheet.coverImgUrl + `?param=${w}y${w}`">
       </image>
     </LazyLoader>
-    <view class="play-count">
+    <view class="play-count" v-if="props.showPlayCount">
       <text class="icon-24gf-playCircle"></text>
       <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + 'w' }}</text>
     </view>
@@ -30,50 +31,58 @@
   
 <script setup>
 import { useStore } from '../../store/main';
-import { computed } from 'vue';
+import { computed, defineExpose } from 'vue';
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
-import { getSongListByCateId } from '@/apis/category'
+import { onSheetClick } from '@/use/useSongSheetClick.js'
 
 const store = useStore()
 const props = defineProps({
   sheet: Object | Array,
-  marginR: Boolean
+  marginR: Boolean,
+  halfW: Boolean,
+  showPlayCount: {
+    type: Boolean,
+    default: true
+  }
 })
 
-const w = computed(() => store.imageW)
+const w = computed(() => props.halfW ? Number.parseInt(store.imageW / 2) : store.imageW)
 
 const pxw = computed(() => w.value + 'px')
 
 const emit = defineEmits(['sheet-click'])
 
-function onSheetClick(sheet) {
-  getSongListByCateId({ id: sheet.id, limit: 20 }).then(res => {
-    const { description, coverImgUrl, name, tracks } = res.playlist
-    const lists = tracks.map(track => {
-      const { name, id, al, ar } = track
-      return {
-        name,
-        id,
-        url: al.picUrl,
-        author: ar.map(t => t.name).join('、')
-      }
-    })
-    store.setSongs({
-      sheetId: sheet.id,
-      coverImgUrl,
-      description,
-      name,
-      lists
-    })
-    store.setCurrentBar('songlist')
-  })
-}
+// function onSheetClick(sheet) {
+//   getSongListByCateId({ id: sheet.id, limit: 20 }).then(res => {
+//     const { description, coverImgUrl, name, tracks } = res.playlist
+//     const lists = tracks.map(track => {
+//       const { name, id, al, ar } = track
+//       return {
+//         name,
+//         id,
+//         url: al.picUrl,
+//         author: ar.map(t => t.name).join('、')
+//       }
+//     })
+//     store.setSongs({
+//       sheetId: sheet.id,
+//       coverImgUrl,
+//       description,
+//       name,
+//       lists
+//     })
+//     store.setCurrentBar('songlist')
+//   })
+// }
+
+defineExpose({
+  onSheetClick
+})
 
 </script>
   
 <style lang="scss">
 .song-sheet {
-  width: 47%;
   position: relative;
   text-align: center;
   display: flex;

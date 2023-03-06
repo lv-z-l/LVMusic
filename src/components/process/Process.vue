@@ -1,10 +1,8 @@
 <template>
-  <view class="process-bar" @touchstart.stop.passive="onTouchS" @touchmove.stop.passive="throttledM"
-    @touchend.stop.passive="onTouchE">
+  <view class="process-bar" @touchstart.passive="onTouchS" @touchmove.passive="throttledM" @touchend.passive="onTouchE">
     <view class="process" :style="{ width: processW }"></view>
   </view>
   <view v-if="showText" class="process-text">
-    <text>{{ formatShowText('min', props.min) }}</text>
     <text>{{ formatShowText('cur', selfVal) }}</text>
     <text>{{ formatShowText('', props.max) }}</text>
   </view>
@@ -67,7 +65,7 @@ function startMove(val) {
 }
 
 function moveByStep() {
-  store.getCurrentTime()
+  clientX === 0 && store.getCurrentTime()
   clearTimeout(timer)
   if (store.currentSong.playing) {
     timer = setTimeout(moveByStep, 1000)

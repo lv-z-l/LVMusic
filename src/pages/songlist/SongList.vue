@@ -43,6 +43,10 @@ store.regLoadMore('songlist', () => {
   if (!store.songs.more) {
     return
   }
+  const loadMore = store.songs.loadMore
+  if (loadMore) {
+    return loadMore()
+  }
   getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
     const { tracks } = res.playlist
     if (!tracks || tracks.length === 0) {

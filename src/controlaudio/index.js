@@ -1,5 +1,5 @@
 class MyAudio {
-  constructor() {
+  constructor(onEnded, onPrev, onNext) {
     this.instance = uni.getBackgroundAudioManager ? uni.getBackgroundAudioManager() : uni.createInnerAudioContext()
     this.instance.onError(err => {
       console.log(err)
@@ -26,6 +26,11 @@ class MyAudio {
   }
   getCurrentTime() {
     return this.instance.currentTime
+  }
+  regEvent(onEnded, onPrev, onNext) {
+    this.instance.onEnded(onEnded)
+    this.instance.onPrev && this.instance.onPrev(onPrev)
+    this.instance.onNext && this.instance.onNext(onNext)
   }
 }
 

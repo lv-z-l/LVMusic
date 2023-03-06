@@ -9,8 +9,7 @@
           <component :is="store.currentComp"></component>
         </keep-alive>
       </transition>
-      <view class="blank-block"></view>
-      <view class="blank-block"></view>
+
     </view>
     <transition name="playbar">
       <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">
@@ -111,11 +110,6 @@ function next() {
   &.show {
     transform: scale(1);
   }
-
-  .blank-block {
-    width: 100%;
-    height: $bottom-bar-height;
-  }
 }
 
 .bottom-bar {
@@ -146,7 +140,6 @@ function next() {
 
     .icontext {
       font-size: $bottom-bar-text-size;
-      color: $bottom-bar-text-color;
     }
 
     &.active {

@@ -5,6 +5,8 @@
     </view>
     <view class="page-frame-content">
       <slot></slot>
+      <view class="blank-block"></view>
+      <view class="blank-block"></view>
     </view>
   </view>
 </template>
@@ -25,6 +27,11 @@ const noScroll = ref(false)
 
 .page-frame {
   width: 100%;
+
+  .blank-block {
+    width: 100%;
+    height: $bottom-bar-height;
+  }
 
   .scroll-bar {
     width: 100%;

@@ -89,7 +89,7 @@ export const useStore = defineStore('main', {
       this.msg = msg
     },
     regLoadMore(key, fn) {
-      this.loadMoreMap[key] = debounce(fn, 100)
+      this.loadMoreMap[key] = debounce(fn, 600)
     },
     getCurrentTime() {
       const currentTime = Audio.getCurrentTime()

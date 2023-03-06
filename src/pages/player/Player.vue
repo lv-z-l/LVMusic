@@ -1,6 +1,5 @@
 <template>
-  <view :class="['player-box', store.playerShow ? 'show' : 'hide']"
-    :style="{ backgroundImage: 'url(' + store.currentSong.url + `?param=${store.clientW}y${store.clientH}` + ')' }">
+  <view :class="['player-box', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage: bkImage }">
     <view class="player">
       <view class="top-line" @click="topLineClick"></view>
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
@@ -44,30 +43,37 @@
 </template>
   
 <script setup>
-// import analyze from 'rgbaster'
-// import { analyzeBg } from '@/utils'
+
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
-import { ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import Audio from '@/controlaudio'
+import { playSong } from '@/use/useSongSheetClick.js'
 
 const store = useStore()
 
+const nextOrlast = (last) => {
+  const song = store.songs.lists.find(song => song.id === store.currentSong.id)
+  const index = store.songs.lists.indexOf(song)
+  const l = store.songs.lists.length
+  if (last) {
+    playSong(store, store.songs.lists[index > 0 ? index - 1 : l - 1])
+  } else {
+    playSong(store, store.songs.lists[index < l - 1 ? index + 1 : 0])
+  }
+}
+
+onMounted(() => {
+  Audio.regEvent(nextOrlast, nextOrlast.bind(null, true), nextOrlast)
+})
+
+const bkImage = computed(() => {
+  return store.currentSong.url ? 'url(' + store.currentSong.url + `?param=${store.clientW}y${store.clientH}` + ')' : 'linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))'
+})
+
 const { minute, second } = store.langObj
 
-// const backgroundImage = ref('linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))')
 function onImageLoaded() {
-  // const newVal = store.currentSong.url
-  // if (Reflect.has(store.cacheSongImageBG, newVal)) {
-  //   return store.cacheSongImageBG[newVal]
-  // }
-  // analyzeBg(newVal).then(res => {
-  //   const bg = res
-  //   if (bg) {
-  //     store.putCacheSongImageBG(newVal, bg)
-  //     backgroundImage.value = bg
-  //   }
-  // })
   store.setPlayerShow(true)
 }
 

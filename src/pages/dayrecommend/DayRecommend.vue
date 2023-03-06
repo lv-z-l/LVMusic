@@ -90,11 +90,10 @@ function toDayRecomSongList() {
   align-items: center;
   background-color: $bg;
   border-radius: $border-radius;
-  justify-content: center;
+  justify-content: space-evenly;
   background-image: linear-gradient(45deg, $white-color, rgb(255, 154, 44), $bottom-bar-active-color);
 
   .text {
-    flex: 2 0 auto;
     text-align: center;
     color: $white-color;
     font-weight: bold;

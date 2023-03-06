@@ -15,5 +15,10 @@ export default {
   dayrecom: '每日推荐',
   recomDesc: '猜你所爱！',
   mounth: '月',
-  week: '周'
+  week: '周',
+  genderMan: '帅哥',
+  genderWoMan: '美女',
+  latest: '最近播放',
+  like: '我喜欢的',
+  likeList: '收藏歌单'
 }

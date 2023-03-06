@@ -25,10 +25,10 @@
         </view>
       </view>
       <view class="player-btns">
-        <text class="icon-next-fill roate"></text>
+        <text class="icon-next-fill roate" @click="nextOrlast(true)"></text>
         <text @click.stop="store.playOrPause"
           :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
-        <text class="icon-next-fill"></text>
+        <text class="icon-next-fill" @click="nextOrlast()"></text>
       </view>
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
         <text class="icon-shengyin03-mianxing"></text>

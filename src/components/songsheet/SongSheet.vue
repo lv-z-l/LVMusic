@@ -31,7 +31,7 @@
   
 <script setup>
 import { useStore } from '../../store/main';
-import { computed, defineExpose } from 'vue';
+import { computed } from 'vue';
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
 
@@ -51,33 +51,6 @@ const w = computed(() => props.halfW ? Number.parseInt(store.imageW / 2) : store
 const pxw = computed(() => w.value + 'px')
 
 const emit = defineEmits(['sheet-click'])
-
-// function onSheetClick(sheet) {
-//   getSongListByCateId({ id: sheet.id, limit: 20 }).then(res => {
-//     const { description, coverImgUrl, name, tracks } = res.playlist
-//     const lists = tracks.map(track => {
-//       const { name, id, al, ar } = track
-//       return {
-//         name,
-//         id,
-//         url: al.picUrl,
-//         author: ar.map(t => t.name).join('、')
-//       }
-//     })
-//     store.setSongs({
-//       sheetId: sheet.id,
-//       coverImgUrl,
-//       description,
-//       name,
-//       lists
-//     })
-//     store.setCurrentBar('songlist')
-//   })
-// }
-
-defineExpose({
-  onSheetClick
-})
 
 </script>
   

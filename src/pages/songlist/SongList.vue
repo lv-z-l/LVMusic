@@ -129,6 +129,8 @@ store.regLoadMore('songlist', () => {
 
   .list {
     padding: $global-padding;
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 </style>

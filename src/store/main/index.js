@@ -89,7 +89,7 @@ export const useStore = defineStore('main', {
       this.msg = msg
     },
     regLoadMore(key, fn) {
-      this.loadMoreMap[key] = debounce(fn, 600)
+      this.loadMoreMap[key] = debounce(fn, 200)
     },
     getCurrentTime() {
       const currentTime = Audio.getCurrentTime()
@@ -115,7 +115,7 @@ export const useStore = defineStore('main', {
       this.clientW = w
       this.songListImgH = PLAY_LIST_IMAGE_H > 600 ? 600 : PLAY_LIST_IMAGE_H
       this.songImageW = SONG_IMAGE_W_LITTLE
-      this.clientWNoPadding = C_W_NO_PADDING
+      this.clientWNoPadding = C_W_NO_PADDING > 740 ? C_W_NO_PADDING / 2 : C_W_NO_PADDING
       this.songImageWBig = SONG_IMAGE_W_BIG > 320 ? 320 : SONG_IMAGE_W_BIG
       this.songImageWBigP = SONG_IMAGE_W_BIG_P > 400 ? 400 : SONG_IMAGE_W_BIG_P
       this.clientH = h
@@ -128,6 +128,9 @@ export const useStore = defineStore('main', {
       const blankBlock = el.querySelector('.blank-block')
       back && (this.backFixed = back.clientHeight / 2 < scrollTop)
       scrollBar && (this.fixed = scrollBar.clientHeight / 2 < scrollTop)
+      if (!blankBlock) {
+        return
+      }
       if ((scrollHeight - scrollTop - clientHeight) <= 3 * blankBlock.clientHeight) {
         console.log('load-more')
         this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()

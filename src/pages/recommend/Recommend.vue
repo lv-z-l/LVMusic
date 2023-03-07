@@ -2,15 +2,17 @@
   <view class="recommend" v-if="!store.noLogin" v-loading="loading">
     <PageFrame :frame-name="store.langObj.recommend">
       <!-- swiper -->
-      <swiper class="swiper" :style="{ height: pxh }" circular autoplay indicator-dots :interval="3000">
-        <swiper-item class="swiper-item" v-for="s in swiperData" :key="s.encodeId">
-          <text class="text">{{ s.typeTitle }}</text>
-          <image class="img" :style="{ width: pxw, height: pxh }" :src="s.pic + `?param=${w}y${h}`"></image>
-        </swiper-item>
-      </swiper>
-      <view class="song-palylist">
-        <view class="title">{{ store.langObj.dayrecom }}</view>
-        <DayRecommend />
+      <view class="swiper-dayrecom-box">
+        <swiper class="swiper" :style="{ height: pxh }" circular autoplay indicator-dots :interval="3000">
+          <swiper-item class="swiper-item" v-for="s in swiperData" :key="s.encodeId">
+            <text class="text">{{ s.typeTitle }}</text>
+            <image class="img" :style="{ width: pxw, height: pxh }" :src="s.pic + `?param=${w}y${h}`"></image>
+          </swiper-item>
+        </swiper>
+        <view class="song-palylist">
+          <view class="title">{{ store.langObj.dayrecom }}</view>
+          <DayRecommend />
+        </view>
       </view>
       <!-- 歌曲、歌单 -->
       <view class="song-palylist" v-for="(block, index) in mainBlocks" :key="block.title">
@@ -178,6 +180,11 @@ watch(() => store.noLogin, (val) => {
 </script>
   
 <style lang="scss">
+.swiper-dayrecom-box {
+  display: flex;
+  flex-direction: column;
+}
+
 .swiper {
   width: 100%;
   padding: $global-padding;

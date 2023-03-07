@@ -15,8 +15,13 @@
     width: 50% !important;
   }
 
-  .swiper-sheet {
-    margin-right: 1rem !important;
+  .swiper-sheet,
+  .song-sheet {
+    margin-right: 0 !important;
+  }
+
+  .song-palylist .playlist-content {
+    justify-content: space-between;
   }
 
   .swiper-dayrecom-box {

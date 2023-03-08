@@ -4,7 +4,7 @@
       <!-- swiper -->
       <view class="swiper-dayrecom-box">
         <swiper class="swiper" :style="{ height: pxh }" circular autoplay indicator-dots :interval="3000">
-          <swiper-item class="swiper-item" v-for="s in swiperData" :key="s.encodeId">
+          <swiper-item class="swiper-item" v-for="s in store.swiperData" :key="s.encodeId">
             <text class="text">{{ s.typeTitle }}</text>
             <image class="img" :style="{ width: pxw, height: pxh }" :src="s.pic + `?param=${w}y${h}`"></image>
           </swiper-item>
@@ -15,7 +15,7 @@
         </view>
       </view>
       <!-- 歌曲、歌单 -->
-      <view class="song-palylist" v-for="(block, index) in mainBlocks" :key="block.title">
+      <view class="song-palylist" v-for="(block, index) in store.mainBlocks" :key="block.title">
         <view class="title">{{ block.title }}</view>
         <view class="song-content" v-if="index === 1">
           <view class="song-content-child" v-for="childRes in block.resources">
@@ -52,13 +52,13 @@ const store = useStore()
 
 const loading = ref(true)
 
-const swiperData = reactive([])
+const swiperData = []
 
 const playLists = []
 
 const songs = []
 
-const mainBlocks = reactive([])
+const mainBlocks = []
 
 const playListsOther = []
 
@@ -162,17 +162,27 @@ function resolveMianTitle(blkcs) {
 }
 
 function loadPageData() {
-  getHomePageData().then(res => {
-    if (res.data && res.data.blocks) {
-      const blocks = res.data.blocks
-      resolveSwiperData(blocks[0])
-      resolvePlayLists(blocks[1])
-      resolveSongs(blocks[2])
-      resolvePlayListsOther(blocks[3])
-      resolveMianTitle(res.data.blocks)
-      loading.value = false
-    }
-  })
+  if (store.mainBlocks.length === 0) {
+    getHomePageData().then(res => {
+      if (res.data && res.data.blocks) {
+        const blocks = res.data.blocks
+        resolveSwiperData(blocks[0])
+        resolvePlayLists(blocks[1])
+        resolveSongs(blocks[2])
+        resolvePlayListsOther(blocks[3])
+        resolveMianTitle(res.data.blocks)
+        store.$patch({
+          mainBlocks
+        })
+        store.$patch({
+          swiperData
+        })
+        loading.value = false
+      }
+    })
+  } else {
+    loading.value = false
+  }
 }
 
 watch(() => store.noLogin, (val) => {

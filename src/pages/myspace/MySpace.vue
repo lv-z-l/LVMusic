@@ -19,23 +19,22 @@
     <view class="like-playlists">
       <text class="title">{{ store.langObj.likeList }}</text>
       <view class="list">
-        <SongSheet v-for="list in playList" :sheet="list" margin-r half-w :show-play-count="false">
+        <SongSheet v-for="list in store.minePlayList" :sheet="list" margin-r half-w :show-play-count="false">
         </SongSheet>
       </view>
     </view>
   </view>
 </template>
 <script setup>
-import { reactive, onMounted, nextTick } from 'vue';
+import { onBeforeMount, nextTick } from 'vue';
 import { useStore } from '../../store/main'
 import SongSheet from '../../components/songsheet/SongSheet.vue';
 import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
 
-const playList = reactive([])
-
-onMounted(() => {
-  getUserPlaylist(store.userInfo.userId).then(res => {
+const playList = []
+onBeforeMount(() => {
+  store.minePlayList.length === 0 && getUserPlaylist(store.userInfo.userId).then(res => {
     const { playlist } = res
     const temp = playlist.map(play => {
       const { id, coverImgUrl, name, playCount, subscribed } = play
@@ -48,6 +47,9 @@ onMounted(() => {
       }
     })
     playList.splice(0, playList.length, ...temp)
+    store.$patch({
+      minePlayList: playList
+    })
   })
 })
 

@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { defineAsyncComponent } from 'vue'
 import Audio from '@/controlaudio'
 import { debounce, loadLang } from '@/utils'
 import { getLoginStatus } from '@/apis/login'
@@ -16,6 +15,9 @@ export const useStore = defineStore('main', {
     currentBar: 'recommend',
     currentCompKey: 'recommend',
     compQuene: [],
+    minePlayList: [],
+    swiperData: [],
+    mainBlocks: [],
     currentSong: {
       name: '泡沫',
       author: '邓紫棋',

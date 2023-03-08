@@ -33,7 +33,7 @@
   
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
-import { watch, reactive, computed, ref } from 'vue'
+import { watch, reactive, computed, ref, onBeforeMount } from 'vue'
 import NoLogin from '../../common/nologin/NoLogin.vue'
 import { useStore } from '../../store/main'
 import { getHomePageData } from '@/apis/recommend'
@@ -61,6 +61,10 @@ const songs = []
 const mainBlocks = reactive([])
 
 const playListsOther = []
+
+onBeforeMount(() => {
+  !store.noLogin && loadPageData()
+})
 
 /**
  * 处理滑动数据

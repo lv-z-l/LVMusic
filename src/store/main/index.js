@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { defineAsyncComponent } from 'vue'
-import Recommend from '../../pages/recommend/Recommend.vue'
 import Audio from '@/controlaudio'
 import { debounce, loadLang } from '@/utils'
 import { getLoginStatus } from '@/apis/login'
@@ -9,13 +8,7 @@ import config from '../../config'
 const langModules = loadLang()
 
 const bars = config.mainBottomBar.icons.map(icon => icon.comp)
-const compMap = {
-  recommend: Recommend,
-  mine: defineAsyncComponent(() => import(/* webpackChunkName: "mine" */'../../pages/mine/Mine.vue')),
-  songlist: defineAsyncComponent(() => import(/* webpackChunkName: "songlist" */'../../pages/songlist/SongList.vue')),
-  category: defineAsyncComponent(() => import(/* webpackChunkName: "category" */'../../pages/category/CateGory.vue')),
-  search: defineAsyncComponent(() => import(/* webpackChunkName: "search" */'../../pages/search/Search.vue'))
-}
+
 
 export const useStore = defineStore('main', {
   state: () => ({
@@ -58,12 +51,6 @@ export const useStore = defineStore('main', {
     langObj() {
       const key = Object.keys(langModules).find(key => key.includes(this.lang))
       return langModules[key].default
-    },
-    currentComp() {
-      if (this.compQuene[this.compQuene.length - 1] !== this.currentCompKey) {
-        this.compQuene.push(this.currentCompKey)
-      }
-      return compMap[this.currentCompKey]
     }
   },
   actions: {
@@ -149,6 +136,9 @@ export const useStore = defineStore('main', {
       this.backFixed = false
       this.fixed = false
       this.currentCompKey = curr
+      if (this.compQuene[this.compQuene.length - 1] !== this.currentCompKey) {
+        this.compQuene.push(this.currentCompKey)
+      }
       if (bars.includes(curr)) {
         this.currentBar = curr
       }

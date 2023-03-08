@@ -5,11 +5,20 @@
     </view>
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll.passive="onContentScroll">
       <transition name="fade" mode="out-in">
-        <keep-alive>
-          <component :is="store.currentComp"></component>
-        </keep-alive>
+        <Recommend v-if="store.currentCompKey === 'recommend'"></Recommend>
       </transition>
-
+      <transition name="fade" mode="out-in">
+        <Mine v-if="store.currentCompKey === 'mine'"></Mine>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <SongList v-if="store.currentCompKey === 'songlist'"></SongList>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <CateGory v-if="store.currentCompKey === 'category'"></CateGory>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <Search v-if="store.currentCompKey === 'search'"></Search>
+      </transition>
     </view>
     <transition name="playbar">
       <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">
@@ -44,6 +53,12 @@ import { throttle } from '@/utils/index'
 import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useStore } from '@/store/main/index'
 import Message from '../../components/message/Message.vue'
+
+import Recommend from '@/pages/recommend/Recommend.vue'
+import Mine from '@/pages/mine/Mine.vue'
+import SongList from '@/pages/songlist/SongList.vue'
+import CateGory from '@/pages/category/CateGory.vue'
+import Search from '@/pages/search/Search.vue'
 
 const content = ref()
 
@@ -81,10 +96,6 @@ function barItemClick(icon) {
 
 function onPlayerBarClick() {
   store.setPlayerShow(true)
-}
-
-function onLoad() {
-
 }
 
 function next() {

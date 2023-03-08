@@ -7,5 +7,7 @@ export default {
       { icon: 'icon-sousuo', text: 'search', comp: 'search' }
     ]
   },
-  proxyPrefix: '/wangyiyun/'
+  proxyPrefix: '/wangyiyun/',
+  serverUrl: 'http://172.16.20.81:4000',
+  mode: 'dev'
 }

@@ -96,9 +96,10 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx80482e00c3538c60",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "minified" : true
         },
         "requiredBackgroundModes" : [ "audio" ],
         "usingComponents" : true

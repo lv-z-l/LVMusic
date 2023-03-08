@@ -149,6 +149,9 @@ export const useStore = defineStore('main', {
       this.backFixed = false
       this.fixed = false
       this.currentCompKey = curr
+      if (this.compQuene[this.compQuene.length - 1] !== this.currentCompKey) {
+        this.compQuene.push(this.currentCompKey)
+      }
       if (bars.includes(curr)) {
         this.currentBar = curr
       }

@@ -1,5 +1,5 @@
 <template>
-  <view class="songlist" v-loading="loading">
+  <view class="songlist">
     <Back :title="store.songs.name"></Back>
     <PageFrame>
       <view class="song-info"
@@ -27,17 +27,15 @@ import SongListItem from '@/components/songlistitem/SongListItem.vue';
 import { useStore } from '../../store/main';
 
 import { getSongListByCateId } from '@/apis/category'
-import { onMounted, ref, onDeactivated, onActivated } from 'vue';
+import { onMounted, onDeactivated, onActivated } from 'vue';
 
 const store = useStore()
 
-const loading = ref(true)
+onDeactivated(() => store.loading = true)
 
-onDeactivated(() => loading.value = true)
+onActivated(() => setTimeout(() => store.loading = false, 1000))
 
-onActivated(() => setTimeout(() => loading.value = false, 1000))
-
-onMounted(() => setTimeout(() => loading.value = false, 1000))
+onMounted(() => setTimeout(() => store.loading = false, 1000))
 
 store.regLoadMore('songlist', () => {
   if (!store.songs.more) {

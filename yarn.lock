@@ -2725,6 +2725,11 @@ serve-static@1.15.0:
     parseurl "~1.3.3"
     send "0.18.0"
 
+set-cookie-parser@^2.4.8:
+  version "2.5.1"
+  resolved "https://registry.npmmirror.com/set-cookie-parser/-/set-cookie-parser-2.5.1.tgz#ddd3e9a566b0e8e0862aca974a6ac0e01349430b"
+  integrity sha512-1jeBGaKNGdEq4FgIrORu/N570dwoPYio8lSoYLWmX7sQ//0JY08Xh9o5pBcgmHQ/MbsYp/aZnOe1s1lIsbLprQ==
+
 setprototypeof@1.2.0:
   version "1.2.0"
   resolved "https://registry.npmmirror.com/setprototypeof/-/setprototypeof-1.2.0.tgz"
@@ -2948,11 +2953,6 @@ vue-i18n@^9.1.9:
     "@intlify/vue-devtools" "9.2.2"
     "@vue/devtools-api" "^6.2.1"
 
-vue-next-directive@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmmirror.com/vue-next-directive/-/vue-next-directive-1.0.1.tgz#ddd0d7c59f9614932abb7dee598721ae1145c0ec"
-  integrity sha512-QXEvhWWehUPmEBuMzDd0lniZgaFCFJ8SWACCjz+vsMj6X8hQtfR5fhewsbRrtKVwg8mhKlW9rArzEtKQoy/eCQ==
-
 vue-router@^4.1.6:
   version "4.1.6"
   resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.1.6.tgz"
@@ -2970,6 +2970,13 @@ vue@^3.2.45:
     "@vue/runtime-dom" "3.2.45"
     "@vue/server-renderer" "3.2.45"
     "@vue/shared" "3.2.45"
+
+weapp-cookie@^1.4.8:
+  version "1.4.8"
+  resolved "https://registry.npmmirror.com/weapp-cookie/-/weapp-cookie-1.4.8.tgz#e7339d1cd6e7e84bef4f8d769f5faf5e590478aa"
+  integrity sha512-YksOnCI4mM+MAlAf/5iL0aSzwfePHZTUS9NorL0RerAxJMOpzzrEZrMBF+wKS1usH/UQqkZTMSxjiWs0ZcAE9g==
+  dependencies:
+    set-cookie-parser "^2.4.8"
 
 which@^2.0.1:
   version "2.0.2"

@@ -15,6 +15,7 @@ export const useStore = defineStore('main', {
     currentBar: 'recommend',
     currentCompKey: 'recommend',
     compQuene: [],
+    loading: false,
     minePlayList: [],
     swiperData: [],
     mainBlocks: [],

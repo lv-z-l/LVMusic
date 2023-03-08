@@ -15,6 +15,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-Loading:before {
+  content: "\e6e8";
+}
+
+.icon-loading:before {
+  content: "\e688";
+}
+
 .icon-plus:before {
   content: "\e656";
 }

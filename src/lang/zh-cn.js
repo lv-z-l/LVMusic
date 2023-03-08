@@ -20,5 +20,6 @@ export default {
   genderWoMan: '美女',
   latest: '最近播放',
   like: '我喜欢的',
-  likeList: '收藏歌单'
+  likeList: '收藏歌单',
+  loading: '加载中...'
 }

@@ -43,6 +43,7 @@
     </transition>
     <Player />
     <Message ref="msg" />
+    <Loading />
   </view>
 </template>
 
@@ -53,6 +54,7 @@ import { throttle } from '@/utils/index'
 import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useStore } from '@/store/main/index'
 import Message from '../../components/message/Message.vue'
+import Loading from '../../common/loading/Loading.vue'
 
 import Recommend from '@/pages/recommend/Recommend.vue'
 import Mine from '@/pages/mine/Mine.vue'

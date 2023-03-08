@@ -5,38 +5,36 @@
         <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @click="tagClick(tag)"
           v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
-      <view class="song-sheets" v-loading="loading">
+      <view class="song-sheets">
         <SongSheet v-for="sheet in currentTagLists" :key="sheet.id" :sheet="sheet">
         </SongSheet>
       </view>
     </PageFrame>
-    <NoData v-show="!loading && currentTagLists.length === 0" />
+    <NoData v-show="!store.loading && currentTagLists.length === 0" />
   </view>
 </template>
   
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
 import { getCategoryTags, getCategoryPlayList, getHotOrNewCategoryPlayList } from '@/apis/category'
-import { onMounted, reactive, ref, defineAsyncComponent } from 'vue';
+import { reactive, onBeforeMount } from 'vue';
 import { useStore } from '../../store/main';
 import NoData from '@/common/nodata/NoData.vue'
+import SongSheet from '@/components/songsheet/SongSheet.vue';
 
 const store = useStore()
 
-const loading = ref(false)
-
 function changeLoading() {
-  loading.value = !loading.value
+  store.loading = !store.loading
 }
 
-const SongSheet = defineAsyncComponent(() => import(/* webpackChunkName: "songsheet" */'@/components/songsheet/SongSheet.vue'))
 const categoryTags = reactive([{ id: 'HOT', name: 'HOT' }, { id: 'NEW', name: 'NEW' }])
 
 const currentTagLists = reactive([])
 
 let current = reactive(categoryTags[0])
 
-onMounted(() => {
+onBeforeMount(() => {
   changeLoading()
   loadTagCategoryList(current.name)
   getCategoryTags().then(res => {

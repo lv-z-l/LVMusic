@@ -1,5 +1,5 @@
 <template>
-  <view class="recommend" v-if="!store.noLogin" v-loading="loading">
+  <view class="recommend" v-if="!store.noLogin">
     <PageFrame :frame-name="store.langObj.recommend">
       <!-- swiper -->
       <view class="swiper-dayrecom-box">
@@ -33,7 +33,7 @@
   
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
-import { watch, reactive, computed, ref, onBeforeMount } from 'vue'
+import { watch, computed, onBeforeMount } from 'vue'
 import NoLogin from '../../common/nologin/NoLogin.vue'
 import { useStore } from '../../store/main'
 import { getHomePageData } from '@/apis/recommend'
@@ -50,8 +50,6 @@ const pxh = computed(() => h.value + 'px')
 
 const store = useStore()
 
-const loading = ref(true)
-
 const swiperData = []
 
 const playLists = []
@@ -63,6 +61,7 @@ const mainBlocks = []
 const playListsOther = []
 
 onBeforeMount(() => {
+  store.loading = true
   !store.noLogin && loadPageData()
 })
 
@@ -177,11 +176,11 @@ function loadPageData() {
         store.$patch({
           swiperData
         })
-        loading.value = false
+        store.loading = false
       }
     })
   } else {
-    loading.value = false
+    store.loading = false
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <view class="login" v-loading="loading">
+  <view class="login">
     <image class="img" :src="url" v-if="url"></image>
     <image class="avatar" :src="avatarUrl" v-if="avatarUrl"></image>
     <text>{{ msg }}</text>
@@ -8,12 +8,13 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
 import { getLoginKey, getLoginBase64, checkLoginStatus } from '@/apis/login'
+import { useStore } from '../../store/main'
+
+const store = useStore()
 
 const url = ref('')
 const avatarUrl = ref('')
 const msg = ref('等待扫码')
-
-const loading = ref(true)
 
 let timer
 
@@ -25,7 +26,7 @@ onBeforeMount(async () => {
   }
   const base64Data = await getLoginBase64(key)
   url.value = base64Data.data.qrimg
-  loading.value = false
+  store.loading = false
   check(key)
 })
 
@@ -42,6 +43,7 @@ function check(key) {
       msg.value = status.message
       check(key)
     } else {
+      store.noLogin = false
       msg.value = status.message
     }
   }, 2000)

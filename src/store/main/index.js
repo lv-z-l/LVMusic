@@ -122,7 +122,6 @@ export const useStore = defineStore('main', {
         return
       }
       if ((scrollHeight - scrollTop - clientHeight) <= 3 * blankBlock.clientHeight) {
-        console.log('load-more')
         this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
       }
     },

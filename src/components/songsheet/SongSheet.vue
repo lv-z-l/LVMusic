@@ -3,10 +3,8 @@
     :style="{ width: pxw }" vertical circular autoplay indicator-dots :interval="3000">
     <swiper-item class="swiper-item" v-for="st in props.sheet" :key="st.id">
       <view class="song-sheet" @click="onSheetClick(store, st)">
-        <LazyLoader :w="pxw" :h="pxw">
-          <image class="image" :style="{ width: pxw, height: pxw }" :src="st.coverImgUrl + `?param=${w}y${w}`">
-          </image>
-        </LazyLoader>
+        <image class="image" lazy-load :style="{ width: pxw, height: pxw }" :src="st.coverImgUrl + `?param=${w}y${w}`">
+        </image>
         <view class="play-count" v-if="props.showPlayCount">
           <text class="icon-24gf-playCircle"></text>
           <text class="text">{{ Number.parseInt(st.playCount / 10000) + 'w' }}</text>
@@ -17,10 +15,9 @@
   </swiper>
   <view v-else :style="{ width: pxw }" :class="['song-sheet', props.marginR ? 'need-margin-r' : '']"
     @click="onSheetClick(store, props.sheet)">
-    <LazyLoader :w="pxw" :h="pxw">
-      <image class="image" :style="{ width: pxw, height: pxw }" :src="props.sheet.coverImgUrl + `?param=${w}y${w}`">
-      </image>
-    </LazyLoader>
+    <image class="image" lazy-load :style="{ width: pxw, height: pxw }"
+      :src="props.sheet.coverImgUrl + `?param=${w}y${w}`">
+    </image>
     <view class="play-count" v-if="props.showPlayCount">
       <text class="icon-24gf-playCircle"></text>
       <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + 'w' }}</text>
@@ -32,7 +29,6 @@
 <script setup>
 import { useStore } from '../../store/main';
 import { computed } from 'vue';
-import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
 
 const store = useStore()

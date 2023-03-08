@@ -1,8 +1,7 @@
 <template>
-  <view ref="content" class="content">
-    <view class="status_bar">
-      <!-- 这里是状态栏 -->
-    </view>
+  <view class="content">
+    <!-- <view class="status_bar">
+    </view> -->
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll.passive="onContentScroll">
       <transition name="fade" mode="out-in">
         <Recommend v-if="store.currentCompKey === 'recommend'"></Recommend>
@@ -62,8 +61,6 @@ import SongList from '@/pages/songlist/SongList.vue'
 import CateGory from '@/pages/category/CateGory.vue'
 import Search from '@/pages/search/Search.vue'
 
-const content = ref()
-
 const msg = ref()
 
 onBeforeMount(() => {
@@ -71,8 +68,8 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-  const w = content.value.$el.clientWidth
-  const h = content.value.$el.parentNode.parentNode.clientHeight
+  const windowInfo = uni.getWindowInfo()
+  const { windowWidth: w, windowHeight: h } = windowInfo
   // 5.33% 是 padding
   const PLAY_LIST_ITEM_W = Number.parseInt((w - (0.0533 * w * 3)) / 2)
   const C_W_NO_PADDING = Number.parseInt((w - (0.0533 * w * 2)))
@@ -106,14 +103,22 @@ function next() {
 </script>
 
 <style lang="scss">
-.status_bar {
-  height: var(--status-bar-height);
-  width: 100%;
+.content {
+  padding-top: var(--status-bar-height);
+  padding-bottom: 0;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
 }
 
+// .status_bar {
+//   height: var(--status-bar-height);
+//   width: 100%;
+// }
+
 .music-scroll {
-  height: 100vh;
   overflow: auto;
+  height: 100%;
   transition: $transition;
 
   &.hide {

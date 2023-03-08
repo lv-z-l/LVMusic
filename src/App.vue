@@ -5,7 +5,7 @@ export default {
   onShow: function () {
   },
   onHide: function () {
-  },
+  }
 }
 </script>
 

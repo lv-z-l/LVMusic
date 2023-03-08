@@ -1,8 +1,6 @@
 <template>
   <view class="song-list-item" @click="playSong(store, props.song)">
-    <LazyLoader :w="w + 'px'" :h="w + 'px'">
-      <image class="song-image" :src="props.song.url + `?param=${w}y${w}`"></image>
-    </LazyLoader>
+    <image class="song-image" lazy-load :src="props.song.url + `?param=${w}y${w}`"></image>
     <view class="name-author">
       <text class="name">{{ props.song.name }}</text>
       <text class="author">{{ props.song.author }}</text>
@@ -13,7 +11,6 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from '../../store/main';
-import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 import { playSong } from '@/use/useSongSheetClick.js'
 
 const store = useStore()

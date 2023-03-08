@@ -28,17 +28,6 @@ export function throttle(fn, time) {
   }
 }
 
-export function initLazyIntersectionObserver(fn) {
-  const observer = new IntersectionObserver(
-    entrys => entrys.forEach(entry => fn(entry)),
-    {
-      rootMargin: '0px',
-      threshold: 0,
-    }
-  );
-  return observer;
-}
-
 export function loadLang() {
   const langModules = import.meta.glob('../lang/*.js', { eager: true })
   return langModules

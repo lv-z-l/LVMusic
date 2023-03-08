@@ -113,6 +113,11 @@ function onVoiceMoveEnd(val) {
 .player-box {
   width: 100%;
   height: 100vh;
+  padding-top: var(--status-bar-height);
+  padding-bottom: 0;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
   position: absolute;
   top: 0;
   z-index: 2;

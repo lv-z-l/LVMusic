@@ -1,6 +1,6 @@
 class MyAudio {
-  constructor(onEnded, onPrev, onNext) {
-    this.instance = uni.getBackgroundAudioManager ? uni.getBackgroundAudioManager() : uni.createInnerAudioContext()
+  constructor() {
+    this.instance = uni.getBackgroundAudioManager()
     this.instance.onError(err => {
       console.log(err)
     })

@@ -19,7 +19,7 @@ import PageFrame from '@/components/pageframe/PageFrame'
 import { getCategoryTags, getCategoryPlayList, getHotOrNewCategoryPlayList } from '@/apis/category'
 import { onMounted, reactive, ref, defineAsyncComponent } from 'vue';
 import { useStore } from '../../store/main';
-import NoData from '@/common/nodata/NoData.vue'
+import NoData from '@/components/nodata/NoData.vue'
 
 const store = useStore()
 

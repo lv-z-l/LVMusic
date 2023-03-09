@@ -1,6 +1,6 @@
 <template>
   <view class="loading" v-show="store.loading">
-    <text class="icon-loading"></text>
+    <text class="iconfont icon-loading"></text>
     <text class="text">{{ store.langObj.loading }}</text>
   </view>
 </template>

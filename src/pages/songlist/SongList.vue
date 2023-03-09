@@ -6,8 +6,8 @@
         :style="{ width: store.clientW + 'px', height: store.songListImgH + 'px', backgroundImage: 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.songListImgH}` + ')' }">
         <view class="name">{{ store.songs.name }}</view>
         <view class="btns">
-          <view class="icon-play-fill btn">{{ store.langObj.play }}</view>
-          <view class="icon-suijibofang btn">{{ store.langObj.anyPlay }}</view>
+          <view class="iconfont icon-play-fill btn">{{ store.langObj.play }}</view>
+          <view class="iconfont icon-suijibofang btn">{{ store.langObj.anyPlay }}</view>
         </view>
         <view class="desc">
           {{ store.songs.description }}
@@ -78,7 +78,7 @@ store.regLoadMore('songlist', () => {
     justify-content: flex-end;
     flex-direction: column;
     align-items: center;
-    padding: $global-padding;
+    padding: 0 $global-padding;
     box-sizing: border-box;
     color: $white-color;
     font-size: $player-song-info-name-size;
@@ -126,7 +126,7 @@ store.regLoadMore('songlist', () => {
   }
 
   .list {
-    padding: $global-padding;
+    padding: 0 $global-padding;
     display: flex;
     flex-wrap: wrap;
   }

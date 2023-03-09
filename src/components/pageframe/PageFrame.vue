@@ -32,7 +32,7 @@ const props = defineProps(
   .scroll-bar {
     width: 100%;
     box-sizing: border-box;
-    padding: $global-padding;
+    padding: 0 $global-padding;
     transition: $transition;
     margin-top: $page-frame-scroll-margin-top;
     display: flex;

@@ -8,11 +8,11 @@
     </view>
     <view class="function">
       <view class="function-item" @click="getRecentSongList">
-        <text class="icon-yinlegedanyinfu"></text>
+        <text class="iconfont icon-yinlegedanyinfu ico"></text>
         <text class="text">{{ store.langObj.latest }}</text>
       </view>
       <view class="function-item" @click="getLikeSong">
-        <text class="icon-shoucang"></text>
+        <text class="iconfont icon-shoucang ico"></text>
         <text class="text">{{ store.langObj.like }}</text>
       </view>
     </view>
@@ -33,8 +33,9 @@ import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
 
 const playList = []
-onBeforeMount(() => {
-  store.minePlayList.length === 0 && getUserPlaylist(store.userInfo.userId).then(res => {
+
+const loadData = () => {
+  store.userInfo.userId && store.minePlayList.length === 0 && getUserPlaylist(store.userInfo.userId).then(res => {
     const { playlist } = res
     const temp = playlist.map(play => {
       const { id, coverImgUrl, name, playCount, subscribed } = play
@@ -51,7 +52,9 @@ onBeforeMount(() => {
       minePlayList: playList
     })
   })
-})
+}
+
+onBeforeMount(loadData)
 
 const store = useStore()
 
@@ -101,7 +104,7 @@ function getRecentSongList() {
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -158,7 +161,7 @@ function getRecentSongList() {
       align-items: center;
     }
 
-    [class^=icon-] {
+    .ico {
       font-size: $bottom-bar-icon-size;
       margin: $bottom-bar-icon-margin;
       color: $bottom-bar-active-color;

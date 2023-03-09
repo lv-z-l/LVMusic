@@ -21,5 +21,6 @@ export default {
   latest: '最近播放',
   like: '我喜欢的',
   likeList: '收藏歌单',
-  loading: '加载中...'
+  loading: '加载中...',
+  wait: '等待扫码'
 }

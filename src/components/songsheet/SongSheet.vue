@@ -6,7 +6,7 @@
         <image class="image" lazy-load :style="{ width: pxw, height: pxw }" :src="st.coverImgUrl + `?param=${w}y${w}`">
         </image>
         <view class="play-count" v-if="props.showPlayCount">
-          <text class="icon-24gf-playCircle"></text>
+          <text class="iconfont icon-24gf-playCircle ico"></text>
           <text class="text">{{ Number.parseInt(st.playCount / 10000) + 'w' }}</text>
         </view>
         <view class="name" :style="{ maxWidth: pxw }">{{ st.name }}</view>
@@ -19,7 +19,7 @@
       :src="props.sheet.coverImgUrl + `?param=${w}y${w}`">
     </image>
     <view class="play-count" v-if="props.showPlayCount">
-      <text class="icon-24gf-playCircle"></text>
+      <text class="iconfont icon-24gf-playCircle ico"></text>
       <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + 'w' }}</text>
     </view>
     <view class="name" :style="{ maxWidth: pxw }">{{ props.sheet.name }}</view>
@@ -75,7 +75,7 @@ const emit = defineEmits(['sheet-click'])
     font-size: $song-sheet-playcount-size;
     color: $white-color;
 
-    [class^=icon-] {
+    .ico {
       padding-right: calc($song-sheet-playcount-size / 2);
     }
 

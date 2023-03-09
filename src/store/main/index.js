@@ -58,9 +58,9 @@ export const useStore = defineStore('main', {
   },
   actions: {
     loginStatus() {
-      getLoginStatus().then(res => {
+      return getLoginStatus().then(res => {
         const { profile } = res.data
-        if (profile.userId) {
+        if (profile && profile.userId) {
           this.noLogin = false
           const { userId, nickname, userName, backgroundUrl, avatarUrl, gender } = profile
           const userInfo = {

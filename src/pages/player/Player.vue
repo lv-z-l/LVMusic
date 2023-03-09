@@ -14,7 +14,7 @@
           <text class="name">{{ store.currentSong.name }}</text>
           <text class="singer">{{ store.currentSong.author }}</text>
         </view>
-        <text class="icon-gengduo"></text>
+        <text class="iconfont icon-gengduo"></text>
       </view>
       <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
         <view class="songtime-bar">
@@ -25,18 +25,18 @@
         </view>
       </view>
       <view class="player-btns">
-        <text class="icon-next-fill roate" @click="nextOrlast(true)"></text>
+        <text class="iconfont icon-next-fill roate" @click="nextOrlast(true)"></text>
         <text @click.stop="store.playOrPause"
-          :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
-        <text class="icon-next-fill" @click="nextOrlast()"></text>
+          :class="store.currentSong.playing ? 'iconfont icon-pause-fill song-btn' : 'iconfont icon-play-fill song-btn'"></text>
+        <text class="iconfont icon-next-fill" @click="nextOrlast()"></text>
       </view>
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
-        <text class="icon-shengyin03-mianxing"></text>
+        <text class="iconfont icon-shengyin03-mianxing"></text>
         <view class="voice-bar">
           <Process :init="0.5" :step="0.04" :max="1" :min="0" @moves="store.setVoiceMoving(true)" @movee="onVoiceMoveEnd">
           </Process>
         </view>
-        <text class="icon-shengyin01-mianxing"></text>
+        <text class="iconfont icon-shengyin01-mianxing"></text>
       </view>
     </view>
   </view>
@@ -113,11 +113,6 @@ function onVoiceMoveEnd(val) {
 .player-box {
   width: 100%;
   height: 100vh;
-  padding-top: var(--status-bar-height);
-  padding-bottom: 0;
-  padding-bottom: constant(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom);
-  box-sizing: border-box;
   position: absolute;
   top: 0;
   z-index: 2;
@@ -142,6 +137,12 @@ function onVoiceMoveEnd(val) {
   display: flex;
   padding: $player-padding;
   backdrop-filter: blur(48px);
+  padding-top: var(--status-bar-height);
+  padding-bottom: 0;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: $global-padding;
+  padding-right: $global-padding;
   box-sizing: border-box;
   justify-content: flex-start;
   flex-direction: column;

@@ -1,6 +1,6 @@
 <template>
   <view :class="['back', store.backFixed ? 'fixed' : '']" @click="store.back">
-    <view class="icon-fenxiang"></view>
+    <view class="iconfont icon-fenxiang"></view>
     <text class="title" v-show="store.backFixed">{{ props.title }}</text>
   </view>
 </template>
@@ -17,7 +17,7 @@ const store = useStore()
 <style lang="scss">
 .back {
   width: 100%;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   height: $page-frame-scroll-margin-top;
   position: absolute;
   box-sizing: border-box;

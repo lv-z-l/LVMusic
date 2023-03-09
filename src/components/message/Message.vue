@@ -18,7 +18,7 @@ const message = ref('')
 const show = ref(false)
 
 
-function open({ i, msg }) {
+function open({ msg }) {
   message.value = msg
   show.value = true
   setTimeout(() => close(), 2000)

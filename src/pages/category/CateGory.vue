@@ -120,7 +120,7 @@ store.regLoadMore('category', () => {
   }
 
   .song-sheets {
-    padding: $global-padding;
+    padding: 0 $global-padding;
     display: flex;
     align-items: center;
     flex-wrap: wrap;

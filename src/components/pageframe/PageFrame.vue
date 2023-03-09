@@ -19,12 +19,8 @@ const store = useStore()
 const props = defineProps(
   { frameName: String }
 )
-
-const noScroll = ref(false)
 </script>
 <style lang="scss">
-@keyframes small-h {}
-
 .page-frame {
   width: 100%;
 

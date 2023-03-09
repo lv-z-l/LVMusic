@@ -147,7 +147,6 @@ function next() {
   backdrop-filter: $backdrop-filter;
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
-  ;
   align-items: center;
 
   .bar-item {

@@ -187,7 +187,7 @@ watch(() => store.noLogin, (val) => {
 
 .swiper {
   width: 100%;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   box-sizing: border-box;
   margin-top: $player-top-line-margin-top;
 
@@ -210,7 +210,7 @@ watch(() => store.noLogin, (val) => {
 
 .song-palylist {
   width: 100%;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   box-sizing: border-box;
   margin-top: $player-top-line-margin-top;
 

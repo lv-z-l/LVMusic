@@ -10,7 +10,7 @@
       </transition>
 
     </view>
-    <transition name="playbar">
+    <view class="bottom-fixed-bar">
       <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">
         <image class="song-image slide-in-blurred-br"
           :src="store.currentSong.url + `?param=${store.songImageW}y${store.songImageW}`"></image>
@@ -21,8 +21,6 @@
           <text @click.stop="next" class="icon-next-fill song-btn"></text>
         </view>
       </view>
-    </transition>
-    <transition name="bottombar">
       <view class="bottom-bar" v-show="!store.playerShow">
         <view :class="icon.comp === store.currentBar ? 'bar-item active' : 'bar-item'" @click="barItemClick(icon)"
           v-for="icon in iconList" :key="icon.icon">
@@ -30,7 +28,7 @@
           <text class="icontext">{{ store.langObj[icon.text] }}</text>
         </view>
       </view>
-    </transition>
+    </view>
     <Player />
     <Message ref="msg" />
   </view>
@@ -93,6 +91,7 @@ function next() {
 .content {
   padding-top: var(--status-bar-height);
   padding-bottom: 0;
+  height: 100vh;
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
   box-sizing: border-box;
@@ -117,20 +116,25 @@ function next() {
   }
 }
 
+.bottom-fixed-bar {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
 .bottom-bar {
   width: 100%;
   height: $bottom-bar-height;
-  position: fixed;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
-  box-sizing: border-box;
   border-top: 1rpx solid $bottom-bar-split-color;
   background-color: $bg;
   backdrop-filter: $backdrop-filter;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
   align-items: center;
-  bottom: 0;
 
   .bar-item {
     display: flex;
@@ -158,13 +162,11 @@ function next() {
 }
 
 .player-bar {
-  bottom: $bottom-bar-height;
-  position: fixed;
   width: 100%;
   height: $bottom-bar-height;
   background-color: $bg;
   backdrop-filter: $backdrop-filter;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
@@ -218,29 +220,6 @@ function next() {
     font-size: $play-song-btn-size;
     background-color: none;
   }
-}
-
-/*
-    进入和离开动画可以使用不同
-    持续时间和速度曲线。
-  */
-.playbar-enter-active,
-.playbar-leave-active,
-.bottombar-enter-active,
-.bottombar-leave-active {
-  transition: $transition;
-}
-
-.playbar-enter-from,
-.playbar-leave-to {
-  transform: translateY(-$bottom-bar-height);
-  opacity: $opacity-zero;
-}
-
-.bottombar-enter-from,
-.bottombar-leave-to {
-  transform: translateY($bottom-bar-height);
-  opacity: $opacity-zero;
 }
 
 .slide-in-blurred-br {

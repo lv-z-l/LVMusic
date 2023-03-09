@@ -26,7 +26,7 @@
   </view>
 </template>
 <script setup>
-import { reactive, onMounted, nextTick } from 'vue';
+import { reactive, onBeforeMount, nextTick } from 'vue';
 import { useStore } from '../../store/main'
 import SongSheet from '../../components/songsheet/SongSheet.vue';
 import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'
@@ -34,8 +34,8 @@ import { onSheetClick } from '@/use/useSongSheetClick.js'
 
 const playList = reactive([])
 
-onMounted(() => {
-  getUserPlaylist(store.userInfo.userId).then(res => {
+const loadData = () => {
+  store.userInfo.userId && getUserPlaylist(store.userInfo.userId).then(res => {
     const { playlist } = res
     const temp = playlist.map(play => {
       const { id, coverImgUrl, name, playCount, subscribed } = play
@@ -49,7 +49,9 @@ onMounted(() => {
     })
     playList.splice(0, playList.length, ...temp)
   })
-})
+}
+
+onBeforeMount(loadData)
 
 const store = useStore()
 
@@ -99,7 +101,7 @@ function getRecentSongList() {
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   display: flex;
   flex-direction: column;
   align-items: center;

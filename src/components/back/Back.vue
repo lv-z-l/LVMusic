@@ -17,7 +17,7 @@ const store = useStore()
 <style lang="scss">
 .back {
   width: 100%;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   height: $page-frame-scroll-margin-top;
   position: absolute;
   box-sizing: border-box;

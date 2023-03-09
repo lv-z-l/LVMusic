@@ -137,6 +137,12 @@ function onVoiceMoveEnd(val) {
   display: flex;
   padding: $player-padding;
   backdrop-filter: blur(48px);
+  padding-top: var(--status-bar-height);
+  padding-bottom: 0;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: $global-padding;
+  padding-right: $global-padding;
   box-sizing: border-box;
   justify-content: flex-start;
   flex-direction: column;

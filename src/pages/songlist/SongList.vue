@@ -80,7 +80,7 @@ store.regLoadMore('songlist', () => {
     justify-content: flex-end;
     flex-direction: column;
     align-items: center;
-    padding: $global-padding;
+    padding: 0 $global-padding;
     box-sizing: border-box;
     color: $white-color;
     font-size: $player-song-info-name-size;
@@ -128,7 +128,7 @@ store.regLoadMore('songlist', () => {
   }
 
   .list {
-    padding: $global-padding;
+    padding: 0 $global-padding;
     display: flex;
     flex-wrap: wrap;
   }

@@ -14,7 +14,7 @@ const store = useStore()
 
 const url = ref('')
 const avatarUrl = ref('')
-const msg = ref('等待扫码')
+const msg = ref(store.langObj.wait)
 
 const loading = ref(true)
 
@@ -45,7 +45,9 @@ function check(key) {
       msg.value = status.message
       check(key)
     } else {
-      store.noLogin = false
+      store.loginStatus().then(() => {
+        store.noLogin = false
+      })
       msg.value = status.message
     }
   }, 2000)

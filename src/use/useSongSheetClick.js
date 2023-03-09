@@ -32,12 +32,12 @@ export function playSong(store, song) {
     copy.playing = true
     copy.musicUrl = res.data[0].url
     if (!copy.musicUrl) {
-      return store.msg.open({ i: 'icon-suijibofang', msg: store.langObj.cantPlay })
+      return store.msg.open({ msg: store.langObj.cantPlay })
     }
     copy.time = res.data[0].time
     copy.start = 0
     store.$patch({ currentSong: copy })
     // store.setPlayerShow(true)
-    Audio.play(copy.musicUrl)
+    Audio.play(copy.musicUrl, copy.name, copy.author)
   })
 }

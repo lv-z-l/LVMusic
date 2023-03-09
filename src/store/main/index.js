@@ -68,9 +68,9 @@ export const useStore = defineStore('main', {
   },
   actions: {
     loginStatus() {
-      getLoginStatus().then(res => {
+      return getLoginStatus().then(res => {
         const { profile } = res.data
-        if (profile.userId) {
+        if (profile && profile.userId) {
           this.noLogin = false
           const { userId, nickname, userName, backgroundUrl, avatarUrl, gender } = profile
           const userInfo = {
@@ -132,7 +132,6 @@ export const useStore = defineStore('main', {
         return
       }
       if ((scrollHeight - scrollTop - clientHeight) <= 3 * blankBlock.clientHeight) {
-        console.log('load-more')
         this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
       }
     },

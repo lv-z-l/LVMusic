@@ -34,7 +34,7 @@
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
 import { watch, computed, onBeforeMount } from 'vue'
-import NoLogin from '../../common/nologin/NoLogin.vue'
+import NoLogin from '../../components/nologin/NoLogin.vue'
 import { useStore } from '../../store/main'
 import { getHomePageData } from '@/apis/recommend'
 import SongSheet from '../../components/songsheet/SongSheet.vue'

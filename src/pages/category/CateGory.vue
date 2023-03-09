@@ -19,7 +19,7 @@ import PageFrame from '@/components/pageframe/PageFrame'
 import { getCategoryTags, getCategoryPlayList, getHotOrNewCategoryPlayList } from '@/apis/category'
 import { reactive, onBeforeMount } from 'vue';
 import { useStore } from '../../store/main';
-import NoData from '@/common/nodata/NoData.vue'
+import NoData from '@/components/nodata/NoData.vue'
 import SongSheet from '@/components/songsheet/SongSheet.vue';
 
 const store = useStore()

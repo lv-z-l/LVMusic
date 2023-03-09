@@ -50,8 +50,8 @@ import Player from '@/pages/player/Player'
 import { throttle } from '@/utils/index'
 import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useStore } from '@/store/main/index'
-import Message from '../../components/message/Message.vue'
-import Loading from '../../common/loading/Loading.vue'
+import Message from '@/components/message/Message.vue'
+import Loading from '@/components/loading/Loading.vue'
 
 import Recommend from '@/pages/recommend/Recommend.vue'
 import Mine from '@/pages/mine/Mine.vue'
@@ -153,6 +153,7 @@ function next() {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 2rem;
 
     .iconfont {
       font-size: $bottom-bar-icon-size;

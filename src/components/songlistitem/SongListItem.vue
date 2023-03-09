@@ -5,7 +5,7 @@
       <text class="name">{{ props.song.name }}</text>
       <text class="author">{{ props.song.author }}</text>
     </view>
-    <view v-if="props.showIcon" class="iconfont icon-gengduo1 menu"></view>
+    <view v-if="props.showIcon" class="icon-shoucang menu"></view>
   </view>
 </template>
 <script setup>

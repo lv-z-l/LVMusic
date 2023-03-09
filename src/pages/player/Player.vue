@@ -46,13 +46,14 @@
 
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, nextTick } from 'vue'
 import Audio from '@/controlaudio'
 import { playSong } from '@/use/useSongSheetClick.js'
 
 const store = useStore()
 
 const nextOrlast = (last) => {
+  if (!store.songs.lists) return
   const song = store.songs.lists.find(song => song.id === store.currentSong.id)
   const index = store.songs.lists.indexOf(song)
   const l = store.songs.lists.length
@@ -74,7 +75,7 @@ const bkImage = computed(() => {
 const { minute, second } = store.langObj
 
 function onImageLoaded() {
-  store.setPlayerShow(true)
+  nextTick(() => store.setPlayerShow(true))
 }
 
 function topLineClick() {

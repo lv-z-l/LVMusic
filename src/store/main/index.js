@@ -19,6 +19,7 @@ export const useStore = defineStore('main', {
     minePlayList: [],
     swiperData: [],
     mainBlocks: [],
+    hotTexts: [],
     currentSong: {
       name: '泡沫',
       author: '邓紫棋',

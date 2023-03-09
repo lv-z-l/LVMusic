@@ -9,5 +9,5 @@ export default {
   },
   proxyPrefix: '/wangyiyun/',
   serverUrl: 'http://192.168.1.100:4000',
-  mode: 'pro'
+  mode: 'dev'
 }

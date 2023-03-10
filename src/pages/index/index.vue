@@ -20,18 +20,18 @@
       </transition>
     </view>
     <view class="bottom-fixed-bar">
-      <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">
+      <view v-show="!store.playerShow" class="player-bar" @tap="onPlayerBarClick">
         <image class="song-image slide-in-blurred-br"
           :src="store.currentSong.url + `?param=${store.songImageW}y${store.songImageW}`"></image>
         <text class="song-name">{{ store.currentSong.name }}</text>
         <view class="song-btns">
-          <text @click.stop="store.playOrPause"
+          <text @tap.stop="store.playOrPause"
             :class="store.currentSong.playing ? 'iconfont icon-pause-fill song-btn' : 'iconfont icon-play-fill song-btn'"></text>
-          <text @click.stop="next" class="iconfont icon-next-fill song-btn"></text>
+          <text @tap.stop="next" class="iconfont icon-next-fill song-btn"></text>
         </view>
       </view>
       <view class="bottom-bar" v-show="!store.playerShow">
-        <view :class="icon.comp === store.currentBar ? 'bar-item active' : 'bar-item'" @click="barItemClick(icon)"
+        <view :class="icon.comp === store.currentBar ? 'bar-item active' : 'bar-item'" @tap="barItemClick(icon)"
           v-for="icon in iconList" :key="icon.icon">
           <text :class="icon.icon"></text>
           <text class="icontext">{{ store.langObj[icon.text] }}</text>
@@ -102,18 +102,8 @@ function next() {
 
 <style lang="scss">
 .content {
-  padding-top: var(--status-bar-height);
-  padding-bottom: 0;
   height: 100vh;
-  padding-bottom: constant(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom);
-  box-sizing: border-box;
 }
-
-// .status_bar {
-//   height: var(--status-bar-height);
-//   width: 100%;
-// }
 
 .music-scroll {
   overflow: auto;

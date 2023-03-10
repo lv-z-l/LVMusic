@@ -55,6 +55,8 @@ function check(key) {
 .login {
   width: 100%;
   height: calc(100% - 2 * $bottom-bar-height);
+  padding-top: var(--status-bar-height);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;

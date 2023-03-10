@@ -2,7 +2,7 @@
   <view class="category">
     <PageFrame :frame-name="store.langObj.category">
       <view :class="['category-tags', store.fixed ? 'fixed' : '']">
-        <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @click="tagClick(tag)"
+        <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @tap="tagClick(tag)"
           v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
       <view class="song-sheets">

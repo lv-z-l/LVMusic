@@ -1,8 +1,8 @@
 <template>
   <view class="no-login">
-    <video src="../../static/nologin.mp4" :autoplay="true" :loop="true" :controls="false" :show-center-play-btn="false"
-      :show-progress="false" :show-fullscreen-btn="false"></video>
-    <text class="to-login" @click="toLogin">{{ store.langObj.needLogin }}</text>
+    <video class="video" src="../../static/nologin.mp4" :autoplay="true" :loop="true" :controls="false"
+      :show-center-play-btn="false" :show-progress="false" :show-fullscreen-btn="false"></video>
+    <text class="to-login" @tap="toLogin">{{ store.langObj.needLogin }}</text>
   </view>
 </template>
 <script setup>
@@ -26,7 +26,7 @@ function toLogin() {
   justify-content: center;
   align-items: center;
 
-  video {
+  .video {
     width: 7rem;
     height: 7rem;
   }

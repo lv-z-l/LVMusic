@@ -1,7 +1,7 @@
 <template>
   <view class="no-data">
-    <video src="../../static/nodata.mp4" :autoplay="true" :loop="true" :controls="false" :show-center-play-btn="false"
-      :show-progress="false" :show-fullscreen-btn="false"></video>
+    <video class="video" src="../../static/nodata.mp4" :autoplay="true" :loop="true" :controls="false"
+      :show-center-play-btn="false" :show-progress="false" :show-fullscreen-btn="false"></video>
     <text>{{ store.langObj.nodata }}</text>
   </view>
 </template>
@@ -22,7 +22,7 @@ const store = useStore()
   justify-content: center;
   align-items: center;
 
-  video {
+  .video {
     width: 7rem;
     height: 7rem;
   }

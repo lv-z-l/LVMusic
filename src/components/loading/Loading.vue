@@ -22,7 +22,7 @@ const store = useStore()
   justify-content: center;
   align-items: center;
 
-  [class^=icon] {
+  .iconfont {
     font-size: 2rem;
     animation: roate-loading 1s ease infinite;
   }

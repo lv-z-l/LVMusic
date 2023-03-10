@@ -19,7 +19,9 @@
         <view class="title">{{ block.title }}</view>
         <view class="song-content" v-if="index === 1">
           <view class="song-content-child" v-for="childRes in block.resources">
-            <SongListItem v-for="song in childRes" :song="song"></SongListItem>
+            <view style="width: 100%;">
+              <SongListItem v-for="song in childRes" :song="song"></SongListItem>
+            </view>
           </view>
         </view>
         <view class="playlist-content" v-else>

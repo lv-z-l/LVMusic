@@ -1,5 +1,5 @@
 <template>
-  <view class="day-recommend" @click.stop="toDayRecomSongList" :style="{ height: store.imageW + 'px' }">
+  <view class="day-recommend" @tap.stop="toDayRecomSongList" :style="{ height: store.imageW + 'px' }">
     <text class="text">{{ day[0] }}</text>
     <text class="text">{{ day[1] }}</text>
     <svg t="1677915968543" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +53,8 @@ onBeforeMount(() => {
   if (d < 10) {
     day.push(...[0, d])
   } else {
-    d += ''
-    day.push(...d)
+    const strd = d + ''
+    day.push(...strd)
   }
 })
 function toDayRecomSongList() {

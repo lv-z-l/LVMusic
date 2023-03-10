@@ -1,5 +1,5 @@
 <template>
-  <view :class="['back', store.backFixed ? 'fixed' : '']" @click="store.back">
+  <view :class="['back', store.backFixed ? 'fixed' : '']" @tap="store.back">
     <view class="iconfont icon-fenxiang"></view>
     <text class="title" v-show="store.backFixed">{{ props.title }}</text>
   </view>
@@ -25,11 +25,12 @@ const store = useStore()
   align-items: center;
   transition: $transition;
   font-size: $page-frame-fixed-text-size;
-  top: 0;
+  top: calc(2 * var(--status-bar-height));
+  left: 0;
 
   $temp: calc($page-frame-scroll-margin-top / 2);
 
-  [class^=icon] {
+  .iconfont {
     width: $temp;
     height: $temp;
     border-radius: 50%;
@@ -54,7 +55,7 @@ const store = useStore()
     // backdrop-filter: $backdrop-filter;
     // box-shadow: $box-shadow;
 
-    [class^=icon] {
+    .iconfont {
       border-radius: 0;
       background-color: unset;
       padding: 0;

@@ -1,8 +1,9 @@
 <template>
-  <swiper v-if="props.sheet.length" :class="['swiper-sheet', props.marginR ? 'need-margin-r' : '']"
-    :style="{ width: pxw }" vertical circular autoplay indicator-dots :interval="3000">
+  <swiper v-if="props.sheet.length" :class="['swiper-sheet', props.marginR ? 'need-margin-r' : '']" :style="{
+    width: pxw, height: '100%'
+  }" vertical circular autoplay indicator-dots :interval="3000">
     <swiper-item class="swiper-item" v-for="st in props.sheet" :key="st.id">
-      <view class="song-sheet" @click="onSheetClick(store, st)">
+      <view class="song-sheet" @tap="onSheetClick(store, st)">
         <image class="image" lazy-load :style="{ width: pxw, height: pxw }" :src="st.coverImgUrl + `?param=${w}y${w}`">
         </image>
         <view class="play-count" v-if="props.showPlayCount">
@@ -14,7 +15,7 @@
     </swiper-item>
   </swiper>
   <view v-else :style="{ width: pxw }" :class="['song-sheet', props.marginR ? 'need-margin-r' : '']"
-    @click="onSheetClick(store, props.sheet)">
+    @tap="onSheetClick(store, props.sheet)">
     <image class="image" lazy-load :style="{ width: pxw, height: pxw }"
       :src="props.sheet.coverImgUrl + `?param=${w}y${w}`">
     </image>
@@ -60,7 +61,7 @@ const emit = defineEmits(['sheet-click'])
   margin: $song-sheet-margin;
 
   &.need-margin-r {
-    margin-right: 5.33%;
+    margin-right: $song-sheet-margin-r;
   }
 
   .play-count {
@@ -99,7 +100,7 @@ const emit = defineEmits(['sheet-click'])
   height: auto;
 
   &.need-margin-r {
-    margin-right: 5.33%;
+    margin-right: $song-sheet-margin-r;
   }
 
   .song-sheet {

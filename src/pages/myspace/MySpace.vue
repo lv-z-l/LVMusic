@@ -1,17 +1,16 @@
 <template>
-  <view class="my-space"
-    :style="{ backgroundImage: 'url(' + store.userInfo.backgroundUrl + `?param=${store.clientW}y${store.clientH}` + ')' }">
+  <view class="my-space">
     <view class="avatar-box">
       <image class="avatar" :src="store.userInfo.avatarUrl"></image>
       <text class="nick-name">{{ store.userInfo.nickname }}</text>
       <text>{{ store.userInfo.gender === 1 ? store.langObj.genderMan : store.langObj.genderWoMan }}</text>
     </view>
     <view class="function">
-      <view class="function-item" @click="getRecentSongList">
+      <view class="function-item" @tap="getRecentSongList">
         <text class="iconfont icon-yinlegedanyinfu ico"></text>
         <text class="text">{{ store.langObj.latest }}</text>
       </view>
-      <view class="function-item" @click="getLikeSong">
+      <view class="function-item" @tap="getLikeSong">
         <text class="iconfont icon-shoucang ico"></text>
         <text class="text">{{ store.langObj.like }}</text>
       </view>
@@ -73,8 +72,8 @@ function getList(data) {
 }
 
 function getLikeSong() {
-  const likePlay = playList[0]
-  onSheetClick(store, likePlay)
+  const likePlay = store.minePlayList[0]
+  likePlay && onSheetClick(store, likePlay)
 }
 
 function getRecentSongList() {
@@ -102,9 +101,9 @@ function getRecentSongList() {
 <style lang="scss">
 .my-space {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   box-sizing: border-box;
-  padding: 0 $global-padding;
+  padding: var(--status-bar-height) $global-padding 0 $global-padding;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -168,7 +167,7 @@ function getRecentSongList() {
     }
 
     .text {
-      font-size: calc($bottom-bar-text-size / 2);
+      font-size: calc($bottom-bar-text-size * 0.8);
     }
   }
 

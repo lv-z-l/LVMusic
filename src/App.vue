@@ -11,8 +11,8 @@ export default {
 
 <style>
 @import url('./style/iconfont.css');
-@import url('./style/compact.scss');
 
+page,
 uni-page-wrapper {
   overflow: hidden;
 }

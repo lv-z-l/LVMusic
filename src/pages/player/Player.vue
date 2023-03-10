@@ -1,7 +1,7 @@
 <template>
   <view :class="['player-box', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage: bkImage }">
     <view class="player">
-      <view class="top-line" @click="topLineClick"></view>
+      <view class="top-line" @tap="topLineClick"></view>
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
         <image ref="bg" @load="onImageLoaded"
           :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
@@ -25,10 +25,10 @@
         </view>
       </view>
       <view class="player-btns">
-        <text class="iconfont icon-next-fill roate" @click="nextOrlast(true)"></text>
-        <text @click.stop="store.playOrPause"
+        <text class="iconfont icon-next-fill roate" @tap="nextOrlast(true)"></text>
+        <text @tap.stop="store.playOrPause"
           :class="store.currentSong.playing ? 'iconfont icon-pause-fill song-btn' : 'iconfont icon-play-fill song-btn'"></text>
-        <text class="iconfont icon-next-fill" @click="nextOrlast()"></text>
+        <text class="iconfont icon-next-fill" @tap="nextOrlast()"></text>
       </view>
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
         <text class="iconfont icon-shengyin03-mianxing"></text>
@@ -74,8 +74,12 @@ const bkImage = computed(() => {
 
 const { minute, second } = store.langObj
 
+let time = 0
 function onImageLoaded() {
-  nextTick(() => store.setPlayerShow(true))
+  nextTick(() => {
+    time > 0 && store.setPlayerShow(true);
+    time++
+  })
 }
 
 function topLineClick() {
@@ -153,8 +157,9 @@ function onVoiceMoveEnd(val) {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: calc($player-top-line-margin-top + $player-top-line-height) 0 0 0;
     position: relative;
+    align-items: center;
+    padding: calc($player-top-line-margin-top) 0;
 
     &::after {
       content: " ";
@@ -162,8 +167,6 @@ function onVoiceMoveEnd(val) {
       height: $player-top-line-height;
       border-radius: $border-radius;
       background-color: $bottom-bar-split-color;
-      position: absolute;
-      bottom: 0;
     }
   }
 
@@ -216,7 +219,7 @@ function onVoiceMoveEnd(val) {
     height: calc(1.2 * $player-voice-bar-icon-size);
     transition: $transition;
 
-    [class^=icon] {
+    .iconfont {
       font-size: $player-voice-bar-icon-size;
       color: $player-voice-icon-color;
       opacity: .8;
@@ -229,7 +232,7 @@ function onVoiceMoveEnd(val) {
 
     &:active,
     &.moving {
-      [class^=icon] {
+      .iconfont {
         color: $white-color;
       }
 
@@ -256,7 +259,7 @@ function onVoiceMoveEnd(val) {
       transform: rotate(180deg);
     }
 
-    [class^=icon] {
+    .iconfont {
       border-radius: 50%;
       $w-h: calc(1.4 * $play-song-btns-height);
       height: $w-h;
@@ -295,7 +298,7 @@ function onVoiceMoveEnd(val) {
       }
     }
 
-    [class^=icon] {
+    .iconfont {
       font-size: $player-song-info-icon-size;
       color: $white-color;
     }

@@ -1,7 +1,7 @@
 <template>
   <view class="songlist">
-    <Back :title="store.songs.name"></Back>
     <PageFrame>
+      <Back :title="store.songs.name"></Back>
       <view class="song-info"
         :style="{ width: store.clientW + 'px', height: store.songListImgH + 'px', backgroundImage: 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.songListImgH}` + ')' }">
         <view class="name">{{ store.songs.name }}</view>
@@ -15,7 +15,9 @@
         </view>
       </view>
       <view class="list">
-        <SongListItem v-for="song in store.songs.lists" show-icon :key="song.id" :song="song"></SongListItem>
+        <view style="width: 100%;">
+          <SongListItem v-for="song in store.songs.lists" show-icon :key="song.id" :song="song"></SongListItem>
+        </view>
       </view>
     </PageFrame>
   </view>
@@ -65,13 +67,8 @@ store.regLoadMore('songlist', () => {
 </script>
 <style lang="scss">
 .songlist {
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 2;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
+  bottom: var(--status-bar-height);
 
   .song-info {
     display: flex;

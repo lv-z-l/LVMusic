@@ -23,6 +23,11 @@ const props = defineProps(
 <style lang="scss">
 .page-frame {
   width: 100%;
+  padding-top: var(--status-bar-height);
+  padding-bottom: 0;
+  // padding-bottom: constant(safe-area-inset-bottom);
+  // padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
 
   .blank-block {
     width: 100%;

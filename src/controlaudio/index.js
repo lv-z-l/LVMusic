@@ -7,6 +7,9 @@ class MyAudio {
     this.instance.volume = 0.5
   }
   play(url, title, singer) {
+    if (!url) {
+      return this.instance.play()
+    }
     this.instance.title = title
     this.instance.singer = singer
     this.instance.src = url

@@ -8,6 +8,6 @@ export default {
     ]
   },
   proxyPrefix: '/wangyiyun/',
-  serverUrl: 'http://192.168.1.100:4000',
-  mode: 'dev'
+  serverUrl: 'http://172.16.20.81:4000',
+  mode: 'pro'
 }

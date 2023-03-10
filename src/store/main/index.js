@@ -4,6 +4,7 @@ import Recommend from '../../pages/recommend/Recommend.vue'
 import Audio from '@/controlaudio'
 import { debounce, loadLang } from '@/utils'
 import { getLoginStatus } from '@/apis/login'
+import { getLikeList } from '@/apis/mine'
 import config from '../../config'
 
 const langModules = loadLang()
@@ -24,20 +25,21 @@ export const useStore = defineStore('main', {
     currentCompKey: 'recommend',
     compQuene: [],
     currentSong: {
-      name: '泡沫',
-      author: '邓紫棋',
+      name: 'Fade',
+      author: 'AiPi',
       playing: false,
-      url: '',
-      musicUrl: '',
-      id: '',
+      musicUrl: 'http://m7.music.126.net/20230310112205/f4839435cceac5e59e620c62b117b0c3/ymusic/22d0/e126/67dd/15c2883ae8a187178250ef9b24a6449a.mp3',
+      url: 'http://p3.music.126.net/JUnSAoafluMhc6XE2fgdzA==/18189220858697765.jpg',
+      id: '34183461',
       start: 0,
-      time: 1000 * 60 * 3
+      time: 297875
     },
     loadMoreMap: {},
     lang: 'zh-cn',
     noLogin: true,
     songs: {},
     playList: [],
+    likeList: [],
     historyList: [],
     imageW: 140,
     clientW: 350,
@@ -67,12 +69,18 @@ export const useStore = defineStore('main', {
     }
   },
   actions: {
+    getLikeListIds(userId) {
+      getLikeList(userId).then(res => {
+        res.ids && this.likeList.splice(0, this.likeList.length, ...res.ids)
+      })
+    },
     loginStatus() {
       return getLoginStatus().then(res => {
         const { profile } = res.data
         if (profile && profile.userId) {
           this.noLogin = false
           const { userId, nickname, userName, backgroundUrl, avatarUrl, gender } = profile
+          this.getLikeListIds(userId)
           const userInfo = {
             userId,
             nickname,
@@ -83,6 +91,7 @@ export const useStore = defineStore('main', {
           }
           Object.assign(this.userInfo, userInfo)
         }
+        return profile
       })
     },
     regMessage(msg) {
@@ -99,7 +108,8 @@ export const useStore = defineStore('main', {
       if (this.currentSong.playing) { // 暂停
         Audio.pause()
       } else {
-        Audio.play()
+        const { musicUrl, name, author } = this.currentSong
+        Audio.play(musicUrl, name, author)
       }
       this.currentSong.playing = !this.currentSong.playing
     },

@@ -140,6 +140,7 @@ function next() {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 $global-padding;
 
     [class^=icon-] {
       font-size: $bottom-bar-icon-size;

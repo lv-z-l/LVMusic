@@ -32,3 +32,9 @@ export function likeSong(id) {
     url: '/like?id=' + id
   })
 }
+
+export function getLikeList(uid) {
+  return req({
+    url: '/likelist?uid=' + uid
+  })
+}

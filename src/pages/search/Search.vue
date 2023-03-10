@@ -106,7 +106,7 @@ function onConfirm() {
 
 .hot-search-words {
   .hot-text {
-    font-size: .5rem;
+    font-size: .6rem;
     padding: .4rem;
     color: $bottom-bar-text-color;
     background-color: $bg;
@@ -115,9 +115,9 @@ function onConfirm() {
     margin-bottom: .5rem;
 
     &::after {
-      content: "hot";
+      content: "🔥";
       color: $bottom-bar-active-color;
-      font-size: .3rem;
+      font-size: .4rem;
       position: relative;
       bottom: .3rem;
     }

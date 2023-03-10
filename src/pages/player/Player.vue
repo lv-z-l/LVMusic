@@ -14,7 +14,7 @@
           <text class="name">{{ store.currentSong.name }}</text>
           <text class="singer">{{ store.currentSong.author }}</text>
         </view>
-        <text class="icon-gengduo"></text>
+        <text class="icon-shoucang" @click="like"></text>
       </view>
       <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
         <view class="songtime-bar">
@@ -46,9 +46,10 @@
 
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, nextTick } from 'vue'
 import Audio from '@/controlaudio'
 import { playSong } from '@/use/useSongSheetClick.js'
+import { likeSong } from '@/apis/mine'
 
 const store = useStore()
 
@@ -75,7 +76,13 @@ const bkImage = computed(() => {
 const { minute, second } = store.langObj
 
 function onImageLoaded() {
-  nextTick(() => store.setPlayerShow(true))
+  nextTick(() => store.currentSong.playing && store.setPlayerShow(true))
+}
+
+function like() {
+  likeSong(store.currentSong.id).then(res => {
+    store.msg.open({ msg: store.langObj.likesuccess })
+  })
 }
 
 function topLineClick() {
@@ -153,7 +160,8 @@ function onVoiceMoveEnd(val) {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: calc($player-top-line-margin-top + $player-top-line-height) 0 0 0;
+    align-items: center;
+    padding: calc($player-top-line-margin-top) 0;
     position: relative;
 
     &::after {
@@ -162,8 +170,6 @@ function onVoiceMoveEnd(val) {
       height: $player-top-line-height;
       border-radius: $border-radius;
       background-color: $bottom-bar-split-color;
-      position: absolute;
-      bottom: 0;
     }
   }
 

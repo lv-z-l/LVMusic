@@ -6,8 +6,12 @@
     <view class="name-author">
       <text class="name">{{ props.song.name }}</text>
       <text class="author">{{ props.song.author }}</text>
+      <text class="recommend-res" v-if="props.song.recommendRes">{{
+        props.song.recommendRes
+      }}</text>
     </view>
-    <view v-if="props.showIcon" class="icon-shoucang menu"></view>
+    <view v-if="props.showIcon" :class="['icon-shoucang menu', store.likeList.includes(props.song.id) ? 'like' : '']"
+      @click="like(props.song.id)"></view>
   </view>
 </template>
 <script setup>
@@ -15,6 +19,7 @@ import { computed } from 'vue';
 import { useStore } from '../../store/main';
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 import { playSong } from '@/use/useSongSheetClick.js'
+import { likeSong } from '@/apis/mine'
 
 const store = useStore()
 const props = defineProps({
@@ -23,6 +28,12 @@ const props = defineProps({
 })
 
 const w = computed(() => store.songImageW)
+
+function like(id) {
+  likeSong(id).then(() => {
+    store.msg.open({ msg: store.langObj.likesuccess })
+  })
+}
 
 
 </script>
@@ -60,10 +71,19 @@ const w = computed(() => store.songImageW)
     .author {
       font-size: calc(0.6 * $play-song-name-size);
       color: $bottom-bar-text-color;
-      padding-top: calc(0.4 * $play-song-name-size);
+      // padding-top: calc(0.4 * $play-song-name-size);
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+    }
+
+    .recommend-res {
+      &::before {
+        content: "⭐️ ";
+      }
+
+      color: $bottom-bar-active-color;
+      font-size: .4rem;
     }
   }
 
@@ -72,6 +92,10 @@ const w = computed(() => store.songImageW)
     flex: 2 0 auto;
     text-align: right;
     font-size: calc(1.5 * $play-song-name-size);
+
+    &.like {
+      color: $bottom-bar-active-color;
+    }
   }
 }
 </style>

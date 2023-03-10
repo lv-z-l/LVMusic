@@ -53,8 +53,8 @@ onBeforeMount(() => {
   if (d < 10) {
     day.push(...[0, d])
   } else {
-    d += ''
-    day.push(...d)
+    const strd = d + ''
+    day.push(...strd)
   }
 })
 function toDayRecomSongList() {

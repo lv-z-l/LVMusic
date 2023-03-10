@@ -3,15 +3,17 @@
     <input class="iconfont icon-search-fill search-input" placeholder="关键字" v-model="keywords"
       @input="debouncedSearchProvide" @confirm="onConfirm" />
     <view class="hot-search-words" v-show="!keywords">
-      <text class="hot-text" @click="proClick(text)" v-for="text in store.hotTexts">{{ text }}</text>
+      <text class="hot-text" @tap="proClick(text)" v-for="text in store.hotTexts">{{ text }}</text>
     </view>
     <view class="provides" v-show="keywords && provideList.length > 0">
-      <text class="iconfont icon-search-fill pro-text" @click="proClick(pro.name + ' ' + pro.author)"
+      <text class="iconfont icon-search-fill pro-text" @tap="proClick(pro.name + ' ' + pro.author)"
         v-for="pro in provideList">{{
           `${pro.name}（${pro.author}）` }}</text>
     </view>
     <view class="results" v-show="keywords && results.length > 0">
-      <SongListItem :song="song" v-for="song in results" :key="song.id" />
+      <view style="width: 100%;">
+        <SongListItem :song="song" v-for="song in results" :key="song.id" />
+      </view>
     </view>
   </PageFrame>
 </template>
@@ -41,7 +43,7 @@ onBeforeMount(() => {
 
 function proClick(key) {
   keywords.value = key
-  this.onConfirm()
+  onConfirm()
 }
 
 const debouncedSearchProvide = debounce(searchProvide, 600)
@@ -108,7 +110,7 @@ function onConfirm() {
 
 .hot-search-words {
   .hot-text {
-    font-size: .5rem;
+    font-size: .8rem;
     padding: .4rem;
     color: $bottom-bar-text-color;
     background-color: $bg;
@@ -119,7 +121,7 @@ function onConfirm() {
     &::after {
       content: "hot";
       color: $bottom-bar-active-color;
-      font-size: .3rem;
+      font-size: .5rem;
       position: relative;
       bottom: .3rem;
     }

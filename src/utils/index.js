@@ -12,7 +12,6 @@ export function debounce(fn, time) {
   }
 }
 
-
 export function throttle(fn, time) {
   let flag = false
   let timer

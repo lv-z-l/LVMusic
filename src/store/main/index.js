@@ -15,7 +15,7 @@ export const useStore = defineStore('main', {
     userInfo: {},
     currentBar: 'recommend',
     currentCompKey: 'recommend',
-    compQuene: [],
+    compQuene: ['recommend'],
     loading: false,
     minePlayList: [],
     swiperData: [],
@@ -106,7 +106,7 @@ export const useStore = defineStore('main', {
     },
     back() {
       this.compQuene.pop()
-      this.currentCompKey = this.compQuene[this.compQuene.length - 1]
+      this.setCurrentBar(this.compQuene[this.compQuene.length - 1])
     },
     pushCompQuene(comp) {
       this.compQuene.push(comp)

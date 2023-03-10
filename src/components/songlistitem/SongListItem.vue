@@ -1,6 +1,9 @@
 <template>
   <view class="song-list-item" @tap="playSong(store, props.song)">
-    <image class="song-image" lazy-load :src="props.song.url + `?param=${w}y${w}`"></image>
+    <LazyLoader :w="wpx" :h="wpx" :id="props.song.id">
+      <image class="song-image" :style="{ width: wpx, height: wpx }" lazy-load :src="props.song.url + `?param=${w}y${w}`">
+      </image>
+    </LazyLoader>
     <view class="name-author">
       <text class="name">{{ props.song.name }}</text>
       <text class="author">{{ props.song.author }}</text>
@@ -17,6 +20,7 @@ import { computed } from 'vue';
 import { useStore } from '../../store/main';
 import { playSong } from '@/use/useSongSheetClick.js'
 import { likeSong } from '@/apis/mine'
+import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 
 const store = useStore()
 const props = defineProps({
@@ -25,6 +29,7 @@ const props = defineProps({
 })
 
 const w = computed(() => store.songImageW)
+const wpx = computed(() => store.songImageW + 'px')
 
 function like(id) {
   likeSong(id).then(() => {
@@ -45,8 +50,8 @@ function like(id) {
 
   .song-image {
     flex: 0 0 auto;
-    width: $play-song-image-width;
-    height: $play-song-image-height;
+    width: 100%;
+    height: 100%;
     margin-right: $play-song-name-margin;
     border-radius: $border-radius;
   }

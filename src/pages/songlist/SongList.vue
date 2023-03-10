@@ -29,15 +29,8 @@ import SongListItem from '@/components/songlistitem/SongListItem.vue';
 import { useStore } from '../../store/main';
 
 import { getSongListByCateId } from '@/apis/category'
-import { onMounted, onDeactivated, onActivated } from 'vue';
 
 const store = useStore()
-
-onDeactivated(() => store.loading = true)
-
-onActivated(() => setTimeout(() => store.loading = false, 1000))
-
-onMounted(() => setTimeout(() => store.loading = false, 1000))
 
 store.regLoadMore('songlist', () => {
   if (!store.songs.more) {

@@ -4,6 +4,8 @@ import Audio from '@/controlaudio'
 
 
 export function onSheetClick(store, sheet) {
+  store.loading = true
+  store.setCurrentBar('songlist')
   getSongListByCateId({ id: sheet.id, limit: 20 }).then(res => {
     const { description, coverImgUrl, name, tracks } = res.playlist
     const lists = tracks.map(track => {
@@ -22,7 +24,7 @@ export function onSheetClick(store, sheet) {
       name,
       lists
     })
-    store.setCurrentBar('songlist')
+    store.loading = false
   })
 }
 

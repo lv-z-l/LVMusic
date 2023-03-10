@@ -119,7 +119,7 @@ function onConfirm() {
     margin-bottom: .5rem;
 
     &::after {
-      content: "hot";
+      content: "🔥";
       color: $bottom-bar-active-color;
       font-size: .5rem;
       position: relative;

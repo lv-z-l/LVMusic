@@ -14,7 +14,7 @@
           <text class="name">{{ store.currentSong.name }}</text>
           <text class="singer">{{ store.currentSong.author }}</text>
         </view>
-        <text class="iconfont icon-gengduo"></text>
+        <text class="iconfont icon-shoucang" @tap="like"></text>
       </view>
       <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
         <view class="songtime-bar">
@@ -49,6 +49,7 @@ import { useStore } from '@/store/main/index'
 import { computed, onMounted, nextTick } from 'vue'
 import Audio from '@/controlaudio'
 import { playSong } from '@/use/useSongSheetClick.js'
+import { likeSong } from '@/apis/mine'
 
 const store = useStore()
 
@@ -74,11 +75,13 @@ const bkImage = computed(() => {
 
 const { minute, second } = store.langObj
 
-let time = 0
 function onImageLoaded() {
-  nextTick(() => {
-    time > 0 && store.setPlayerShow(true);
-    time++
+  nextTick(() => store.currentSong.playing && store.setPlayerShow(true))
+}
+
+function like() {
+  likeSong(store.currentSong.id).then(res => {
+    store.msg.open({ msg: store.langObj.likesuccess })
   })
 }
 

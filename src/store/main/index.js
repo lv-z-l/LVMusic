@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import Audio from '@/controlaudio'
 import { debounce, loadLang } from '@/utils'
 import { getLoginStatus } from '@/apis/login'
+import { getLikeList } from '@/apis/mine'
 import config from '../../config'
 
 const langModules = loadLang()
@@ -35,6 +36,7 @@ export const useStore = defineStore('main', {
     noLogin: true,
     songs: {},
     playList: [],
+    likeList: [],
     historyList: [],
     imageW: 140,
     clientW: 350,
@@ -58,12 +60,18 @@ export const useStore = defineStore('main', {
     }
   },
   actions: {
+    getLikeListIds(userId) {
+      getLikeList(userId).then(res => {
+        res.ids && this.likeList.splice(0, this.likeList.length, ...res.ids)
+      })
+    },
     loginStatus() {
       return getLoginStatus().then(res => {
         const { profile } = res.data
         if (profile && profile.userId) {
           this.noLogin = false
           const { userId, nickname, userName, backgroundUrl, avatarUrl, gender } = profile
+          this.getLikeListIds(userId)
           const userInfo = {
             userId,
             nickname,
@@ -74,6 +82,7 @@ export const useStore = defineStore('main', {
           }
           Object.assign(this.userInfo, userInfo)
         }
+        return profile
       })
     },
     regMessage(msg) {

@@ -119,12 +119,13 @@ function resolveSongs(data) {
   const { creatives } = data
   const genPlayList = (resource) => {
     const { resourceId, resourceExtInfo, uiElement } = resource
-    const { mainTitle, image } = uiElement
+    const { mainTitle, image, subTitle } = uiElement
     return {
       id: resourceId,
       name: mainTitle.title,
       url: image.imageUrl,
-      author: resourceExtInfo.artists.map(t => t.name).join('、')
+      author: resourceExtInfo.artists.map(t => t.name).join('、'),
+      recommendRes: subTitle && subTitle.title || ''
     }
   }
   creatives.forEach((creative, cindex) => {

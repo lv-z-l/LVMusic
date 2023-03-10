@@ -30,6 +30,16 @@ onBeforeMount(async () => {
   check(key)
 })
 
+function getUserinfo() {
+  store.loginStatus().then(profile => {
+    if (profile) {
+      store.noLogin = false
+    } else {
+      getUserinfo()
+    }
+  })
+}
+
 function check(key) {
   timer = setTimeout(async () => {
     const status = await checkLoginStatus(key)
@@ -43,9 +53,7 @@ function check(key) {
       msg.value = status.message
       check(key)
     } else {
-      store.loginStatus().then(() => {
-        store.noLogin = false
-      })
+      getUserinfo()
       msg.value = status.message
     }
   }, 2000)

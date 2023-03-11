@@ -98,9 +98,9 @@ store.regLoadMore('category', () => {
     background-color: $white-color;
 
     &.fixed {
-      background-color: $white-color;
-      // backdrop-filter: $backdrop-filter;
-      // box-shadow: $box-shadow;
+      background-color: $bg;
+      backdrop-filter: $backdrop-filter;
+      box-shadow: $box-shadow;
     }
 
     &::-webkit-scrollbar {

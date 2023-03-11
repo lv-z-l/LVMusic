@@ -271,9 +271,11 @@ function onVoiceMoveEnd(val) {
       text-align: center;
       font-size: calc(1.4 * $play-song-btn-size);
       color: $white-color;
+      transition: $transition;
 
-      &:active:hover {
-        animation: $player-btn-active-animation
+      &:active {
+        font-size: calc($play-song-btn-size / 2);
+        background-color: $play-song-btn-active-bg;
       }
     }
   }
@@ -309,18 +311,6 @@ function onVoiceMoveEnd(val) {
     .like {
       color: $bottom-bar-active-color;
     }
-  }
-}
-
-@keyframes larger {
-  0% {
-    font-size: calc(1.4 * $play-song-btn-size / 2);
-    background-color: $play-song-btn-active-bg;
-  }
-
-  100% {
-    font-size: calc(1.4 * $play-song-btn-size);
-    background-color: none;
   }
 }
 </style>

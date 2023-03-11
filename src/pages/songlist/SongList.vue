@@ -121,7 +121,7 @@ store.regLoadMore('songlist', () => {
         position: absolute;
         right: 0;
         bottom: 0;
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur($backdrop-filter);
         padding: 0 $song-sheet-playcount-size;
       }
     }

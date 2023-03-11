@@ -46,13 +46,12 @@ const store = useStore()
   &.fixed {
     position: sticky;
     z-index: 2;
-    background-color: $white-color;
+    background-color: $bg;
     border-bottom: 1rpx solid $bottom-bar-split-color;
     align-items: center;
     justify-content: center;
-
-    // backdrop-filter: $backdrop-filter;
-    // box-shadow: $box-shadow;
+    backdrop-filter: $backdrop-filter;
+    box-shadow: $box-shadow;
 
     [class^=icon] {
       border-radius: 0;

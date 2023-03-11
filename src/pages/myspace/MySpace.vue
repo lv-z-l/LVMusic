@@ -1,6 +1,5 @@
 <template>
-  <view class="my-space"
-    :style="{ backgroundImage: 'url(' + store.userInfo.backgroundUrl + `?param=${store.clientW}y${store.clientH}` + ')' }">
+  <view class="my-space">
     <view class="avatar-box">
       <image class="avatar" :src="store.userInfo.avatarUrl"></image>
       <text class="nick-name">{{ store.userInfo.nickname }}</text>

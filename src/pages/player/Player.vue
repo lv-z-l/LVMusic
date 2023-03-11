@@ -116,6 +116,10 @@ function onVoiceMoveEnd(val) {
   Audio.setVolume(val)
   store.setVoiceMoving(false)
 }
+
+defineExpose({
+  nextOrlast
+})
 </script>
   
 <style lang="scss">

@@ -27,7 +27,7 @@
         </view>
       </view>
     </view>
-    <Player />
+    <Player ref="player" />
     <Message ref="msg" />
   </view>
 </template>
@@ -41,6 +41,8 @@ import { useStore } from '@/store/main/index'
 import Message from '../../components/message/Message.vue'
 
 const msg = ref()
+
+const player = ref()
 
 onBeforeMount(() => {
   store.loginStatus()
@@ -76,12 +78,8 @@ function onPlayerBarClick() {
   store.setPlayerShow(true)
 }
 
-function onLoad() {
-
-}
-
 function next() {
-
+  player.value.nextOrlast()
 }
 </script>
 

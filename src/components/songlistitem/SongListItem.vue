@@ -31,7 +31,7 @@ const w = computed(() => store.songImageW)
 
 function like(id) {
   likeSong(id).then(() => {
-    store.msg.open({ msg: store.langObj.likesuccess })
+    store.msg.open({ msg: store.langObj.likesuccess, type: 'success' })
   })
 }
 
@@ -70,7 +70,7 @@ function like(id) {
 
     .author {
       font-size: calc(0.6 * $play-song-name-size);
-      color: $bottom-bar-text-color;
+      color: var(--bottom-bar-color);
       // padding-top: calc(0.4 * $play-song-name-size);
       overflow: hidden;
       white-space: nowrap;

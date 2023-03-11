@@ -40,9 +40,9 @@ const props = defineProps(
       height: $page-frame-scroll-margin-top;
       z-index: 2;
       position: sticky;
-      background-color: $bg;
+      background-color: var(--bg);
       margin-top: 0;
-      top: $scroll-bar-fixed-top;
+      top: 0;
       border-bottom: 1rpx solid $bottom-bar-split-color;
       align-items: center;
       justify-content: center;

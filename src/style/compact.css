@@ -70,4 +70,12 @@
 }
 
 
-@media (prefers-color-scheme: dark) {}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --global-bg: rgba(0, 0, 0, .9) !important;
+    --global-color: rgb(255, 255, 255) !important;
+    --bottom-bar-color: rgb(106, 106, 106) !important;
+    --bg: rgba(15, 15, 15, 0.6) !important;
+    --message-bg: rgba(15, 15, 15, 0.9) !important;
+  }
+}

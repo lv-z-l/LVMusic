@@ -95,7 +95,7 @@ store.regLoadMore('songlist', () => {
       .btn {
         height: calc(2 * $player-song-info-name-size);
         font-size: $player-song-info-name-size;
-        background-color: $bg;
+        background-color: var(--bg);
         border-radius: $border-radius;
         backdrop-filter: $backdrop-filter;
         width: 45%;

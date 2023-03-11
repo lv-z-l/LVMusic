@@ -15,6 +15,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-zhengque:before {
+  content: "\e6a1";
+}
+
+.icon-tishi:before {
+  content: "\e617";
+}
+
+
 .icon-Loading:before {
   content: "\e6e8";
 }

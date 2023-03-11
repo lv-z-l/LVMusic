@@ -82,7 +82,7 @@ function onImageLoaded() {
 
 function like() {
   likeSong(store.currentSong.id).then(res => {
-    store.msg.open({ msg: store.langObj.likesuccess })
+    store.msg.open({ msg: store.langObj.likesuccess, type: 'success' })
   })
 }
 
@@ -224,7 +224,7 @@ function onVoiceMoveEnd(val) {
 
     [class^=icon] {
       font-size: $player-voice-bar-icon-size;
-      color: $player-voice-icon-color;
+      color: $white-color;
       opacity: .8;
     }
 
@@ -298,7 +298,7 @@ function onVoiceMoveEnd(val) {
 
       .singer {
         font-size: $player-song-info-name-size;
-        color: $player-voice-icon-color;
+        color: $white-color;
         opacity: .8;
       }
     }

@@ -129,7 +129,7 @@ function next() {
   flex-wrap: nowrap;
   justify-content: space-around;
   border-top: 1rpx solid $bottom-bar-split-color;
-  background-color: $bg;
+  background-color: var(--bg);
   backdrop-filter: $backdrop-filter;
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
@@ -144,7 +144,7 @@ function next() {
     [class^=icon-] {
       font-size: $bottom-bar-icon-size;
       margin: $bottom-bar-icon-margin;
-      color: $bottom-bar-icon-color;
+      color: var(--bottom-bar-color);
     }
 
     .icontext {
@@ -164,7 +164,7 @@ function next() {
 .player-bar {
   width: 100%;
   height: $bottom-bar-height;
-  background-color: $bg;
+  background-color: var(--bg);
   backdrop-filter: $backdrop-filter;
   padding: 0 $global-padding;
   display: flex;

@@ -88,7 +88,7 @@ function toDayRecomSongList() {
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: $bg;
+  background-color: var(--bg);
   border-radius: $border-radius;
   justify-content: space-evenly;
   background-image: linear-gradient(45deg, $white-color, rgb(255, 154, 44), $bottom-bar-active-color);

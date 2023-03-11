@@ -1,7 +1,5 @@
 <template>
   <view class="content">
-    <!-- <view class="status_bar">
-    </view> -->
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll.passive="onContentScroll">
       <transition name="fade" mode="out-in">
         <keep-alive>
@@ -96,11 +94,6 @@ function next() {
   padding-bottom: env(safe-area-inset-bottom);
   box-sizing: border-box;
 }
-
-// .status_bar {
-//   height: var(--status-bar-height);
-//   width: 100%;
-// }
 
 .music-scroll {
   overflow: auto;

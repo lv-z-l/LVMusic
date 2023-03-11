@@ -95,7 +95,6 @@ store.regLoadMore('category', () => {
     align-items: center;
     z-index: 2;
     justify-content: flex-start;
-    background-color: $white-color;
 
     &.fixed {
       background-color: $bg;

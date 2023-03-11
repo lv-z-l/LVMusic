@@ -108,6 +108,12 @@ function next() {
   height: 100%;
   transition: $transition;
 
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+
   &.hide {
     transform: scale(.94);
   }
@@ -203,24 +209,14 @@ function next() {
       text-align: center;
       font-size: $play-song-btn-size;
       border-radius: 50%;
+      transition: $transition;
 
-      &:active:hover {
-        animation: $player-btn-active-animation
+      &:active {
+        font-size: calc($play-song-btn-size / 2);
+        background-color: $play-song-btn-active-bg;
       }
 
     }
-  }
-}
-
-@keyframes larger {
-  0% {
-    font-size: calc($play-song-btn-size / 2);
-    background-color: $play-song-btn-active-bg;
-  }
-
-  100% {
-    font-size: $play-song-btn-size;
-    background-color: none;
   }
 }
 
@@ -231,12 +227,12 @@ function next() {
 @keyframes slide-in-blurred-br {
   from {
     transform: translate($bottom-bar-height, -$bottom-bar-height);
-    opacity: $opacity-zero;
+    opacity: 0;
   }
 
   to {
     transform: translate(0, 0);
-    opacity: $opacity-one;
+    opacity: 1;
   }
 }
 </style>

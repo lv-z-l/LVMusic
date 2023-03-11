@@ -10,12 +10,10 @@ $bottom-bar-active-color: rgb(241, 18, 56);
 $bottom-bar-active-color-opcaty: rgb(241, 18, 56, .8);
 
 $white-color: rgb(255, 255, 255);
-$black-color: rgb(0, 0, 0);
 
 $bg: rgba(245, 245, 245, 0.6);
 $bg-d: rgba(0, 0, 0, 0.6);
-$box-shadow: 10px -10px 20px rgba(0, 0, 0, 0.2),
-  -10px 10px 20px rgba(255, 255, 255, 0.1);
+$box-shadow: 10px -10px 20px rgba(0, 0, 0, 0.2), -10px 10px 20px rgba(255, 255, 255, 0.1);
 $backdrop-filter: blur(12px);
 
 $global-padding: 5.33%;
@@ -32,9 +30,6 @@ $play-song-btn-active-bg: rgb(214, 214, 214, .5);
 $transition: all .4s cubic-bezier(.29, .95, .49, .97);
 
 $player-btn-active-animation: larger .4s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
-
-$opacity-zero: 0;
-$opacity-one: 1;
 
 $player-padding: 0 6.4%;
 $player-top-line-width: 72rpx;

@@ -1,7 +1,5 @@
 <template>
   <view class="content">
-    <!-- <view class="status_bar">
-    </view> -->
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll.passive="onContentScroll">
       <transition name="fade" mode="out-in">
         <Recommend v-if="store.currentCompKey === 'recommend'"></Recommend>

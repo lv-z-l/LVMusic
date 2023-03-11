@@ -14,7 +14,8 @@
           <text class="name">{{ store.currentSong.name }}</text>
           <text class="singer">{{ store.currentSong.author }}</text>
         </view>
-        <text class="icon-shoucang" @click="like"></text>
+        <text :class="['icon-shoucang', store.likeList.includes(store.currentSong.id) ? 'like' : '']"
+          @click="like"></text>
       </view>
       <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
         <view class="songtime-bar">
@@ -174,8 +175,7 @@ function onVoiceMoveEnd(val) {
   }
 
   .player-image-box {
-    margin-top: $player-image-margin-top;
-    margin-bottom: $player-song-info-margin-top;
+    margin: $player-image-margin-top 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -194,7 +194,7 @@ function onVoiceMoveEnd(val) {
   .player-songtime {
     width: calc(100% - 2 * $process-padding);
     transition: $transition;
-    margin-top: $player-song-time-margin-top;
+    margin-top: $player-margin-top;
 
     &:active,
     &.moving {
@@ -218,7 +218,7 @@ function onVoiceMoveEnd(val) {
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: $player-voice-margin-top;
+    margin-top: $player-margin-top;
     height: calc(1.2 * $player-voice-bar-icon-size);
     transition: $transition;
 
@@ -255,7 +255,7 @@ function onVoiceMoveEnd(val) {
     align-items: center;
     justify-content: space-between;
     width: $player-btns-width;
-    margin-top: $player-btns-margin-top;
+    margin-top: $player-margin-top;
     transition: $transition;
 
     .roate {
@@ -304,6 +304,10 @@ function onVoiceMoveEnd(val) {
     [class^=icon] {
       font-size: $player-song-info-icon-size;
       color: $white-color;
+    }
+
+    .like {
+      color: $bottom-bar-active-color;
     }
   }
 }

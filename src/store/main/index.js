@@ -23,7 +23,7 @@ export const useStore = defineStore('main', {
     userInfo: {},
     currentBar: 'recommend',
     currentCompKey: 'recommend',
-    compQuene: [],
+    compQuene: ['recommend'],
     currentSong: {
       name: 'Fade',
       author: 'AiPi',
@@ -127,7 +127,7 @@ export const useStore = defineStore('main', {
       this.songImageW = SONG_IMAGE_W_LITTLE
       this.clientWNoPadding = C_W_NO_PADDING > 740 ? C_W_NO_PADDING / 2 : C_W_NO_PADDING
       this.songImageWBig = SONG_IMAGE_W_BIG > 320 ? 320 : SONG_IMAGE_W_BIG
-      this.songImageWBigP = SONG_IMAGE_W_BIG_P > 400 ? 400 : SONG_IMAGE_W_BIG_P
+      this.songImageWBigP = SONG_IMAGE_W_BIG_P > 360 ? 360 : SONG_IMAGE_W_BIG_P
       this.clientH = h
     },
     updateScrollHeight(event) {

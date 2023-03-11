@@ -1,4 +1,7 @@
 /* music S*/
+// :root {
+
+// }
 $bottom-bar-height: 128rpx;
 $bottom-bar-icon-size: 48rpx;
 $bottom-bar-text-size: 24rpx;
@@ -12,8 +15,8 @@ $bottom-bar-active-color-opcaty: rgb(241, 18, 56, .8);
 $white-color: rgb(255, 255, 255);
 $black-color: rgb(0, 0, 0);
 
-$bg: rgba(245, 245, 245, 0.5);
-$bg-d: rgba(0, 0, 0, 0.5);
+$bg: rgba(245, 245, 245, 0.6);
+$bg-d: rgba(0, 0, 0, 0.6);
 $box-shadow: 10px -10px 20px rgba(0, 0, 0, 0.2),
   -10px 10px 20px rgba(255, 255, 255, 0.1);
 $backdrop-filter: blur(12px);
@@ -29,7 +32,7 @@ $play-song-btns-width: 148rpx;
 $play-song-btns-height: 76rpx;
 $play-song-btn-size: 64rpx;
 $play-song-btn-active-bg: rgb(214, 214, 214, .5);
-$transition: all .6s cubic-bezier(.29, .95, .49, .97);
+$transition: all .4s cubic-bezier(.29, .95, .49, .97);
 
 $player-btn-active-animation: larger .4s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
 
@@ -47,20 +50,17 @@ $player-voice-bar-margin: 0 24rpx;
 $player-voice-bar-icon-size: 38rpx;
 $player-voice-bar-width: 70%;
 $player-voice-icon-color: rgba(255, 255, 255);
-$player-voice-margin-top: 84rpx;
 
 $process-padding: 16rpx;
 $process-height: 14rpx;
 $process-text-margin-top: 24rpx;
 
-$player-song-time-margin-top: 56rpx;
+$player-margin-top: 54rpx;
 
 $player-btns-width: 67.5%;
-$player-btns-margin-top: 54rpx;
 
 $player-song-info-name-size: 40rpx;
 $player-song-info-icon-size: 56rpx;
-$player-song-info-margin-top: 90rpx;
 
 $page-frame-scroll-text-size: 64rpx;
 $page-frame-fixed-text-size: 32rpx;

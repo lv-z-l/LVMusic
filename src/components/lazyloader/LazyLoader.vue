@@ -33,7 +33,7 @@ export default {
     })
   },
   beforeUnmount() {
-    this.observer.disconnect()
+    this.observer && this.observer.disconnect()
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <PageFrame :frame-name="store.langObj.category">
       <view :class="['category-tags', store.fixed ? 'fixed' : '']">
         <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @tap="tagClick(tag)"
-          v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
+          v-for="tag in store.categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
       <view class="song-sheets">
         <SongSheet v-for="sheet in currentTagLists" :key="sheet.id" :sheet="sheet">
@@ -28,17 +28,15 @@ function changeLoading() {
   store.loading = !store.loading
 }
 
-const categoryTags = reactive([{ id: 'HOT', name: 'HOT' }, { id: 'NEW', name: 'NEW' }])
-
 const currentTagLists = reactive([])
 
-let current = reactive(categoryTags[0])
+let current = reactive(store.categoryTags[0])
 
 onBeforeMount(() => {
   changeLoading()
   loadTagCategoryList(current.name)
-  getCategoryTags().then(res => {
-    categoryTags.push(...res.tags)
+  store.categoryTags.length === 2 && getCategoryTags().then(res => {
+    store.categoryTags.push(...res.tags)
   })
 })
 

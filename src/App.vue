@@ -11,9 +11,9 @@ export default {
 
 <style>
 /*每个页面公共css */
-@import url(./style/iconfont.css);
-@import url('./style/compact.css');
 @import url('./style/root.css');
+@import url('./style/iconfont.css');
+@import url('./style/compact.css');
 
 page,
 uni-page-wrapper {
@@ -23,7 +23,7 @@ uni-page-wrapper {
 body,
 page,
 uni-page-body {
-  background-color: var(--global-bg);
+  background-color: var(--global-bg) !important;
   color: var(--global-color);
 }
 

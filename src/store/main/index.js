@@ -20,6 +20,7 @@ export const useStore = defineStore('main', {
     minePlayList: [],
     swiperData: [],
     mainBlocks: [],
+    categoryTags: [{ id: 'HOT', name: 'HOT' }, { id: 'NEW', name: 'NEW' }],
     hotTexts: [],
     currentSong: {
       name: 'Fade',

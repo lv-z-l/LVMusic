@@ -55,7 +55,7 @@ function tagClick(tag) {
 
 function loadHotOrNewCategoryList(id, offset = 0) {
   getHotOrNewCategoryPlayList({ order: id, limit: 20, offset }).then(res => {
-    current.more = res.more
+    current.more = res.more || true
     offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
     changeLoading()
   }).catch(() => {
@@ -68,7 +68,7 @@ function loadTagCategoryList(id, offset = 0) {
     loadHotOrNewCategoryList(id, offset)
   } else {
     getCategoryPlayList({ cat: id, limit: 20, offset }).then(res => {
-      current.more = res.more
+      current.more = res.more || true
       offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
       changeLoading()
     }).catch(() => {
@@ -81,6 +81,8 @@ store.regLoadMore('category', () => {
   if (current.more) {
     changeLoading()
     loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length - 1 : 0)
+  } else {
+    store.msg.open({ msg: store.langObj.nomore })
   }
 })
 </script>

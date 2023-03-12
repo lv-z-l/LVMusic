@@ -89,7 +89,7 @@ function onConfirm() {
 
   &::before {
     font-size: 1rem;
-    padding: 0 .8rem;
+    margin: 0 .8rem;
   }
 }
 

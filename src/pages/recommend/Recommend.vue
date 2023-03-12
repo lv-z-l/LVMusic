@@ -23,7 +23,9 @@
           </view>
         </view>
         <view class="playlist-content" v-else>
-          <SongSheet v-for="resource in block.resources" :sheet="resource" margin-r></SongSheet>
+          <SongSheet v-for="resource, index in block.resources" :key="resource.id + '' + index || 'swiper-sheet'"
+            :sheet="resource" margin-r>
+          </SongSheet>
         </view>
       </view>
     </PageFrame>
@@ -125,8 +127,10 @@ function resolveSongs(data) {
   }
   creatives.forEach((creative, cindex) => {
     const resources = creative.resources
+    songs[cindex] = []
+    songs[cindex].id = Date.now()
     resources.forEach(resource => {
-      (songs[cindex] ? songs[cindex] : (songs[cindex] = [])).push(genPlayList(resource))
+      songs[cindex].push(genPlayList(resource))
     })
   })
 }

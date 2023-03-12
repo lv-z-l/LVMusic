@@ -3,7 +3,7 @@
     <Back :title="store.songs.name"></Back>
     <PageFrame>
       <view class="song-info"
-        :style="{ width: store.clientW + 'px', height: store.songListImgH + 'px', backgroundImage: 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.songListImgH}` + ')' }">
+        :style="{ width: store.clientW + 'px', height: store.songListImgH + 'px', backgroundImage: !store.songs.coverImgUrl ? '' : 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.songListImgH}` + ')' }">
         <view class="name">{{ store.songs.name }}</view>
         <view class="btns">
           <view class="icon-play-fill btn">{{ store.langObj.play }}</view>
@@ -41,14 +41,14 @@ onMounted(() => setTimeout(() => loading.value = false, 1000))
 
 store.regLoadMore('songlist', () => {
   if (!store.songs.more) {
-    return
+    return store.msg.open({ msg: store.langObj.nomore })
   }
   const loadMore = store.songs.loadMore
   if (loadMore) {
     return loadMore()
   }
   getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
-    const { tracks } = res.playlist
+    const { tracks, trackCount } = res.playlist
     if (!tracks || tracks.length === 0) {
       return
     }
@@ -62,6 +62,7 @@ store.regLoadMore('songlist', () => {
       }
     })
     store.songs.lists.push(...lists)
+    store.songs.more = trackCount > store.songs.lists.length
   })
 })
 </script>

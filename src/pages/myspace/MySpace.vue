@@ -85,7 +85,7 @@ function getRecentSongList() {
       lists,
       more: true,
       loadMore: () => {
-        getRecentSonglist({ limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
+        getRecentSonglist({ limit: 20, offset: store.songs.lists.length }).then(res => {
           const lists = getList(res.data)
           store.songs.lists.push(...lists)
         })

@@ -76,7 +76,7 @@ function loadTagCategoryList(id, offset = 0) {
 store.regLoadMore('category', () => {
   if (current.more) {
     changeLoading()
-    loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length - 1 : 0)
+    loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length : 0)
   } else {
     store.msg.open({ msg: store.langObj.nomore })
   }

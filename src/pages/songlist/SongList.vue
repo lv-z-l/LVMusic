@@ -45,7 +45,7 @@ store.regLoadMore('songlist', () => {
       store.loading = false
     })
   }
-  getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
+  getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length }).then(res => {
     const { tracks, description, trackCount } = res.playlist
     if (!tracks || tracks.length === 0) {
       return

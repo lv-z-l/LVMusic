@@ -34,7 +34,7 @@ const store = useStore()
     width: $temp;
     height: $temp;
     border-radius: 50%;
-    background-color: $bg;
+    background-color: var(--bg);
     text-align: center;
     line-height: $temp;
   }
@@ -47,7 +47,7 @@ const store = useStore()
   &.fixed {
     position: sticky;
     z-index: 2;
-    background-color: $bg;
+    background-color: var(--bg);
     border-bottom: 1rpx solid $bottom-bar-split-color;
     align-items: center;
     justify-content: center;

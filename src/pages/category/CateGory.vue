@@ -89,7 +89,7 @@ store.regLoadMore('category', () => {
     overflow-x: auto;
     display: flex;
     position: sticky;
-    top: calc($page-frame-scroll-margin-top + $scroll-bar-fixed-top);
+    top: $page-frame-scroll-margin-top;
     flex-direction: row;
     padding: $category-padding;
     align-items: center;
@@ -97,7 +97,7 @@ store.regLoadMore('category', () => {
     justify-content: flex-start;
 
     &.fixed {
-      background-color: $bg;
+      background-color: var(--bg);
       backdrop-filter: $backdrop-filter;
       box-shadow: $box-shadow;
     }

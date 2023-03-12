@@ -86,7 +86,7 @@ function onConfirm() {
   align-items: center;
   width: calc(100% - 2 * $global-padding);
   height: 2rem;
-  color: $bottom-bar-text-color;
+  color: var(--bottom-bar-color);
   margin: $player-top-line-margin-top $global-padding;
   border: 1px solid $bottom-bar-split-color;
   border-radius: 2 * $border-radius;
@@ -112,8 +112,8 @@ function onConfirm() {
   .hot-text {
     font-size: .8rem;
     padding: .4rem;
-    color: $bottom-bar-text-color;
-    background-color: $bg;
+    color: var(--bottom-bar-color);
+    background-color: var(--bg);
     border-radius: .5rem;
     margin-right: .5rem;
     margin-bottom: .5rem;

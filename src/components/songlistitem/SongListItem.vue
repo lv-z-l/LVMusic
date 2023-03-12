@@ -11,7 +11,8 @@
         props.song.recommendRes
       }}</text>
     </view>
-    <view v-if="props.showIcon" :class="['icon-shoucang menu', store.likeList.includes(props.song.id) ? 'like' : '']"
+    <view v-if="props.showIcon"
+      :class="['iconfont icon-shoucang menu', store.likeList.includes(props.song.id) ? 'like' : '']"
       @tap="like(props.song.id)"></view>
   </view>
 </template>
@@ -33,7 +34,7 @@ const wpx = computed(() => store.songImageW + 'px')
 
 function like(id) {
   likeSong(id).then(() => {
-    store.msg.open({ msg: store.langObj.likesuccess })
+    store.msg.open({ msg: store.langObj.likesuccess, type: 'success' })
   })
 }
 
@@ -72,7 +73,7 @@ function like(id) {
 
     .author {
       font-size: calc(0.6 * $play-song-name-size);
-      color: $bottom-bar-text-color;
+      color: var(--bottom-bar-color);
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

@@ -115,7 +115,7 @@ function getRecentSongList() {
     justify-content: center;
     height: calc(100vh / 8);
     margin-top: calc(2 * $page-frame-scroll-margin-top);
-    background-color: $bg;
+    background-color: var(--bg);
     border-radius: $border-radius;
     width: 100%;
     position: relative;
@@ -140,7 +140,7 @@ function getRecentSongList() {
     justify-content: flex-start;
     min-height: calc(100vh / 4);
     margin-top: calc($page-frame-scroll-margin-top / 2);
-    background-color: $bg;
+    background-color: var(--bg);
     border-radius: $border-radius;
     padding: calc($page-frame-scroll-margin-top / 4);
     box-sizing: border-box;

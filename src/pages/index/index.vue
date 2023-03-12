@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll.passive="onContentScroll">
+    <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']">
       <transition name="fade" mode="out-in">
         <Recommend v-if="store.currentCompKey === 'recommend'"></Recommend>
       </transition>
@@ -45,7 +45,6 @@
 <script setup>
 import MainConfig from '@/config/index'
 import Player from '@/pages/player/Player'
-import { throttle } from '@/utils/index'
 import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useStore } from '@/store/main/index'
 import Message from '@/components/message/Message.vue'
@@ -71,7 +70,7 @@ onMounted(() => {
   const C_W_NO_PADDING = Number.parseInt((w - (0.0533 * w * 2)))
   const SONG_IMAGE_W_LITTLE = Number.parseInt(C_W_NO_PADDING * 0.143)
   const SONG_IMAGE_W_BIG = w * 0.64
-  const PLAY_LIST_IMAGE_H = h * 0.6
+  const PLAY_LIST_IMAGE_H = h * 0.48
   const SONG_IMAGE_W_BIG_P = w * 0.872
   store.setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h)
   store.regMessage(msg)
@@ -80,10 +79,6 @@ onMounted(() => {
 const iconList = reactive(MainConfig.mainBottomBar.icons)
 
 const store = useStore()
-
-const onContentScroll = throttle(event => {
-  store.updateScrollHeight(event)
-}, 100)
 
 function barItemClick(icon) {
   store.setCurrentBar(icon.comp)

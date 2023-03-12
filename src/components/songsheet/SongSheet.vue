@@ -2,7 +2,7 @@
   <swiper v-if="props.sheet.length" :class="['swiper-sheet', props.marginR ? 'need-margin-r' : '']" :style="{
     width: pxw, height: '100%'
   }" vertical circular autoplay indicator-dots :interval="3000">
-    <swiper-item class="swiper-item" v-for="st in props.sheet" :key="st.id">
+    <swiper-item class="swiper-item" v-for="st, index in props.sheet" :key="st.id + '' + index">
       <view class="song-sheet" @tap="onSheetClick(store, st)">
         <LazyLoader :w="pxw" :h="pxw" :id="st.id">
           <image class="image" lazy-load :style="{ width: pxw, height: pxw }" :src="st.coverImgUrl + `?param=${w}y${w}`">

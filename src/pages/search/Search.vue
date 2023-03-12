@@ -3,11 +3,11 @@
     <input class="iconfont icon-search-fill search-input" placeholder="关键字" v-model="keywords"
       @input="debouncedSearchProvide" @confirm="onConfirm" />
     <view class="hot-search-words" v-show="!keywords">
-      <text class="hot-text" @tap="proClick(text)" v-for="text in store.hotTexts">{{ text }}</text>
+      <text class="hot-text" @tap="proClick(text)" v-for="text in store.hotTexts" :key="text">{{ text }}</text>
     </view>
     <view class="provides" v-show="keywords && provideList.length > 0">
       <text class="iconfont icon-search-fill pro-text" @tap="proClick(pro.name + ' ' + pro.author)"
-        v-for="pro in provideList">{{
+        v-for="pro in provideList" :key="pro.name">{{
           `${pro.name}（${pro.author}）` }}</text>
     </view>
     <view class="results" v-show="keywords && results.length > 0">
@@ -93,7 +93,7 @@ function onConfirm() {
 
   &::before {
     font-size: 1rem;
-    padding: 0 .8rem;
+    margin: 0 .8rem;
   }
 }
 

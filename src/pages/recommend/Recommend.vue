@@ -18,14 +18,16 @@
       <view class="song-palylist" v-for="(block, index) in store.mainBlocks" :key="block.title">
         <view class="title">{{ block.title }}</view>
         <view class="song-content" v-if="index === 1">
-          <view class="song-content-child" v-for="childRes in block.resources">
+          <view class="song-content-child" v-for="childRes, index in block.resources" :key="childRes.id + '' + index">
             <view style="width: 100%;">
-              <SongListItem v-for="song in childRes" :song="song"></SongListItem>
+              <SongListItem v-for="song, index in childRes" :key="song.id + '' + index" :song="song"></SongListItem>
             </view>
           </view>
         </view>
         <view class="playlist-content" v-else>
-          <SongSheet v-for="resource in block.resources" :sheet="resource" margin-r></SongSheet>
+          <SongSheet v-for="resource, index in block.resources" :key="resource.id + '' + index || 'swiper-sheet'"
+            :sheet="resource" margin-r>
+          </SongSheet>
         </view>
       </view>
     </PageFrame>
@@ -63,8 +65,10 @@ const mainBlocks = []
 const playListsOther = []
 
 onBeforeMount(() => {
-  store.loading = true
-  !store.noLogin && loadPageData()
+  if (!store.noLogin) {
+    store.loading = true;
+    loadPageData()
+  }
 })
 
 /**
@@ -130,8 +134,10 @@ function resolveSongs(data) {
   }
   creatives.forEach((creative, cindex) => {
     const resources = creative.resources
+    songs[cindex] = []
+    songs[cindex].id = Date.now()
     resources.forEach(resource => {
-      (songs[cindex] ? songs[cindex] : (songs[cindex] = [])).push(genPlayList(resource))
+      songs[cindex].push(genPlayList(resource))
     })
   })
 }

@@ -1,7 +1,7 @@
 <template>
   <view class="category">
     <PageFrame :frame-name="store.langObj.category">
-      <view :class="['category-tags', store.fixed ? 'fixed' : '']">
+      <view class="category-tags">
         <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @tap="tagClick(tag)"
           v-for="tag in store.categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
@@ -33,11 +33,11 @@ const currentTagLists = reactive([])
 let current = reactive(store.categoryTags[0])
 
 onBeforeMount(() => {
-  changeLoading()
-  loadTagCategoryList(current.name)
-  store.categoryTags.length === 2 && getCategoryTags().then(res => {
-    store.categoryTags.push(...res.tags)
-  })
+  if (store.categoryTags.length === 2) {
+    getCategoryTags().then(res => {
+      store.categoryTags.push(...res.tags)
+    })
+  }
 })
 
 function tagClick(tag) {
@@ -51,7 +51,7 @@ function tagClick(tag) {
 
 function loadHotOrNewCategoryList(id, offset = 0) {
   getHotOrNewCategoryPlayList({ order: id, limit: 20, offset }).then(res => {
-    current.more = res.more
+    current.more = res.more || true
     offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
     changeLoading()
   }).catch(() => {
@@ -64,7 +64,7 @@ function loadTagCategoryList(id, offset = 0) {
     loadHotOrNewCategoryList(id, offset)
   } else {
     getCategoryPlayList({ cat: id, limit: 20, offset }).then(res => {
-      current.more = res.more
+      current.more = res.more || true
       offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
       changeLoading()
     }).catch(() => {
@@ -77,6 +77,8 @@ store.regLoadMore('category', () => {
   if (current.more) {
     changeLoading()
     loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length - 1 : 0)
+  } else {
+    store.msg.open({ msg: store.langObj.nomore })
   }
 })
 </script>
@@ -87,18 +89,13 @@ store.regLoadMore('category', () => {
     overflow-x: auto;
     display: flex;
     position: sticky;
-    top: $page-frame-scroll-margin-top;
+    top: calc(2 * var(--status-bar-height) + $page-frame-scroll-margin-top);
     flex-direction: row;
     padding: $category-padding;
+    backdrop-filter: $backdrop-filter;
     align-items: center;
     z-index: 2;
     justify-content: flex-start;
-
-    &.fixed {
-      background-color: var(--bg);
-      backdrop-filter: $backdrop-filter;
-      box-shadow: $box-shadow;
-    }
 
     &::-webkit-scrollbar {
       width: 0;

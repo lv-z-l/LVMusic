@@ -55,7 +55,9 @@ import { likeSong } from '@/apis/mine'
 const store = useStore()
 
 const nextOrlast = (last) => {
-  if (!store.songs.lists) return
+  if (!store.songs.lists) {
+    return store.currentSong.playing = false
+  }
   const song = store.songs.lists.find(song => song.id === store.currentSong.id)
   const index = store.songs.lists.indexOf(song)
   const l = store.songs.lists.length

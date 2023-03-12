@@ -18,7 +18,8 @@
     <view class="like-playlists">
       <text class="title">{{ store.langObj.likeList }}</text>
       <view class="list">
-        <SongSheet v-for="list in store.minePlayList" :sheet="list" margin-r half-w :show-play-count="false">
+        <SongSheet v-for="list, index in store.minePlayList" :key="list.id + '' + index" :sheet="list" margin-r half-w
+          :show-play-count="false">
         </SongSheet>
       </view>
     </view>
@@ -77,25 +78,22 @@ function getLikeSong() {
 }
 
 function getRecentSongList() {
-  getRecentSonglist({ limit: 20, offset: 0 }).then(res => {
-    const lists = getList(res.data)
-
-    store.setSongs({
-      sheetId: 'recent',
-      coverImgUrl: lists[0].url,
-      description: '',
-      name: store.langObj.latest,
-      lists,
-      more: true,
-      loadMore: () => {
-        getRecentSonglist({ limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
-          const lists = getList(res.data)
-          store.songs.lists.push(...lists)
-        })
-      }
-    })
-    nextTick(() => store.setCurrentBar('songlist'))
+  store.setSongs({
+    sheetId: 'recent',
+    coverImgUrl: '',
+    description: store.langObj.recent,
+    name: store.langObj.latest,
+    lists: [],
+    more: true,
+    loadMore: () => {
+      return getRecentSonglist({ limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
+        const lists = getList(res.data)
+        !store.songs.coverImgUrl && (store.songs.coverImgUrl = lists[0].url)
+        store.songs.lists.push(...lists)
+      })
+    }
   })
+  nextTick(() => store.setCurrentBar('songlist'))
 }
 </script>
 <style lang="scss">

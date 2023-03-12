@@ -69,7 +69,7 @@ function toDayRecomSongList() {
     text-align: center;
     color: $white-color;
     font-weight: bold;
-    font-size: calc(3 * $page-frame-scroll-text-size);
+    font-size: calc(4 * $page-frame-scroll-text-size);
     animation: textLight .8s ease-in-out infinite alternate both;
   }
 

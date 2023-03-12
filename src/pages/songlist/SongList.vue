@@ -3,7 +3,7 @@
     <PageFrame>
       <Back :title="store.songs.name"></Back>
       <view class="song-info"
-        :style="{ width: store.clientW + 'px', height: store.songListImgH + 'px', backgroundImage: 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.songListImgH}` + ')' }">
+        :style="{ width: store.clientW + 'px', height: store.songListImgH + 'px', backgroundImage: !store.songs.coverImgUrl ? '' : 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.songListImgH}` + ')' }">
         <view class="name">{{ store.songs.name }}</view>
         <view class="btns">
           <view class="iconfont icon-play-fill btn">{{ store.langObj.play }}</view>
@@ -34,14 +34,19 @@ const store = useStore()
 
 store.regLoadMore('songlist', () => {
   if (!store.songs.more) {
-    return
+    return store.msg.open({ msg: store.langObj.nomore })
   }
+  store.loading = true
   const loadMore = store.songs.loadMore
   if (loadMore) {
-    return loadMore()
+    return loadMore().then(() => {
+      store.loading = false
+    }).catch(() => {
+      store.loading = false
+    })
   }
   getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
-    const { tracks } = res.playlist
+    const { tracks, description, trackCount } = res.playlist
     if (!tracks || tracks.length === 0) {
       return
     }
@@ -55,6 +60,11 @@ store.regLoadMore('songlist', () => {
       }
     })
     store.songs.lists.push(...lists)
+    store.songs.more = trackCount > store.songs.lists.length
+    !store.songs.description && (store.songs.description = description)
+    store.loading = false
+  }).catch(() => {
+    store.loading = false
   })
 })
 </script>

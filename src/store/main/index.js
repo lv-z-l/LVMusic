@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import Audio from '@/controlaudio'
-import { debounce, loadLang } from '@/utils'
+import { loadLang } from '@/utils'
 import { getLoginStatus } from '@/apis/login'
 import { getLikeList } from '@/apis/mine'
 import config from '../../config'
@@ -20,7 +20,7 @@ export const useStore = defineStore('main', {
     minePlayList: [],
     swiperData: [],
     mainBlocks: [],
-    categoryTags: [{ id: 'HOT', name: 'HOT' }, { id: 'NEW', name: 'NEW' }],
+    categoryTags: [{ id: 'HOT', name: 'HOT', more: true }, { id: 'NEW', name: 'NEW', more: true }],
     hotTexts: [],
     currentSong: {
       name: 'Fade',
@@ -48,8 +48,6 @@ export const useStore = defineStore('main', {
     songImageWBigP: 300,
     clientWNoPadding: 350,
     cacheSongImageBG: {},
-    backFixed: false,
-    fixed: false,
     playerShow: false,
     timeMoving: false,
     vioceMoving: false
@@ -90,7 +88,7 @@ export const useStore = defineStore('main', {
       this.msg = msg
     },
     regLoadMore(key, fn) {
-      this.loadMoreMap[key] = debounce(fn, 200)
+      this.loadMoreMap[key] = fn
     },
     getCurrentTime() {
       const currentTime = Audio.getCurrentTime()
@@ -115,27 +113,15 @@ export const useStore = defineStore('main', {
     setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h) {
       this.imageW = PLAY_LIST_ITEM_W > 200 ? 200 : PLAY_LIST_ITEM_W
       this.clientW = w
-      this.songListImgH = PLAY_LIST_IMAGE_H > 600 ? 600 : PLAY_LIST_IMAGE_H
+      this.songListImgH = PLAY_LIST_IMAGE_H > 480 ? 480 : PLAY_LIST_IMAGE_H
       this.songImageW = SONG_IMAGE_W_LITTLE
       this.clientWNoPadding = C_W_NO_PADDING > 740 ? C_W_NO_PADDING / 2 : C_W_NO_PADDING
       this.songImageWBig = SONG_IMAGE_W_BIG > 320 ? 320 : SONG_IMAGE_W_BIG
       this.songImageWBigP = SONG_IMAGE_W_BIG_P > 360 ? 360 : SONG_IMAGE_W_BIG_P
       this.clientH = h
     },
-    updateScrollHeight(event) {
-      const el = event.instance.$el
-      const { scrollTop, clientHeight, scrollHeight } = el
-      const back = el.querySelector('.back')
-      const scrollBar = el.querySelector('.scroll-bar')
-      const blankBlock = el.querySelector('.blank-block')
-      back && (this.backFixed = back.clientHeight / 2 < scrollTop)
-      scrollBar && (this.fixed = scrollBar.clientHeight / 2 < scrollTop)
-      if (!blankBlock) {
-        return
-      }
-      if ((scrollHeight - scrollTop - clientHeight) <= 3 * blankBlock.clientHeight) {
-        this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
-      }
+    loadMore() {
+      this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
     },
     setSongs(s) {
       this.songs = s
@@ -147,8 +133,6 @@ export const useStore = defineStore('main', {
       this.vioceMoving = bool
     },
     setCurrentBar(curr) {
-      this.backFixed = false
-      this.fixed = false
       this.currentCompKey = curr
       if (this.compQuene[this.compQuene.length - 1] !== this.currentCompKey) {
         this.compQuene.push(this.currentCompKey)

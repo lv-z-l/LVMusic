@@ -20,8 +20,10 @@ export default {
   genderWoMan: '美女',
   latest: '最近播放',
   like: '我喜欢的',
+  recent: '最近听的',
   likeList: '收藏歌单',
   loading: '加载中...',
   wait: '等待扫码',
-  likesuccess: '已添加到我喜欢'
+  likesuccess: '已添加到我喜欢',
+  nomore: '我是有底线的哦！'
 }

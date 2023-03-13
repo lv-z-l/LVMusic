@@ -40,6 +40,9 @@ onActivated(() => setTimeout(() => loading.value = false, 1000))
 onMounted(() => setTimeout(() => loading.value = false, 1000))
 
 store.regLoadMore('songlist', () => {
+  if (!store.songs.lists) {
+    return
+  }
   if (!store.songs.more) {
     return store.msg.open({ msg: store.langObj.nomore })
   }

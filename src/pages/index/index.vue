@@ -68,7 +68,7 @@ const store = useStore()
 
 const onContentScroll = throttle(event => {
   store.updateScrollHeight(event)
-}, 100)
+}, 80)
 
 function barItemClick(icon) {
   store.setCurrentBar(icon.comp)

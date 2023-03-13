@@ -37,7 +37,7 @@ function getUserinfo() {
     if (profile) {
       store.noLogin = false
     } else {
-      setTimeout(() => getUserinfo(), 10 * 1000)
+      setTimeout(() => getUserinfo(), 5 * 1000)
     }
   })
 }

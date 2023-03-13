@@ -102,7 +102,7 @@ export const useStore = defineStore('main', {
       this.msg = msg
     },
     regLoadMore(key, fn) {
-      this.loadMoreMap[key] = debounce(fn, 60)
+      this.loadMoreMap[key] = fn
     },
     getCurrentTime() {
       const currentTime = Audio.getCurrentTime()
@@ -136,18 +136,14 @@ export const useStore = defineStore('main', {
     },
     updateScrollHeight(event) {
       const el = event.instance.$el
-      const { scrollTop, clientHeight, scrollHeight } = el
+      const { scrollTop } = el
       const back = el.querySelector('.back')
       const scrollBar = el.querySelector('.scroll-bar')
-      const blankBlock = el.querySelector('.blank-block')
       back && (this.backFixed = back.clientHeight / 2 < scrollTop)
       scrollBar && (this.fixed = scrollBar.clientHeight / 2 < scrollTop)
-      if (!blankBlock) {
-        return
-      }
-      if ((scrollHeight - scrollTop - clientHeight) <= 3 * blankBlock.clientHeight) {
-        this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
-      }
+    },
+    loadMore() {
+      this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
     },
     setSongs(s) {
       this.songs = s
@@ -159,8 +155,6 @@ export const useStore = defineStore('main', {
       this.vioceMoving = bool
     },
     setCurrentBar(curr) {
-      this.backFixed = false
-      this.fixed = false
       this.currentCompKey = curr
       if (this.compQuene[this.compQuene.length - 1] !== this.currentCompKey) {
         this.compQuene.push(this.currentCompKey)

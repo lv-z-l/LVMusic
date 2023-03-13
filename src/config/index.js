@@ -9,5 +9,5 @@ export default {
   },
   proxyPrefix: '/wangyiyun/',
   url: 'https://service-574acb8j-1317232028.cd.apigw.tencentcs.com/release',
-  mode: 'pro'
+  mode: 'dev'
 }

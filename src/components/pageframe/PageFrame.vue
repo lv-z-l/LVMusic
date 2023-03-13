@@ -5,18 +5,36 @@
     </view>
     <view class="page-frame-content">
       <slot></slot>
-      <view class="blank-block"></view>
+      <view ref="blankBlock" class="blank-block"></view>
     </view>
   </view>
 </template>
   
 <script setup>
 import { useStore } from '../../store/main'
+import { initLazyIntersectionObserver } from '@/utils'
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 const store = useStore()
 const props = defineProps(
   { frameName: String }
 )
+
+const blankBlock = ref()
+
+let observer
+
+onMounted(() => {
+  observer = initLazyIntersectionObserver(entry => {
+    if (entry.isIntersecting) {
+      store.loadMore()
+    }
+  })
+  observer.observe(blankBlock.value.$el)
+})
+
+onBeforeUnmount(() => observer && observer.unobserve(blankBlock.value.$el))
+
 </script>
 <style lang="scss">
 .page-frame {

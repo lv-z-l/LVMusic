@@ -30,7 +30,7 @@ function changeLoading() {
 }
 
 const SongSheet = defineAsyncComponent(() => import(/* webpackChunkName: "songsheet" */'@/components/songsheet/SongSheet.vue'))
-const categoryTags = reactive([{ id: 'HOT', name: 'HOT' }, { id: 'NEW', name: 'NEW' }])
+const categoryTags = reactive([{ id: 'HOT', name: 'HOT', more: true }, { id: 'NEW', name: 'NEW', more: true }])
 
 const currentTagLists = reactive([])
 
@@ -78,7 +78,7 @@ function loadTagCategoryList(id, offset = 0) {
 }
 
 store.regLoadMore('category', () => {
-  if (current.more) {
+  if (currentTagLists.length > 0 && current.more) {
     changeLoading()
     loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length : 0)
   } else {

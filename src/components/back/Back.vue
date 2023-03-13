@@ -1,6 +1,6 @@
 <template>
-  <view :class="['back', store.backFixed ? 'fixed' : '']" @click="store.back">
-    <view class="icon-fenxiang"></view>
+  <view :class="['back', store.backFixed ? 'fixed' : '']">
+    <view class="icon-fenxiang" @click="store.back"></view>
     <text class="title" v-show="store.backFixed">{{ props.title }}</text>
   </view>
 </template>

@@ -128,6 +128,14 @@
     "h5": {
         "devServer": {
             "port": 3000
+        },
+        "router": {
+            "base": "/LVMusic/"
+        },
+        "optimization": {
+            "treeShaking": {
+                "enable": true
+            }
         }
     },
     "vueVersion": "3",

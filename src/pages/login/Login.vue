@@ -35,7 +35,7 @@ function getUserinfo() {
     if (profile) {
       store.noLogin = false
     } else {
-      getUserinfo()
+      setTimeout(() => getUserinfo(), 5000)
     }
   })
 }
@@ -56,7 +56,7 @@ function check(key) {
       getUserinfo()
       msg.value = status.message
     }
-  }, 2000)
+  }, 3000)
 }
 </script>
 <style lang="scss">

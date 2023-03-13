@@ -1,6 +1,6 @@
 <template>
-  <view class="back" @tap="store.back">
-    <view class="iconfont icon-fenxiang"></view>
+  <view class="back">
+    <view class="iconfont icon-fenxiang" @tap="store.back"></view>
     <text class="title">{{ props.title }}</text>
   </view>
 </template>

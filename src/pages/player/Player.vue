@@ -85,6 +85,7 @@ function onImageLoaded() {
 function like() {
   likeSong(store.currentSong.id).then(res => {
     store.msg.open({ msg: store.langObj.likesuccess, type: 'success' })
+    store.likeList.unshift(store.currentSong.id)
   })
 }
 

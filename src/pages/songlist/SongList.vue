@@ -11,7 +11,6 @@
         </view>
         <view class="desc">
           {{ store.songs.description }}
-          <view class="more">{{ store.langObj.more }}</view>
         </view>
       </view>
       <view class="list">
@@ -33,7 +32,7 @@ import { getSongListByCateId } from '@/apis/category'
 const store = useStore()
 
 store.regLoadMore('songlist', () => {
-  if (!store.songs.more) {
+  if (!store.songs.more && store.songs.sheetId !== '0') {
     return store.msg.open({ msg: store.langObj.nomore })
   }
   store.loading = true
@@ -110,18 +109,10 @@ store.regLoadMore('songlist', () => {
     .desc {
       margin: $category-text-margin 0;
       font-size: $song-sheet-playcount-size;
-      max-height: calc(4 * $song-sheet-playcount-size);
+      max-height: calc(6 * $song-sheet-playcount-size);
       overflow: hidden;
       width: 100%;
       position: relative;
-
-      .more {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        backdrop-filter: blur($backdrop-filter);
-        padding: 0 $song-sheet-playcount-size;
-      }
     }
   }
 

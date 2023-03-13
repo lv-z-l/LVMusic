@@ -11,7 +11,6 @@
         </view>
         <view class="desc">
           {{ store.songs.description }}
-          <view class="more">{{ store.langObj.more }}</view>
         </view>
       </view>
       <view class="list">
@@ -40,18 +39,18 @@ onActivated(() => setTimeout(() => loading.value = false, 1000))
 onMounted(() => setTimeout(() => loading.value = false, 1000))
 
 store.regLoadMore('songlist', () => {
-  if (!store.songs.lists) {
-    return
-  }
-  if (!store.songs.more) {
+  if (!store.songs.more && store.songs.sheetId !== '0') {
     return store.msg.open({ msg: store.langObj.nomore })
   }
+  loading.value = true
   const loadMore = store.songs.loadMore
   if (loadMore) {
     return loadMore()
+      .then(() => loading.value = false)
+      .catch(() => loading.value = false)
   }
   getSongListByCateId({ id: store.songs.sheetId, limit: 20, offset: store.songs.lists.length }).then(res => {
-    const { tracks, trackCount } = res.playlist
+    const { tracks, trackCount, description } = res.playlist
     if (!tracks || tracks.length === 0) {
       return
     }
@@ -64,9 +63,12 @@ store.regLoadMore('songlist', () => {
         author: ar.map(t => t.name).join('、')
       }
     })
+    loading.value = false
     store.songs.lists.push(...lists)
     store.songs.more = trackCount > store.songs.lists.length
+    !store.songs.description && (store.songs.description = description)
   })
+    .catch(() => loading.value = false)
 })
 </script>
 <style lang="scss">
@@ -116,8 +118,8 @@ store.regLoadMore('songlist', () => {
     .desc {
       margin: $category-text-margin 0;
       font-size: $song-sheet-playcount-size;
-      max-height: calc(4 * $song-sheet-playcount-size);
-      overflow: hidden;
+      max-height: 10rem;
+      text-align: left;
       width: 100%;
       position: relative;
 

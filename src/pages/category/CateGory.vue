@@ -17,7 +17,7 @@
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
 import { getCategoryTags, getCategoryPlayList, getHotOrNewCategoryPlayList } from '@/apis/category'
-import { onMounted, reactive, ref, defineAsyncComponent } from 'vue';
+import { onBeforeMount, reactive, ref, defineAsyncComponent } from 'vue';
 import { useStore } from '../../store/main';
 import NoData from '@/components/nodata/NoData.vue'
 
@@ -36,9 +36,7 @@ const currentTagLists = reactive([])
 
 let current = reactive(categoryTags[0])
 
-onMounted(() => {
-  changeLoading()
-  loadTagCategoryList(current.name)
+onBeforeMount(() => {
   getCategoryTags().then(res => {
     categoryTags.push(...res.tags)
   })
@@ -78,12 +76,13 @@ function loadTagCategoryList(id, offset = 0) {
 }
 
 store.regLoadMore('category', () => {
-  if (currentTagLists.length > 0 && current.more) {
+  if (current.more) {
     changeLoading()
     loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length : 0)
   } else {
     store.msg.open({ msg: store.langObj.nomore })
   }
+
 })
 </script>
   

@@ -74,25 +74,22 @@ function getLikeSong() {
 }
 
 function getRecentSongList() {
-  getRecentSonglist({ limit: 20, offset: 0 }).then(res => {
-    const lists = getList(res.data)
-
-    store.setSongs({
-      sheetId: 'recent',
-      coverImgUrl: lists[0].url,
-      description: '',
-      name: store.langObj.latest,
-      lists,
-      more: true,
-      loadMore: () => {
-        getRecentSonglist({ limit: 20, offset: store.songs.lists.length }).then(res => {
-          const lists = getList(res.data)
-          store.songs.lists.push(...lists)
-        })
-      }
-    })
-    nextTick(() => store.setCurrentBar('songlist'))
+  store.setSongs({
+    sheetId: 'recent',
+    coverImgUrl: '',
+    description: store.langObj.recent,
+    name: store.langObj.latest,
+    lists: [],
+    more: true,
+    loadMore: () => {
+      return getRecentSonglist({ limit: 20, offset: store.songs.lists.length }).then(res => {
+        const lists = getList(res.data)
+        !store.songs.coverImgUrl && (store.songs.coverImgUrl = lists[0].url)
+        store.songs.lists.push(...lists)
+      })
+    }
   })
+  nextTick(() => store.setCurrentBar('songlist'))
 }
 </script>
 <style lang="scss">

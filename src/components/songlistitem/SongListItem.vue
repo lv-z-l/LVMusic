@@ -32,6 +32,7 @@ const w = computed(() => store.songImageW)
 function like(id) {
   likeSong(id).then(() => {
     store.msg.open({ msg: store.langObj.likesuccess, type: 'success' })
+    store.likeList.unshift(id)
   })
 }
 

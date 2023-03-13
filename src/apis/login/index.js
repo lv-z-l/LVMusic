@@ -20,6 +20,6 @@ export function checkLoginStatus(key) {
 
 export function getLoginStatus() {
   return req({
-    url: '/login/status?timestamp=' + Date.now()
+    url: `/login/status?timestamp=${Date.now()}`
   })
 }

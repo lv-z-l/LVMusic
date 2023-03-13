@@ -37,7 +37,7 @@ function getUserinfo() {
     if (profile) {
       store.noLogin = false
     } else {
-      getUserinfo()
+      setTimeout(() => getUserinfo(), 10 * 1000)
     }
   })
 }
@@ -55,10 +55,12 @@ function check(key) {
       msg.value = status.message
       check(key)
     } else {
+      localStorage.setItem('MUSIC_COOKIE', status.cookie)
+      store.cookie = status.cookie
       getUserinfo()
       msg.value = status.message
     }
-  }, 2000)
+  }, 3000)
 }
 </script>
 <style lang="scss">
@@ -71,7 +73,9 @@ function check(key) {
   align-items: center;
 
   .img {
-    width: 60%;
+    width: 40%;
+    max-width: 180px;
+    max-height: 180px;
   }
 
   .avatar {

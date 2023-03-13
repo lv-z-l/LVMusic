@@ -20,6 +20,7 @@ const compMap = {
 
 export const useStore = defineStore('main', {
   state: () => ({
+    cookie: '',
     userInfo: {},
     currentBar: 'recommend',
     currentCompKey: 'recommend',
@@ -75,6 +76,9 @@ export const useStore = defineStore('main', {
       })
     },
     loginStatus() {
+      if (config.mode === 'pro') {
+        this.cookie = localStorage.getItem('MUSIC_COOKIE') || ''
+      }
       return getLoginStatus().then(res => {
         const { profile } = res.data
         if (profile && profile.userId) {

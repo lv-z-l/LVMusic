@@ -23,7 +23,7 @@ export default {
   recent: '最近听的',
   likeList: '收藏歌单',
   loading: '加载中...',
-  wait: '等待扫码',
+  wait: '请使用网易云音乐扫码授权',
   likesuccess: '已添加到我喜欢',
   nomore: '我是有底线的哦！'
 }

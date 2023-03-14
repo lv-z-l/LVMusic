@@ -32,12 +32,16 @@ const store = useStore()
 
   .iconfont {
     width: $temp;
+    border-radius: 50%;
+    background-color: var(--bg);
+    flex: 0 0 auto;
     height: $temp;
     text-align: center;
     line-height: $temp;
   }
 
   .title {
+    text-indent: calc(0rpx - $temp);
     flex: 2 0 auto;
     text-align: center;
   }

@@ -8,6 +8,6 @@ export default {
     ]
   },
   proxyPrefix: '/wangyiyun/',
-  serverUrl: 'http://192.168.1.103:4000',
+  serverUrl: 'https://service-574acb8j-1317232028.cd.apigw.tencentcs.com/release',
   mode: 'pro'
 }

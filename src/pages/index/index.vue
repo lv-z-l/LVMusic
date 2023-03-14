@@ -36,7 +36,7 @@
 import MainConfig from '@/config/index'
 import Player from '@/pages/player/Player'
 import { throttle } from '@/utils/index'
-import { ref, reactive, onMounted, onBeforeMount } from 'vue'
+import { ref, reactive, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
 import { useStore } from '@/store/main/index'
 import Message from '../../components/message/Message.vue'
 
@@ -47,6 +47,8 @@ const player = ref()
 onBeforeMount(() => {
   store.loginStatus()
 })
+
+onBeforeUnmount(() => Audio.destroy())
 
 onMounted(() => {
   const windowInfo = uni.getWindowInfo()

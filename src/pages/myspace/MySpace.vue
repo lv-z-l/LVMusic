@@ -25,7 +25,7 @@
   </view>
 </template>
 <script setup>
-import { reactive, onBeforeMount, nextTick } from 'vue';
+import { reactive, onBeforeMount, nextTick, ref } from 'vue'
 import { useStore } from '../../store/main'
 import SongSheet from '../../components/songsheet/SongSheet.vue'
 import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'

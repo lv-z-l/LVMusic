@@ -84,6 +84,8 @@ export const useStore = defineStore('main', {
           Object.assign(this.userInfo, userInfo)
         }
         return profile
+      }).catch(() => {
+        this.noCheck = false
       })
     },
     regMessage(msg) {

@@ -33,7 +33,8 @@ export const useStore = defineStore('main', {
       url: 'http://p3.music.126.net/JUnSAoafluMhc6XE2fgdzA==/18189220858697765.jpg',
       id: '34183461',
       start: 0,
-      time: 297875
+      time: 297875,
+      lyric: {}
     },
     loadMoreMap: {},
     lang: 'zh-cn',

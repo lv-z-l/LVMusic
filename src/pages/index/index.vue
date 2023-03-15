@@ -3,18 +3,10 @@
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']">
       <transition name="fade" mode="out-in">
         <Recommend v-if="store.currentCompKey === 'recommend'"></Recommend>
-      </transition>
-      <transition name="fade" mode="out-in">
-        <Mine v-if="store.currentCompKey === 'mine'"></Mine>
-      </transition>
-      <transition name="fade" mode="out-in">
-        <SongList v-if="store.currentCompKey === 'songlist'"></SongList>
-      </transition>
-      <transition name="fade" mode="out-in">
-        <CateGory v-if="store.currentCompKey === 'category'"></CateGory>
-      </transition>
-      <transition name="fade" mode="out-in">
-        <Search v-if="store.currentCompKey === 'search'"></Search>
+        <Mine v-else-if="store.currentCompKey === 'mine'"></Mine>
+        <SongList v-else-if="store.currentCompKey === 'songlist'"></SongList>
+        <CateGory v-else-if="store.currentCompKey === 'category'"></CateGory>
+        <Search v-else-if="store.currentCompKey === 'search'"></Search>
       </transition>
     </view>
     <view class="bottom-fixed-bar">

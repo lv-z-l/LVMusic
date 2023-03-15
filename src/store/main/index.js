@@ -26,7 +26,7 @@ export const useStore = defineStore('main', {
       name: 'Fade',
       author: 'AiPi',
       playing: false,
-      musicUrl: 'http://m7.music.126.net/20230310100015/43d732ae6417c61dcb358a8715e1bee3/ymusic/22d0/e126/67dd/15c2883ae8a187178250ef9b24a6449a.mp3',
+      musicUrl: 'https://mp-d22f2f25-96ec-4381-920f-a0d8df227b60.cdn.bspapp.com/cloudstorage/e2d726fe-3b47-4e11-abaf-cd893dc28c10.mp3',
       url: 'http://p3.music.126.net/JUnSAoafluMhc6XE2fgdzA==/18189220858697765.jpg',
       id: '34183461',
       start: 0,

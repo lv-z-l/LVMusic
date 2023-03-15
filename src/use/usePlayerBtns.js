@@ -11,7 +11,7 @@ export function usePlayerBtns() {
 
   const lastCls = ref('iconfont icon-next-fill roate')
 
-  const playOrPauseCls = computed(() => `iconfont icon-${store.currentSong.playing ? 'pause' : 'play'}-fill' ${active.value ? 'active' : ''}`)
+  const playOrPauseCls = computed(() => `iconfont icon-${store.currentSong.playing ? 'pause' : 'play'}-fill ${active.value ? 'active' : ''}`)
 
   function playOrPause() {
     store.playOrPause()

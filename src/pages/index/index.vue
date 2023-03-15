@@ -23,9 +23,8 @@
           :src="store.currentSong.url + `?param=${store.songImageW}y${store.songImageW}`"></image>
         <text class="song-name">{{ store.currentSong.name }}</text>
         <view class="song-btns">
-          <text @tap.stop="store.playOrPause"
-            :class="store.currentSong.playing ? 'iconfont icon-pause-fill song-btn' : 'iconfont icon-play-fill song-btn'"></text>
-          <text @tap.stop="next" class="iconfont icon-next-fill song-btn"></text>
+          <text @tap.stop="playOrPause" :class="playOrPauseCls"></text>
+          <text @tap.stop="next" :class="nextCls"></text>
         </view>
       </view>
       <view class="bottom-bar" v-show="!store.playerShow">
@@ -36,7 +35,7 @@
         </view>
       </view>
     </view>
-    <Player />
+    <Player ref="player" />
     <Message ref="msg" />
     <Loading />
   </view>
@@ -56,7 +55,13 @@ import SongList from '@/pages/songlist/SongList.vue'
 import CateGory from '@/pages/category/CateGory.vue'
 import Search from '@/pages/search/Search.vue'
 
+import { usePlayerBtns } from '@/use/usePlayerBtns.js'
+
+const { playOrPause, playOrPauseCls, next, nextCls } = usePlayerBtns()
+
 const msg = ref()
+
+const player = ref()
 
 onBeforeMount(() => {
   store.loginStatus()
@@ -88,12 +93,11 @@ function onPlayerBarClick() {
   store.setPlayerShow(true)
 }
 
-function next() {
-
-}
 </script>
 
 <style lang="scss">
+@import "@/style/keyframes.scss";
+
 .content {
   height: 100vh;
 }
@@ -197,18 +201,16 @@ function next() {
     justify-content: space-between;
     margin-left: $play-song-name-margin;
 
-    .song-btn {
+    .iconfont {
       height: $play-song-btns-height;
       width: $play-song-btns-height;
       line-height: $play-song-btns-height;
       text-align: center;
       font-size: $play-song-btn-size;
       border-radius: 50%;
-      transition: $transition;
 
-      &:active {
-        font-size: calc($play-song-btn-size / 2);
-        background-color: $play-song-btn-active-bg;
+      &.active {
+        animation: playerBtn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
       }
 
     }
@@ -217,17 +219,5 @@ function next() {
 
 .slide-in-blurred-br {
   animation: slide-in-blurred-br 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-}
-
-@keyframes slide-in-blurred-br {
-  from {
-    transform: translate($bottom-bar-height, -$bottom-bar-height);
-    opacity: 0;
-  }
-
-  to {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
 }
 </style>

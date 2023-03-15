@@ -1,5 +1,6 @@
 <template>
-  <view :class="['player-box', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage: bkImage }">
+  <view :class="['player-box', store.playerShow ? 'show' : 'hide']" @touchstart.passive="onTouchS"
+    @touchend.passive="onTouchE" :style="{ backgroundImage: bkImage }">
     <view class="player">
       <view class="top-line" @tap="topLineClick"></view>
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
@@ -26,10 +27,9 @@
         </view>
       </view>
       <view class="player-btns">
-        <text class="iconfont icon-next-fill roate" @tap="nextOrlast(true)"></text>
-        <text @tap.stop="store.playOrPause"
-          :class="store.currentSong.playing ? 'iconfont icon-pause-fill song-btn' : 'iconfont icon-play-fill song-btn'"></text>
-        <text class="iconfont icon-next-fill" @tap="nextOrlast()"></text>
+        <text :class="lastCls" @tap="last"></text>
+        <text @tap.stop="playOrPause" :class="playOrPauseCls"></text>
+        <text :class="nextCls" @tap="next"></text>
       </view>
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
         <text class="iconfont icon-shengyin03-mianxing"></text>
@@ -49,28 +49,29 @@ import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
 import { computed, onMounted, nextTick } from 'vue'
 import Audio from '@/controlaudio'
-import { playSong } from '@/use/useSongSheetClick.js'
+
 import { likeSong } from '@/apis/mine'
+
+import { usePlayerBtns } from '@/use/usePlayerBtns.js'
+
+const { playOrPause, playOrPauseCls, next, nextCls, last, lastCls } = usePlayerBtns()
 
 const store = useStore()
 
-const nextOrlast = (last) => {
-  if (!store.songs.lists) {
-    return store.currentSong.playing = false
-  }
-  const song = store.songs.lists.find(song => song.id === store.currentSong.id)
-  const index = store.songs.lists.indexOf(song)
-  const l = store.songs.lists.length
-  if (last) {
-    playSong(store, store.songs.lists[index > 0 ? index - 1 : l - 1])
-  } else {
-    playSong(store, store.songs.lists[index < l - 1 ? index + 1 : 0])
-  }
+onMounted(() => {
+  Audio.regEvent(next, last, next)
+})
+
+let y = 0
+
+function onTouchS(event) {
+  y = event.changedTouches[0].clientY
 }
 
-onMounted(() => {
-  Audio.regEvent(nextOrlast, nextOrlast.bind(null, true), nextOrlast)
-})
+function onTouchE(event) {
+  const endy = event.changedTouches[0].clientY
+  endy > y && store.setPlayerShow(false)
+}
 
 const bkImage = computed(() => {
   return store.currentSong.url ? 'url(' + store.currentSong.url + `?param=${store.clientW}y${store.clientH}` + ')' : 'linear-gradient(RGB(88, 88, 96), RGB(52, 50, 55))'
@@ -274,11 +275,9 @@ function onVoiceMoveEnd(val) {
       text-align: center;
       font-size: calc(1.4 * $play-song-btn-size);
       color: $white-color;
-      transition: $transition;
 
-      &:active {
-        font-size: calc($play-song-btn-size / 2);
-        background-color: $play-song-btn-active-bg;
+      &.active {
+        animation: playerBtn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
       }
     }
   }

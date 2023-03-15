@@ -32,14 +32,4 @@ const store = useStore()
     padding-top: .3rem;
   }
 }
-
-@keyframes roate-loading {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
 </style>

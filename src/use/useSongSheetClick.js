@@ -1,4 +1,3 @@
-import { getSongListByCateId } from '@/apis/category'
 import { getSongUrlById } from '@/apis/song'
 import Audio from '@/controlaudio'
 import { nextTick } from 'vue'
@@ -29,7 +28,7 @@ export function playSong(store, song) {
     copy.time = res.data[0].time
     copy.start = 0
     store.$patch({ currentSong: copy })
-    // store.setPlayerShow(true)
-    Audio.play(copy.musicUrl, copy.name, copy.author)
+    const { musicUrl, name, author, url } = copy
+    Audio.play(musicUrl, name, author, url)
   })
 }

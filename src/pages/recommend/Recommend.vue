@@ -32,7 +32,7 @@
       </view>
     </PageFrame>
   </view>
-  <NoLogin v-else />
+  <NoLogin v-else-if="store.noLogin && !store.noCheck" />
 </template>
   
 <script setup>

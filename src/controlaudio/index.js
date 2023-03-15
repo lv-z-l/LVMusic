@@ -6,13 +6,14 @@ class MyAudio {
     })
     this.instance.volume = 0.5
   }
-  play(url, title, singer) {
-    if (!url) {
+  play(url, title, singer, img) {
+    if (!url || this.instance.src === url) {
       return this.instance.play()
     }
     this.instance.title = title
     this.instance.singer = singer
     this.instance.src = url
+    this.instance.coverImgUrl = img
   }
   pause() {
     this.instance.pause()

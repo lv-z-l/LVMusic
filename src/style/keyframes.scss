@@ -1,0 +1,47 @@
+@keyframes roate-loading {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes textLight {
+  0% {
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    text-shadow: 0 0 18px $bottom-bar-active-color-opcaty;
+  }
+}
+
+@keyframes playerBtn {
+  0% {
+    // font-size: calc($play-song-btn-size / 2);
+    transform: scale(0);
+    background-color: $play-song-btn-active-bg;
+  }
+
+  100% {
+    // font-size: $play-song-btn-size;
+    transform: scale(1);
+    background-color: unset;
+  }
+
+}
+
+
+@keyframes slide-in-blurred-br {
+  from {
+    transform: translate($bottom-bar-height, -$bottom-bar-height);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}

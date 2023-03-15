@@ -26,32 +26,37 @@
   </view>
 </template>
 <script setup>
-import { onBeforeMount, nextTick } from 'vue';
+import { onBeforeMount, nextTick } from 'vue'
 import { useStore } from '../../store/main'
-import SongSheet from '../../components/songsheet/SongSheet.vue';
+import SongSheet from '../../components/songsheet/SongSheet.vue'
 import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
 
 const playList = []
 
 const loadData = () => {
-  store.userInfo.userId && store.minePlayList.length === 0 && getUserPlaylist(store.userInfo.userId).then(res => {
-    const { playlist } = res
-    const temp = playlist.map(play => {
-      const { id, coverImgUrl, name, playCount, subscribed } = play
-      return {
-        id: id,
-        name,
-        coverImgUrl: coverImgUrl,
-        playCount: playCount,
-        subscribed
-      }
-    })
-    playList.splice(0, playList.length, ...temp)
-    store.$patch({
-      minePlayList: playList
-    })
-  })
+  if (store.userInfo.userId && store.minePlayList.length === 0) {
+    store.loading = true
+    getUserPlaylist(store.userInfo.userId).then(res => {
+      const { playlist } = res
+      const temp = playlist.map(play => {
+        const { id, coverImgUrl, name, playCount, subscribed } = play
+        return {
+          id: id,
+          name,
+          coverImgUrl: coverImgUrl,
+          playCount: playCount,
+          subscribed
+        }
+      })
+      playList.splice(0, playList.length, ...temp)
+      store.$patch({
+        minePlayList: playList
+      })
+      store.loading = false
+    }).catch(() => store.loading = false)
+  }
+
 }
 
 onBeforeMount(loadData)

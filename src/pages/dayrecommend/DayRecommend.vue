@@ -72,15 +72,5 @@ function toDayRecomSongList() {
     font-size: calc(4 * $page-frame-scroll-text-size);
     animation: textLight .8s ease-in-out infinite alternate both;
   }
-
-  @keyframes textLight {
-    0% {
-      text-shadow: 0 0 0 rgba(0, 0, 0, 0);
-    }
-
-    100% {
-      text-shadow: 0 0 18px $bottom-bar-active-color-opcaty;
-    }
-  }
 }
 </style>

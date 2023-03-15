@@ -1,4 +1,4 @@
-import { getSongUrlById } from '@/apis/song'
+import { getSongUrlById, getSongLyric } from '@/apis/song'
 import Audio from '@/controlaudio'
 import { nextTick } from 'vue'
 
@@ -30,5 +30,21 @@ export function playSong(store, song) {
     store.$patch({ currentSong: copy })
     const { musicUrl, name, author, url } = copy
     Audio.play(musicUrl, name, author, url)
+  })
+  getSongLyric(song.id).then(res => {
+    if (res.lrc && res.lrc.lyric) {
+      const lyricArray = res.lrc.lyric.split('\n')
+      const lyricObj = {}
+
+      lyricArray.map(lyric => {
+        let key
+        const value = lyric.replace(/\[.*\] */g, match => {
+          key = match
+          return ''
+        })
+        key && value && (lyricObj[key] = value)
+      })
+      store.currentSong.lyric = lyricObj
+    }
   })
 }

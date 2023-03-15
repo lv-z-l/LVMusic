@@ -11,3 +11,9 @@ export function getSongUrlById1(id) {
     url: `/song/download/url?id=${id}`
   })
 }
+
+export function getSongLyric(id) {
+  return req({
+    url: `/lyric?id=${id}`
+  })
+}

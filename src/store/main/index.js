@@ -82,6 +82,8 @@ export const useStore = defineStore('main', {
             gender
           }
           Object.assign(this.userInfo, userInfo)
+        } else {
+          this.noCheck = false
         }
         return profile
       }).catch(() => {

@@ -1,6 +1,7 @@
 <script>
 export default {
   onLaunch: function () {
+    uni.showShareMenu({ withShareTicket: false })
   },
   onShow: function () {
   },

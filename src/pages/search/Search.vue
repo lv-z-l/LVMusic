@@ -41,7 +41,7 @@ onBeforeMount(() => {
 
 function proClick(key) {
   keywords.value = key
-  this.onConfirm()
+  onConfirm()
 }
 
 function searchProvide() {

@@ -38,6 +38,7 @@ export const useStore = defineStore('main', {
     loadMoreMap: {},
     lang: 'zh-cn',
     noLogin: true,
+    noCheck: true,
     songs: {},
     playList: [],
     likeList: [],
@@ -83,6 +84,7 @@ export const useStore = defineStore('main', {
         const { profile } = res.data
         if (profile && profile.userId) {
           this.noLogin = false
+          this.noCheck = false
           const { userId, nickname, userName, backgroundUrl, avatarUrl, gender } = profile
           this.getLikeListIds(userId)
           const userInfo = {
@@ -94,9 +96,11 @@ export const useStore = defineStore('main', {
             gender
           }
           Object.assign(this.userInfo, userInfo)
+        } else {
+          this.noCheck = false
         }
         return profile
-      })
+      }).catch(() => this.noCheck = false)
     },
     regMessage(msg) {
       this.msg = msg

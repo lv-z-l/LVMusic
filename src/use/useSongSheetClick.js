@@ -27,7 +27,7 @@ export function playSong(store, song) {
     copy.time = res.data[0].time
     copy.start = 0
     store.$patch({ currentSong: copy })
-    // store.setPlayerShow(true)
-    Audio.play(copy.musicUrl, copy.name, copy.author)
+    const { musicUrl, name, author } = copy
+    Audio.play(musicUrl, name, author)
   })
 }

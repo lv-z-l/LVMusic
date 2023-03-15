@@ -30,7 +30,7 @@
       </view>
     </PageFrame>
   </view>
-  <NoLogin v-else />
+  <NoLogin v-else-if="store.noLogin && !store.noCheck" />
 </template>
   
 <script setup>
@@ -125,13 +125,23 @@ function resolveSongs(data) {
       recommendRes: subTitle && subTitle.title || ''
     }
   }
+  const lists = []
   creatives.forEach((creative, cindex) => {
     const resources = creative.resources
     songs[cindex] = []
     songs[cindex].id = Date.now()
     resources.forEach(resource => {
       songs[cindex].push(genPlayList(resource))
+      lists.push(genPlayList(resource))
     })
+  })
+  store.setSongs({
+    sheetId: 'recommend',
+    coverImgUrl: '',
+    description: 'recommend',
+    name: 'recommend',
+    lists,
+    more: false
   })
 }
 

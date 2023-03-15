@@ -26,10 +26,9 @@
         </view>
       </view>
       <view class="player-btns">
-        <text class="icon-next-fill roate" @click="nextOrlast(true)"></text>
-        <text @click.stop="store.playOrPause"
-          :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
-        <text class="icon-next-fill" @click="nextOrlast()"></text>
+        <text :class="lastCls" @click="last"></text>
+        <text @click.stop="playOrPause" :class="playOrPauseCls"></text>
+        <text :class="nextCls" @click="next"></text>
       </view>
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
         <text class="icon-shengyin03-mianxing"></text>
@@ -49,27 +48,16 @@ import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
 import { computed, onMounted, nextTick } from 'vue'
 import Audio from '@/controlaudio'
-import { playSong } from '@/use/useSongSheetClick.js'
 import { likeSong } from '@/apis/mine'
+
+import { usePlayerBtns } from '@/use/usePlayerBtns.js'
+
+const { playOrPause, playOrPauseCls, next, nextCls, last, lastCls } = usePlayerBtns()
 
 const store = useStore()
 
-const nextOrlast = (last) => {
-  if (!store.songs.lists) {
-    return store.currentSong.playing = false
-  }
-  const song = store.songs.lists.find(song => song.id === store.currentSong.id)
-  const index = store.songs.lists.indexOf(song)
-  const l = store.songs.lists.length
-  if (last) {
-    playSong(store, store.songs.lists[index > 0 ? index - 1 : l - 1])
-  } else {
-    playSong(store, store.songs.lists[index < l - 1 ? index + 1 : 0])
-  }
-}
-
 onMounted(() => {
-  Audio.regEvent(nextOrlast, nextOrlast.bind(null, true), nextOrlast)
+  Audio.regEvent(next, last, next)
 })
 
 const bkImage = computed(() => {
@@ -120,9 +108,6 @@ function onVoiceMoveEnd(val) {
   store.setVoiceMoving(false)
 }
 
-defineExpose({
-  nextOrlast
-})
 </script>
   
 <style lang="scss">
@@ -278,11 +263,9 @@ defineExpose({
       text-align: center;
       font-size: calc(1.4 * $play-song-btn-size);
       color: $white-color;
-      transition: $transition;
 
-      &:active {
-        font-size: calc($play-song-btn-size / 2);
-        background-color: $play-song-btn-active-bg;
+      &.active {
+        animation: playerBtn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
       }
     }
   }
@@ -319,5 +302,18 @@ defineExpose({
       color: $bottom-bar-active-color;
     }
   }
+}
+
+@keyframes playerBtn {
+  0% {
+    transform: scale(0);
+    background-color: $play-song-btn-active-bg;
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: unset;
+  }
+
 }
 </style>

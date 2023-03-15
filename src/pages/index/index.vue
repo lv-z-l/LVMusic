@@ -14,9 +14,8 @@
           :src="store.currentSong.url + `?param=${store.songImageW}y${store.songImageW}`"></image>
         <text class="song-name">{{ store.currentSong.name }}</text>
         <view class="song-btns">
-          <text @click.stop="store.playOrPause"
-            :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
-          <text @click.stop="next" class="icon-next-fill song-btn"></text>
+          <text @click.stop="playOrPause" :class="playOrPauseCls"></text>
+          <text @click.stop="next" :class="nextCls"></text>
         </view>
       </view>
       <view class="bottom-bar" v-show="!store.playerShow">
@@ -40,9 +39,11 @@ import { ref, reactive, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
 import { useStore } from '@/store/main/index'
 import Message from '../../components/message/Message.vue'
 
-const msg = ref()
+import { usePlayerBtns } from '@/use/usePlayerBtns.js'
 
-const player = ref()
+const { playOrPause, playOrPauseCls, next, nextCls } = usePlayerBtns()
+
+const msg = ref()
 
 onBeforeMount(() => {
   store.loginStatus()
@@ -80,9 +81,6 @@ function onPlayerBarClick() {
   store.setPlayerShow(true)
 }
 
-function next() {
-  player.value.nextOrlast()
-}
 </script>
 
 <style lang="scss">
@@ -194,18 +192,16 @@ function next() {
     justify-content: space-between;
     margin-left: $play-song-name-margin;
 
-    .song-btn {
+    [class^=icon] {
       height: $play-song-btns-height;
       width: $play-song-btns-height;
       line-height: $play-song-btns-height;
       text-align: center;
       font-size: $play-song-btn-size;
       border-radius: 50%;
-      transition: $transition;
 
-      &:active {
-        font-size: calc($play-song-btn-size / 2);
-        background-color: $play-song-btn-active-bg;
+      &.active {
+        animation: playerBtn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
       }
 
     }
@@ -226,5 +222,18 @@ function next() {
     transform: translate(0, 0);
     opacity: 1;
   }
+}
+
+@keyframes playerBtn {
+  0% {
+    transform: scale(0);
+    background-color: $play-song-btn-active-bg;
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: unset;
+  }
+
 }
 </style>

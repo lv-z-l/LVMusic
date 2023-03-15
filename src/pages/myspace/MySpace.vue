@@ -15,7 +15,7 @@
         <text class="text">{{ store.langObj.like }}</text>
       </view>
     </view>
-    <view class="like-playlists">
+    <view class="like-playlists" v-loading="loading">
       <text class="title">{{ store.langObj.likeList }}</text>
       <view class="list">
         <SongSheet v-for="list in playList" :sheet="list" margin-r half-w :show-play-count="false">
@@ -27,27 +27,33 @@
 <script setup>
 import { reactive, onBeforeMount, nextTick } from 'vue';
 import { useStore } from '../../store/main'
-import SongSheet from '../../components/songsheet/SongSheet.vue';
+import SongSheet from '../../components/songsheet/SongSheet.vue'
 import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
 
 const playList = reactive([])
 
+const loading = ref(false)
+
 const loadData = () => {
-  store.userInfo.userId && getUserPlaylist(store.userInfo.userId).then(res => {
-    const { playlist } = res
-    const temp = playlist.map(play => {
-      const { id, coverImgUrl, name, playCount, subscribed } = play
-      return {
-        id: id,
-        name,
-        coverImgUrl: coverImgUrl,
-        playCount: playCount,
-        subscribed
-      }
-    })
-    playList.splice(0, playList.length, ...temp)
-  })
+  if (store.userInfo.userId) {
+    loading.value = true
+    getUserPlaylist(store.userInfo.userId).then(res => {
+      const { playlist } = res
+      const temp = playlist.map(play => {
+        const { id, coverImgUrl, name, playCount, subscribed } = play
+        return {
+          id: id,
+          name,
+          coverImgUrl: coverImgUrl,
+          playCount: playCount,
+          subscribed
+        }
+      })
+      playList.splice(0, playList.length, ...temp)
+      loading.value = false
+    }).catch(() => loading.value = false)
+  }
 }
 
 onBeforeMount(loadData)

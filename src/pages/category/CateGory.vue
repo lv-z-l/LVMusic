@@ -89,7 +89,7 @@ store.regLoadMore('category', () => {
     overflow-x: auto;
     display: flex;
     position: sticky;
-    top: calc(var(--status-bar-height) + $page-frame-scroll-margin-top);
+    top: calc(2 * var(--status-bar-height) + $page-frame-scroll-margin-top);
     flex-direction: row;
     padding: $category-padding;
     backdrop-filter: $backdrop-filter;

@@ -17,7 +17,7 @@ const store = useStore()
 <style lang="scss">
 .back {
   width: calc(100% - $global-padding);
-  padding: var(--status-bar-height) 0 0 $global-padding;
+  padding: calc(2 * var(--status-bar-height)) 0 0 $global-padding;
   height: $page-frame-scroll-margin-top;
   display: flex;
   align-items: center;

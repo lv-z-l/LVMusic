@@ -108,6 +108,9 @@ function resolvePlayLists(data) {
       playCount: resourceExtInfo.playCount
     }
   }
+  if (!creatives) {
+    return
+  }
   const resolved = creatives.map(creative => {
     const resources = creative.resources
     if (resources.length > 1) {
@@ -132,7 +135,7 @@ function resolveSongs(data) {
       recommendRes: subTitle && subTitle.title || ''
     }
   }
-  creatives.forEach((creative, cindex) => {
+  creatives && creatives.forEach((creative, cindex) => {
     const resources = creative.resources
     songs[cindex] = []
     songs[cindex].id = Date.now()
@@ -154,6 +157,9 @@ function resolvePlayListsOther(data) {
       playCount: resources[0].resourceExtInfo.playCount
     }
   }
+  if (!creatives) {
+    return
+  }
   playListsOther.splice(0)
   creatives.forEach(creative => {
     playListsOther.push(genPlayList(creative))
@@ -161,7 +167,7 @@ function resolvePlayListsOther(data) {
 }
 
 function resolveMianTitle(blkcs) {
-  const resolved = blkcs.filter(block => block.showType !== 'BANNER').map(block => ({ title: block.uiElement.subTitle.title }))
+  const resolved = blkcs.map(block => ({ title: block.uiElement.subTitle.title }))
   mainBlocks.splice(0)
   resolved[0].resources = playLists
   resolved[1].resources = songs
@@ -169,16 +175,24 @@ function resolveMianTitle(blkcs) {
   mainBlocks.push(...resolved)
 }
 
+function findBlockByCode(blocks, code) {
+  return blocks.find(b => b.blockCode && b.blockCode === code) || {}
+}
+
 function loadPageData() {
   if (store.mainBlocks.length === 0) {
     getHomePageData().then(res => {
       if (res.data && res.data.blocks) {
         const blocks = res.data.blocks
-        resolveSwiperData(blocks[0])
-        resolvePlayLists(blocks[1])
-        resolveSongs(blocks[2])
-        resolvePlayListsOther(blocks[3])
-        resolveMianTitle(res.data.blocks)
+        const banner = findBlockByCode(blocks, 'HOMEPAGE_BANNER')
+        const plRcmd = findBlockByCode(blocks, 'HOMEPAGE_BLOCK_PLAYLIST_RCMD')
+        const songs = findBlockByCode(blocks, 'HOMEPAGE_BLOCK_STYLE_RCMD')
+        const plOther = findBlockByCode(blocks, 'HOMEPAGE_BLOCK_MGC_PLAYLIST')
+        resolveSwiperData(banner)
+        resolvePlayLists(plRcmd)
+        resolveSongs(songs)
+        resolvePlayListsOther(plOther)
+        resolveMianTitle([plRcmd, songs, plOther])
         store.$patch({
           mainBlocks
         })

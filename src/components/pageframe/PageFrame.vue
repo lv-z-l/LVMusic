@@ -52,7 +52,7 @@ export default {
 
   .scroll-bar {
     width: calc(100% - $global-padding);
-    padding: calc(2 * var(--status-bar-height)) 0 0 $global-padding;
+    padding: var(--status-bar-height) 0 0 $global-padding;
     transition: $transition;
     display: flex;
     font-size: $page-frame-scroll-text-size;

@@ -3,6 +3,7 @@
     @touchend.passive="onTouchE" :style="{ backgroundImage: bkImage }">
     <view class="player">
       <view class="top-line" @tap="topLineClick"></view>
+      <Lyric />
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
         <image ref="bg" @load="onImageLoaded"
           :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
@@ -44,7 +45,7 @@
 </template>
   
 <script setup>
-
+import Lyric from './Lyric.vue'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
 import { computed, onMounted, nextTick } from 'vue'
@@ -58,8 +59,16 @@ const { playOrPause, playOrPauseCls, next, nextCls, last, lastCls } = usePlayerB
 
 const store = useStore()
 
+function onPlay() {
+  store.currentSong.playing = true
+}
+
+function onPause() {
+  store.currentSong.playing = false
+}
+
 onMounted(() => {
-  Audio.regEvent(next, last, next)
+  Audio.regEvent(next, last, next, onPlay, onPause)
 })
 
 let y = 0
@@ -160,6 +169,7 @@ function onVoiceMoveEnd(val) {
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
+  position: relative;
 
   .top-line {
     width: 100%;
@@ -262,10 +272,6 @@ function onVoiceMoveEnd(val) {
     margin-top: $player-margin-top;
     transition: $transition;
 
-    .roate {
-      transform: rotate(180deg);
-    }
-
     .iconfont {
       border-radius: 50%;
       $w-h: calc(1.4 * $play-song-btns-height);
@@ -278,6 +284,14 @@ function onVoiceMoveEnd(val) {
 
       &.active {
         animation: playerBtn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      }
+
+      &.roate {
+        transform: rotate(180deg);
+
+        &.active {
+          animation: playerBtnlast 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
       }
     }
   }

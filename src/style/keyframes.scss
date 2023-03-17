@@ -45,3 +45,16 @@
     opacity: 1;
   }
 }
+
+@keyframes playerBtnlast {
+  0% {
+    transform: scale(0) rotate(180deg);
+    background-color: $play-song-btn-active-bg;
+  }
+
+  100% {
+    transform: scale(1) rotate(180deg);
+    background-color: unset;
+  }
+
+}

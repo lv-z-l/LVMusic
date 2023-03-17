@@ -30,10 +30,12 @@ class MyAudio {
   getCurrentTime() {
     return this.instance.currentTime
   }
-  regEvent(onEnded, onPrev, onNext) {
+  regEvent(onEnded, onPrev, onNext, onPlay, onPause) {
     this.instance.onEnded(onEnded)
     this.instance.onPrev && this.instance.onPrev(onPrev)
     this.instance.onNext && this.instance.onNext(onNext)
+    this.instance.onPlay && this.instance.onPlay(onPlay)
+    this.instance.onPause && this.instance.onPause(onPause)
   }
 }
 

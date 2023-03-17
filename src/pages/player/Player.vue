@@ -2,6 +2,7 @@
   <view :class="['player-box', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage: bkImage }">
     <view class="player">
       <view class="top-line" @click="topLineClick"></view>
+      <Lyric />
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
         <image ref="bg" @load="onImageLoaded"
           :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
@@ -43,7 +44,7 @@
 </template>
   
 <script setup>
-
+import Lyric from './Lyric.vue'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
 import { computed, onMounted, nextTick } from 'vue'
@@ -148,6 +149,7 @@ function onVoiceMoveEnd(val) {
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
+  position: relative;
 
   .top-line {
     width: 100%;
@@ -250,10 +252,6 @@ function onVoiceMoveEnd(val) {
     margin-top: $player-margin-top;
     transition: $transition;
 
-    .roate {
-      transform: rotate(180deg);
-    }
-
     [class^=icon] {
       border-radius: 50%;
       $w-h: calc(1.4 * $play-song-btns-height);
@@ -267,7 +265,17 @@ function onVoiceMoveEnd(val) {
       &.active {
         animation: playerBtn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
       }
+
+      &.roate {
+        transform: rotate(180deg);
+
+        &.active {
+          animation: playerBtnlast 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+      }
     }
+
+
   }
 
   .player-song-info {
@@ -312,6 +320,19 @@ function onVoiceMoveEnd(val) {
 
   100% {
     transform: scale(1);
+    background-color: unset;
+  }
+
+}
+
+@keyframes playerBtnlast {
+  0% {
+    transform: scale(0) rotate(180deg);
+    background-color: $play-song-btn-active-bg;
+  }
+
+  100% {
+    transform: scale(1) rotate(180deg);
     background-color: unset;
   }
 

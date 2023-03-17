@@ -16,6 +16,16 @@ export function onSheetClick(store, sheet) {
   nextTick(() => store.setCurrentBar('songlist'))
 }
 
+function formatTime(time) {
+  let temp = time.replace(/["\[\] ]/g, '').split('.')
+  const ms = temp[0]
+  const s1 = Math.round('0.' + temp[1])
+  temp = ms.split(':')
+  const m = Number(temp[0])
+  const s = Number(temp[1]) + s1
+  return m * 60 + s
+}
+
 export function playSong(store, song) {
   getSongUrlById(song.id).then(res => {
     const copy = Object.assign({}, song)
@@ -41,7 +51,7 @@ export function playSong(store, song) {
           key = match
           return ''
         })
-        key && value && (lyricObj[key] = value)
+        key && value && (lyricObj[formatTime(key)] = value)
       })
       store.currentSong.lyric = lyricObj
     }

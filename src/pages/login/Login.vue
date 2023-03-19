@@ -6,7 +6,7 @@
   </view>
 </template>
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, onBeforeUnmount, ref } from 'vue'
 import { getLoginKey, getLoginBase64, checkLoginStatus } from '@/apis/login'
 import { useStore } from '../../store/main'
 
@@ -17,6 +17,8 @@ const avatarUrl = ref('')
 const msg = ref(store.langObj.wait)
 
 let timer
+
+let timer_
 
 onBeforeMount(async () => {
   const keyData = await getLoginKey()
@@ -30,12 +32,18 @@ onBeforeMount(async () => {
   check(key)
 })
 
+onBeforeUnmount(() => {
+  clearTimeout(timer)
+  clearTimeout(timer_)
+})
+
 function getUserinfo() {
+  clearTimeout(timer_)
   store.loginStatus().then(profile => {
     if (profile) {
       store.noLogin = false
     } else {
-      setTimeout(() => getUserinfo(), 5000)
+      timer_ = setTimeout(() => getUserinfo(), 3000)
     }
   })
 }
@@ -56,7 +64,7 @@ function check(key) {
       getUserinfo()
       msg.value = status.message
     }
-  }, 3000)
+  }, 2000)
 }
 </script>
 <style lang="scss">

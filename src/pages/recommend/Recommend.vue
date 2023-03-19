@@ -38,10 +38,10 @@
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
 import { watch, computed, onBeforeMount } from 'vue'
-import NoLogin from '../../components/nologin/NoLogin.vue'
-import { useStore } from '../../store/main'
+import NoLogin from '@/components/nologin/NoLogin.vue'
+import { useStore } from '@/store/main'
 import { getHomePageData } from '@/apis/recommend'
-import SongSheet from '../../components/songsheet/SongSheet.vue'
+import SongSheet from '@/components/songsheet/SongSheet.vue'
 import SongListItem from '@/components/songlistitem/SongListItem.vue'
 import DayRecommend from '../dayrecommend/DayRecommend.vue'
 
@@ -66,7 +66,6 @@ const playListsOther = []
 
 onBeforeMount(() => {
   if (!store.noLogin) {
-    store.loading = true;
     loadPageData()
   }
 })
@@ -181,6 +180,7 @@ function findBlockByCode(blocks, code) {
 
 function loadPageData() {
   if (store.mainBlocks.length === 0) {
+    store.loading = true
     getHomePageData().then(res => {
       if (res.data && res.data.blocks) {
         const blocks = res.data.blocks

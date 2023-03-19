@@ -1,6 +1,7 @@
 <template>
   <view class="lyric">
-    {{ currentLyric }}
+    <view :class="['lyric-item', key === currentLyricKey ? 'current' : '']" v-for="key in allKeys" :key="key">
+      {{ store.currentSong.lyric[key] }}</view>
   </view>
 </template>
 <script setup>
@@ -8,24 +9,37 @@ import { useStore } from '../../store/main'
 import { computed } from 'vue';
 const store = useStore()
 
-const currentLyric = computed(() => {
+const allKeys = computed(() => Object.keys(store.currentSong.lyric))
+
+const currentLyricKey = computed(() => {
   const cur = Math.ceil(store.currentSong.start)
-  const keys = Object.keys(store.currentSong.lyric)
+  const keys = allKeys.value
   const l = keys.length
   const key = keys.find((k, index) => cur >= Number(keys[index]) && cur <= Number(keys[index + 1 > l ? l : index + 1]))
-  return store.currentSong.lyric[key]
+  return key
 })
 
 </script>
 <style lang="scss">
 .lyric {
   width: 100%;
+  height: 100%;
+  overflow-y: auto;
   display: flex;
-  justify-content: center;
-  position: absolute;
-  top: calc(2 * $player-top-line-margin-top + $player-top-line-height + var(--status-bar-height));
-  left: 0;
+  align-items: center;
+  flex-direction: column;
   font-size: $player-song-info-name-size;
-  color: $bottom-bar-active-color-opcaty;
+
+  .lyric-item {
+    padding: .5rem 0;
+    font-size: $play-song-name-size;
+    color: $white-color;
+    text-align: center;
+    transition: $transition;
+
+    &.current {
+      color: $bottom-bar-active-color-opcaty;
+    }
+  }
 }
 </style>

@@ -33,6 +33,7 @@ export const useStore = defineStore('main', {
       time: 297875,
       lyric: {}
     },
+    showLyric: false,
     loadMoreMap: {},
     lang: 'zh-cn',
     noLogin: true,

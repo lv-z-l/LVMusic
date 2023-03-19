@@ -3,9 +3,11 @@
     @touchend.passive="onTouchE" :style="{ backgroundImage: bkImage }">
     <view class="player">
       <view class="top-line" @tap="topLineClick"></view>
-      <Lyric />
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
-        <image ref="bg" @load="onImageLoaded"
+        <view v-show="store.showLyric" style="width: 100%; height: 100%;">
+          <Lyric />
+        </view>
+        <image v-show="!store.showLyric" ref="bg" @load="onImageLoaded"
           :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
           :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
           :src="store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}`">
@@ -79,7 +81,8 @@ function onTouchS(event) {
 
 function onTouchE(event) {
   const endy = event.changedTouches[0].clientY
-  endy > y && store.setPlayerShow(false)
+  endy > y && !store.showLyric && store.setPlayerShow(false)
+  endy < y && (store.showLyric = true)
 }
 
 const bkImage = computed(() => {

@@ -6,8 +6,8 @@
         :style="{ width: store.clientW + 'px', height: store.songListImgH + 'px', backgroundImage: !store.songs.coverImgUrl ? '' : 'url(' + store.songs.coverImgUrl + `?param=${store.clientW}y${store.songListImgH}` + ')' }">
         <view class="name">{{ store.songs.name }}</view>
         <view class="btns">
-          <view class="icon-play-fill btn">{{ store.langObj.play }}</view>
-          <view class="icon-suijibofang btn">{{ store.langObj.anyPlay }}</view>
+          <view class="icon-play-fill btn" @click="next">{{ store.langObj.play }}</view>
+          <view class="icon-suijibofang btn" @click="next">{{ store.langObj.anyPlay }}</view>
         </view>
         <view class="desc">
           {{ store.songs.description }}
@@ -22,11 +22,13 @@
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
 import Back from '@/components/back/Back.vue'
-import SongListItem from '@/components/songlistitem/SongListItem.vue';
+import SongListItem from '@/components/songlistitem/SongListItem.vue'
 import { useStore } from '../../store/main';
 
 import { getSongListByCateId } from '@/apis/category'
-import { onMounted, ref, onDeactivated, onActivated } from 'vue';
+import { onMounted, ref, onDeactivated, onActivated } from 'vue'
+import { usePlayerBtns } from '@/use/usePlayerBtns.js'
+const { next } = usePlayerBtns()
 
 const store = useStore()
 

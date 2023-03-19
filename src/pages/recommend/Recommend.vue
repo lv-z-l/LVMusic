@@ -202,6 +202,7 @@ function loadPageData() {
 
 watch(() => store.noLogin, (val) => {
   if (val === false) {
+    loading.value = true
     loadPageData()
   }
 })

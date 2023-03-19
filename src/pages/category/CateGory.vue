@@ -1,11 +1,11 @@
 <template>
-  <view class="category">
+  <view class="category" v-loading="loading">
     <PageFrame :frame-name="store.langObj.category">
       <view :class="['category-tags', store.fixed ? 'fixed' : '']">
         <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @click="tagClick(tag)"
           v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
-      <view class="song-sheets" v-loading="loading">
+      <view class="song-sheets">
         <SongSheet v-for="sheet in currentTagLists" :key="sheet.id" :sheet="sheet">
         </SongSheet>
       </view>

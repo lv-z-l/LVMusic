@@ -59,7 +59,6 @@ onBeforeUnmount(() => observer && observer.unobserve(blankBlock.value.$el))
       z-index: 2;
       position: sticky;
       background-color: var(--bg);
-      margin-top: 0;
       top: 0;
       border-bottom: 1rpx solid $bottom-bar-split-color;
       align-items: center;

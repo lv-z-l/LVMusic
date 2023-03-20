@@ -8,8 +8,6 @@ let store
 
 const prefix = import.meta.env.MODE === 'production' ? import.meta.env.VITE_SERVER_URL : import.meta.env.VITE_PROXY_PREFIX
 
-console.log(import.meta.env)
-
 export function req(args) {
   args.url = prefix + args.url
   if (import.meta.env.MODE === 'production') {

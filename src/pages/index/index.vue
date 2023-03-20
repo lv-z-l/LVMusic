@@ -73,7 +73,7 @@ onMounted(() => {
   store.regMessage(msg)
 })
 
-const iconList = reactive(MainConfig.mainBottomBar.icons)
+const iconList = reactive(MainConfig.icons)
 
 const store = useStore()
 

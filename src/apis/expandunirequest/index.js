@@ -1,12 +1,9 @@
-import config from '@/config/index'
-
 const rightCode = [200, 800, 801, 802, 803]
 
 const requestCache = {}
 
-const { mode, serverUrl, proxyPrefix } = config
+const prefix = import.meta.env.MODE === 'production' ? import.meta.env.VITE_SERVER_URL : import.meta.env.VITE_PROXY_PREFIX
 
-const prefix = mode === 'dev' ? proxyPrefix : serverUrl
 export function req(args) {
   args.url = prefix + args.url
   return new Promise((resolve, reject) => {

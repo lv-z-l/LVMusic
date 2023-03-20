@@ -7,7 +7,7 @@ import config from '../../config'
 
 const langModules = loadLang()
 
-const bars = config.mainBottomBar.icons.map(icon => icon.comp)
+const bars = config.icons.map(icon => icon.comp)
 
 
 export const useStore = defineStore('main', {

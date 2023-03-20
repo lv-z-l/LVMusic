@@ -1,9 +1,9 @@
 <template>
-  <view :class="['player-box', store.playerShow ? 'show' : 'hide']" @touchstart.passive="onTouchS"
-    @touchend.passive="onTouchE" :style="{ backgroundImage: bkImage }">
+  <view :class="['player-box', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage: bkImage }">
     <view class="player">
       <view class="top-line" @tap="topLineClick"></view>
-      <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
+      <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }"
+        @touchstart.passive="onImgTouchS" @touchend.passive="onImgTouchE">
         <view v-show="store.showLyric" style="width: 100%; height: 100%;">
           <Lyric />
         </view>
@@ -56,8 +56,11 @@ import Audio from '@/controlaudio'
 import { likeSong } from '@/apis/mine'
 
 import { usePlayerBtns } from '@/use/usePlayerBtns.js'
+import { useTouchMove } from '@/use/useTouchMove.js'
 
 const { playOrPause, playOrPauseCls, next, nextCls, last, lastCls } = usePlayerBtns()
+
+const { onTouchS, onTouchE } = useTouchMove()
 
 const store = useStore()
 
@@ -73,16 +76,14 @@ onMounted(() => {
   Audio.regEvent(next, last, next, onPlay, onPause)
 })
 
-let y = 0
-
-function onTouchS(event) {
-  y = event.changedTouches[0].clientY
+function onImgTouchS(event) {
+  onTouchS(event)
 }
 
-function onTouchE(event) {
-  const endy = event.changedTouches[0].clientY
-  endy > y && !store.showLyric && store.setPlayerShow(false)
-  endy < y && (store.showLyric = true)
+function onImgTouchE(event) {
+  const { right, bottom } = onTouchE(event)
+  bottom && !store.showLyric && store.setPlayerShow(false)
+  store.showLyric = right
 }
 
 const bkImage = computed(() => {

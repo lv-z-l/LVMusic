@@ -1,22 +1,29 @@
 <template>
-  <view class="lyric">
-    <view :class="['lyric-item', key === currentLyricKey ? 'current' : '']" v-for="key in allKeys" :key="key">
+  <scroll-view scroll-y enable-flex :scroll-into-view="currentLyricKeyId" class="lyric">
+    <view :id="'id' + key" :class="['lyric-item', key === currentLyricKey ? 'current' : '']" v-for="key in allKeys"
+      :key="key">
       {{ store.currentSong.lyric[key] }}</view>
-  </view>
+  </scroll-view>
 </template>
 <script setup>
 import { useStore } from '../../store/main'
-import { computed } from 'vue';
+import { computed, watchEffect, ref } from 'vue'
+
 const store = useStore()
 
 const allKeys = computed(() => Object.keys(store.currentSong.lyric))
 
-const currentLyricKey = computed(() => {
+const currentLyricKeyId = ref('')
+
+const currentLyricKey = ref('')
+
+watchEffect(() => {
   const cur = Math.ceil(store.currentSong.start)
   const keys = allKeys.value
   const l = keys.length
   const key = keys.find((k, index) => cur >= Number(keys[index]) && cur <= Number(keys[index + 1 > l ? l : index + 1]))
-  return key
+  currentLyricKeyId.value = 'id' + key
+  currentLyricKey.value = key
 })
 
 </script>
@@ -24,7 +31,6 @@ const currentLyricKey = computed(() => {
 .lyric {
   width: 100%;
   height: 100%;
-  overflow-y: auto;
   display: flex;
   align-items: center;
   flex-direction: column;

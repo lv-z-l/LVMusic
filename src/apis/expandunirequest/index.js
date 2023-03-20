@@ -1,4 +1,3 @@
-import config from '@/config/index'
 import { useStore } from '../../store/main'
 
 const rightCode = [200, 800, 801, 802, 803]
@@ -7,11 +6,13 @@ const requestCache = {}
 
 let store
 
-const prefix = config.mode === 'pro' ? config.url : config.proxyPrefix
+const prefix = import.meta.env.MODE === 'production' ? import.meta.env.VITE_SERVER_URL : import.meta.env.VITE_PROXY_PREFIX
+
+console.log(import.meta.env)
 
 export function req(args) {
   args.url = prefix + args.url
-  if (config.mode === 'pro') {
+  if (import.meta.env.MODE === 'production') {
     !store && (store = useStore())
     if (args.data) {
       args.data.cookie = store.cookie

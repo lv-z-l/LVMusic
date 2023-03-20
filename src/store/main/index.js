@@ -9,7 +9,7 @@ import config from '../../config'
 
 const langModules = loadLang()
 
-const bars = config.mainBottomBar.icons.map(icon => icon.comp)
+const bars = config.icons.map(icon => icon.comp)
 const compMap = {
   recommend: Recommend,
   mine: defineAsyncComponent(() => import(/* webpackChunkName: "mine" */'../../pages/mine/Mine.vue')),
@@ -78,7 +78,7 @@ export const useStore = defineStore('main', {
       })
     },
     loginStatus() {
-      if (config.mode === 'pro') {
+      if (import.meta.env.MODE === 'production') {
         this.cookie = localStorage.getItem('MUSIC_COOKIE') || ''
       }
       return getLoginStatus().then(res => {

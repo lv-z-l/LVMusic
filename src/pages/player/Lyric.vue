@@ -37,7 +37,7 @@ watchEffect(() => {
   font-size: $player-song-info-name-size;
 
   .lyric-item {
-    padding: .5rem 0;
+    padding: .6rem 0;
     font-size: $play-song-name-size;
     color: $white-color;
     text-align: center;

@@ -1,7 +1,7 @@
 export function useTouchMove() {
   let x = 0, y = 0
 
-  let thresholdy = 80, thresholdx = 50
+  let thresholdy = 50, thresholdx = 50
 
   function onTouchS(event) {
     y = event.changedTouches[0].clientY
@@ -14,7 +14,17 @@ export function useTouchMove() {
     const tempx = x
     const tempy = y
     x = y = 0
-    return { right: endx - thresholdx > tempx, bottom: endy - thresholdy > tempy }
+    const res = {}
+    if (endx - tempx > thresholdx) {
+      res.right = true
+    } else if (endy - tempy > thresholdy) {
+      res.bottom = true
+    } else if (endx < tempx && Math.abs(endx - tempx) > thresholdx) {
+      res.left = true
+    } else if (endy < tempy && Math.abs(endy - tempy) > thresholdy) {
+      res.up = true
+    }
+    return res
   }
 
   return { onTouchS, onTouchE }

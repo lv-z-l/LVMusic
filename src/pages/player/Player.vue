@@ -81,9 +81,10 @@ function onImgTouchS(event) {
 }
 
 function onImgTouchE(event) {
-  const { right, bottom } = onTouchE(event)
-  bottom && !store.showLyric && store.setPlayerShow(false)
-  store.showLyric = right
+  const { left, right, bottom } = onTouchE(event)
+  bottom !== undefined && !store.showLyric && store.setPlayerShow(false)
+  right !== undefined && (store.showLyric = !store.showLyric)
+  left !== undefined && (store.showLyric = !store.showLyric)
 }
 
 const bkImage = computed(() => {

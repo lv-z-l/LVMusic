@@ -16,21 +16,24 @@ const url = ref('')
 const avatarUrl = ref('')
 const msg = ref(store.langObj.wait)
 
-let timer
-
-let timer_
+let timer, timer_, key
 
 onBeforeMount(async () => {
+  await getKeyAndImage()
+  check()
+})
+
+async function getKeyAndImage() {
+  store.loading = true
   const keyData = await getLoginKey()
-  const key = keyData.data.unikey
+  key = keyData.data.unikey
   if (!key) {
     return
   }
   const base64Data = await getLoginBase64(key)
   url.value = base64Data.data.qrimg
   store.loading = false
-  check(key)
-})
+}
 
 onBeforeUnmount(() => {
   clearTimeout(timer)
@@ -48,18 +51,19 @@ function getUserinfo() {
   })
 }
 
-function check(key) {
+async function check() {
   timer = setTimeout(async () => {
     const status = await checkLoginStatus(key)
     clearTimeout(timer)
     if (status.code === 801) {
-      check(key)
+      check()
     } else if (status.code === 800) {
-      msg.value = status.message
+      await getKeyAndImage()
+      check()
     } else if (status.code === 802) {
       avatarUrl.value = status.avatarUrl
       msg.value = status.message
-      check(key)
+      check()
     } else {
       getUserinfo()
       msg.value = status.message

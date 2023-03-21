@@ -1,24 +1,21 @@
 /* music S*/
+$bottom-bar-split-color: rgba(167, 167, 167, 0.5);
+$bottom-bar-active-color: rgb(244, 0, 46);
+$bottom-bar-active-color-opcaty: rgb(244, 0, 46, .8);
+$bg-d: rgba(0, 0, 0, 0.6);
+$play-song-btn-active-bg: rgb(214, 214, 214, .5);
+
+$white-color: rgb(255, 255, 255);
+
 $bottom-bar-height: 128rpx;
 $bottom-bar-icon-size: 48rpx;
 $bottom-bar-text-size: 24rpx;
 $bottom-bar-icon-margin: 0px 0 6rpx 0;
-$bottom-bar-icon-color: rgb(135, 135, 135);
-$bottom-bar-text-color: rgb(148, 148, 148);
-$bottom-bar-split-color: rgba(167, 167, 167, 0.5);
-$bottom-bar-active-color: rgb(241, 18, 56);
-$bottom-bar-active-color-opcaty: rgb(241, 18, 56, .8);
 
-$white-color: rgb(255, 255, 255);
-$black-color: rgb(0, 0, 0);
-
-$bg: rgba(245, 245, 245, 0.5);
-$bg-d: rgba(0, 0, 0, 0.5);
-$box-shadow: 10px -10px 20px rgba(0, 0, 0, 0.2),
-  -10px 10px 20px rgba(255, 255, 255, 0.1);
+$box-shadow: 10px -10px 20px rgba(0, 0, 0, 0.2), -10px 10px 20px rgba(255, 255, 255, 0.1);
 $backdrop-filter: blur(12px);
 
-$global-padding: 0 5.33%;
+$global-padding: 5.33%;
 $border-radius: 16rpx;
 
 $play-song-image-width: 14.3%;
@@ -28,13 +25,9 @@ $play-song-name-size: 32rpx;
 $play-song-btns-width: 148rpx;
 $play-song-btns-height: 76rpx;
 $play-song-btn-size: 64rpx;
-$play-song-btn-active-bg: rgb(214, 214, 214, .5);
-$transition: all .6s cubic-bezier(.29, .95, .49, .97);
+$transition: all .4s cubic-bezier(.29, .95, .49, .97);
 
 $player-btn-active-animation: larger .4s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
-
-$opacity-zero: 0;
-$opacity-one: 1;
 
 $player-padding: 0 6.4%;
 $player-top-line-width: 72rpx;
@@ -46,21 +39,17 @@ $player-image-margin-top: 74rpx;
 $player-voice-bar-margin: 0 24rpx;
 $player-voice-bar-icon-size: 38rpx;
 $player-voice-bar-width: 70%;
-$player-voice-icon-color: rgba(255, 255, 255);
-$player-voice-margin-top: 84rpx;
 
 $process-padding: 16rpx;
 $process-height: 14rpx;
 $process-text-margin-top: 24rpx;
 
-$player-song-time-margin-top: 56rpx;
+$player-margin-top: 54rpx;
 
 $player-btns-width: 67.5%;
-$player-btns-margin-top: 54rpx;
 
 $player-song-info-name-size: 40rpx;
 $player-song-info-icon-size: 56rpx;
-$player-song-info-margin-top: 90rpx;
 
 $page-frame-scroll-text-size: 64rpx;
 $page-frame-fixed-text-size: 32rpx;
@@ -69,15 +58,10 @@ $page-frame-scroll-margin-top: 100rpx;
 
 $category-text-margin: 40rpx;
 
-$scroll-bar-fixed-top: 0rpx;
-
 $category-padding: 40rpx 5.33% 40rpx 5.33%;
 
 $song-sheet-margin: 0 0 16rpx 0;
 $song-sheet-playcount-size: 16rpx;
 
 $avatar-width: 96rpx;
-
-$message-bg: rgba(245, 245, 245, 0.9);
-
 /* music E*/

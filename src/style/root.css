@@ -1,0 +1,7 @@
+:root {
+  --global-bg: rgba(255, 255, 255);
+  --global-color: rgba(0, 0, 0, .9);
+  --bottom-bar-color: rgb(131, 131, 131);
+  --bg: rgba(245, 245, 245, 0.6);
+  --message-bg: rgba(245, 245, 245, 0.9);
+}

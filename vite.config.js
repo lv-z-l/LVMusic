@@ -1,8 +1,22 @@
 
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import uni from '@dcloudio/vite-plugin-uni'
 // https://vitejs.dev/config/
 /** @type {import('vite').UserConfig} */
+
+const env = loadEnv('development', './')
+
+function createProxyObject() {
+  const { VITE_PROXY_PREFIX, VITE_SERVER_URL } = env
+  return {
+    [`^${VITE_PROXY_PREFIX}.*`]: {
+      target: VITE_SERVER_URL,
+      changeOrigin: true,
+      rewrite: path => path.replace(new RegExp(VITE_PROXY_PREFIX), '')
+    },
+  }
+}
+
 export default defineConfig({
   plugins: [
     uni(),
@@ -15,12 +29,6 @@ export default defineConfig({
     }
   },
   server: {
-    proxy: {
-      '^/wangyiyun/.*': {
-        target: 'http://127.0.0.1:4000',
-        changeOrigin: true,
-        rewrite: path => path.replace(/\/wangyiyun/, '')
-      }
-    }
+    proxy: createProxyObject()
   }
 })

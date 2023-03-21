@@ -1,6 +1,5 @@
 <template>
-  <view class="my-space"
-    :style="{ backgroundImage: 'url(' + store.userInfo.backgroundUrl + `?param=${store.clientW}y${store.clientH}` + ')' }">
+  <view class="my-space">
     <view class="avatar-box">
       <image class="avatar" :src="store.userInfo.avatarUrl"></image>
       <text class="nick-name">{{ store.userInfo.nickname }}</text>
@@ -16,7 +15,7 @@
         <text class="text">{{ store.langObj.like }}</text>
       </view>
     </view>
-    <view class="like-playlists">
+    <view class="like-playlists" v-loading="loading">
       <text class="title">{{ store.langObj.likeList }}</text>
       <view class="list">
         <SongSheet v-for="list in playList" :sheet="list" margin-r half-w :show-play-count="false">
@@ -26,30 +25,38 @@
   </view>
 </template>
 <script setup>
-import { reactive, onMounted, nextTick } from 'vue';
+import { reactive, onBeforeMount, nextTick, ref } from 'vue'
 import { useStore } from '../../store/main'
-import SongSheet from '../../components/songsheet/SongSheet.vue';
+import SongSheet from '../../components/songsheet/SongSheet.vue'
 import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
 
 const playList = reactive([])
 
-onMounted(() => {
-  getUserPlaylist(store.userInfo.userId).then(res => {
-    const { playlist } = res
-    const temp = playlist.map(play => {
-      const { id, coverImgUrl, name, playCount, subscribed } = play
-      return {
-        id: id,
-        name,
-        coverImgUrl: coverImgUrl,
-        playCount: playCount,
-        subscribed
-      }
-    })
-    playList.splice(0, playList.length, ...temp)
-  })
-})
+const loading = ref(false)
+
+const loadData = () => {
+  if (store.userInfo.userId) {
+    loading.value = true
+    getUserPlaylist(store.userInfo.userId).then(res => {
+      const { playlist } = res
+      const temp = playlist.map(play => {
+        const { id, coverImgUrl, name, playCount, subscribed } = play
+        return {
+          id: id,
+          name,
+          coverImgUrl: coverImgUrl,
+          playCount: playCount,
+          subscribed
+        }
+      })
+      playList.splice(0, playList.length, ...temp)
+      loading.value = false
+    }).catch(() => loading.value = false)
+  }
+}
+
+onBeforeMount(loadData)
 
 const store = useStore()
 
@@ -73,25 +80,22 @@ function getLikeSong() {
 }
 
 function getRecentSongList() {
-  getRecentSonglist({ limit: 20, offset: 0 }).then(res => {
-    const lists = getList(res.data)
-
-    store.setSongs({
-      sheetId: 'recent',
-      coverImgUrl: lists[0].url,
-      description: '',
-      name: store.langObj.latest,
-      lists,
-      more: true,
-      loadMore: () => {
-        getRecentSonglist({ limit: 20, offset: store.songs.lists.length - 1 }).then(res => {
-          const lists = getList(res.data)
-          store.songs.lists.push(...lists)
-        })
-      }
-    })
-    nextTick(() => store.setCurrentBar('songlist'))
+  store.setSongs({
+    sheetId: 'recent',
+    coverImgUrl: '',
+    description: store.langObj.recent,
+    name: store.langObj.latest,
+    lists: [],
+    more: true,
+    loadMore: () => {
+      return getRecentSonglist({ limit: 20, offset: store.songs.lists.length }).then(res => {
+        const lists = getList(res.data)
+        !store.songs.coverImgUrl && (store.songs.coverImgUrl = lists[0].url)
+        store.songs.lists.push(...lists)
+      })
+    }
   })
+  nextTick(() => store.setCurrentBar('songlist'))
 }
 </script>
 <style lang="scss">
@@ -99,7 +103,7 @@ function getRecentSongList() {
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -111,7 +115,7 @@ function getRecentSongList() {
     justify-content: center;
     height: calc(100vh / 8);
     margin-top: calc(2 * $page-frame-scroll-margin-top);
-    background-color: $bg;
+    background-color: var(--bg);
     border-radius: $border-radius;
     width: 100%;
     position: relative;
@@ -136,7 +140,7 @@ function getRecentSongList() {
     justify-content: flex-start;
     min-height: calc(100vh / 4);
     margin-top: calc($page-frame-scroll-margin-top / 2);
-    background-color: $bg;
+    background-color: var(--bg);
     border-radius: $border-radius;
     padding: calc($page-frame-scroll-margin-top / 4);
     box-sizing: border-box;

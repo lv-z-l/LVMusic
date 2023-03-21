@@ -20,5 +20,9 @@ export default {
   genderWoMan: '美女',
   latest: '最近播放',
   like: '我喜欢的',
-  likeList: '收藏歌单'
+  recent: '最近听的',
+  likeList: '收藏歌单',
+  wait: '请使用网易云音乐扫码授权',
+  likesuccess: '已添加到我喜欢',
+  nomore: '我是有底线的哦！'
 }

@@ -1,11 +1,11 @@
 <template>
-  <view class="category">
+  <view class="category" v-loading="loading">
     <PageFrame :frame-name="store.langObj.category">
       <view :class="['category-tags', store.fixed ? 'fixed' : '']">
         <text :class="['tag-text', current.id === tag.id ? 'current' : '']" @click="tagClick(tag)"
           v-for="tag in categoryTags" :key="tag.id">{{ tag.name }}</text>
       </view>
-      <view class="song-sheets" v-loading="loading">
+      <view class="song-sheets">
         <SongSheet v-for="sheet in currentTagLists" :key="sheet.id" :sheet="sheet">
         </SongSheet>
       </view>
@@ -17,9 +17,9 @@
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
 import { getCategoryTags, getCategoryPlayList, getHotOrNewCategoryPlayList } from '@/apis/category'
-import { onMounted, reactive, ref, defineAsyncComponent } from 'vue';
+import { onBeforeMount, reactive, ref, defineAsyncComponent } from 'vue';
 import { useStore } from '../../store/main';
-import NoData from '@/common/nodata/NoData.vue'
+import NoData from '@/components/nodata/NoData.vue'
 
 const store = useStore()
 
@@ -30,15 +30,13 @@ function changeLoading() {
 }
 
 const SongSheet = defineAsyncComponent(() => import(/* webpackChunkName: "songsheet" */'@/components/songsheet/SongSheet.vue'))
-const categoryTags = reactive([{ id: 'HOT', name: 'HOT' }, { id: 'NEW', name: 'NEW' }])
+const categoryTags = reactive([{ id: 'HOT', name: 'HOT', more: true }, { id: 'NEW', name: 'NEW', more: true }])
 
 const currentTagLists = reactive([])
 
 let current = reactive(categoryTags[0])
 
-onMounted(() => {
-  changeLoading()
-  loadTagCategoryList(current.name)
+onBeforeMount(() => {
   getCategoryTags().then(res => {
     categoryTags.push(...res.tags)
   })
@@ -55,7 +53,7 @@ function tagClick(tag) {
 
 function loadHotOrNewCategoryList(id, offset = 0) {
   getHotOrNewCategoryPlayList({ order: id, limit: 20, offset }).then(res => {
-    current.more = res.more
+    current.more = res.more || true
     offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
     changeLoading()
   }).catch(() => {
@@ -68,7 +66,7 @@ function loadTagCategoryList(id, offset = 0) {
     loadHotOrNewCategoryList(id, offset)
   } else {
     getCategoryPlayList({ cat: id, limit: 20, offset }).then(res => {
-      current.more = res.more
+      current.more = res.more || true
       offset ? currentTagLists.push(...res.playlists) : currentTagLists.splice(0, currentTagLists.length, ...res.playlists)
       changeLoading()
     }).catch(() => {
@@ -80,8 +78,11 @@ function loadTagCategoryList(id, offset = 0) {
 store.regLoadMore('category', () => {
   if (current.more) {
     changeLoading()
-    loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length - 1 : 0)
+    loadTagCategoryList(current.name, currentTagLists.length ? currentTagLists.length : 0)
+  } else {
+    store.msg.open({ msg: store.langObj.nomore })
   }
+
 })
 </script>
   
@@ -91,18 +92,17 @@ store.regLoadMore('category', () => {
     overflow-x: auto;
     display: flex;
     position: sticky;
-    top: calc($page-frame-scroll-margin-top + $scroll-bar-fixed-top);
+    top: $page-frame-scroll-margin-top;
     flex-direction: row;
     padding: $category-padding;
     align-items: center;
     z-index: 2;
     justify-content: flex-start;
-    background-color: $white-color;
 
     &.fixed {
-      background-color: $white-color;
-      // backdrop-filter: $backdrop-filter;
-      // box-shadow: $box-shadow;
+      background-color: var(--bg);
+      backdrop-filter: $backdrop-filter;
+      box-shadow: $box-shadow;
     }
 
     &::-webkit-scrollbar {
@@ -122,7 +122,7 @@ store.regLoadMore('category', () => {
   }
 
   .song-sheets {
-    padding: $global-padding;
+    padding: 0 $global-padding;
     display: flex;
     align-items: center;
     flex-wrap: wrap;

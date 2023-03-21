@@ -51,9 +51,7 @@
     "pinia": "^2.0.30",
     "rgbaster": "^2.1.1",
     "vue": "^3.2.45",
-    "vue-i18n": "^9.1.9",
-    "vue-next-directive": "^1.0.1",
-    "vue-router": "^4.1.6"
+    "vue-next-directive": "^1.0.1"
   },
   "devDependencies": {
     "@dcloudio/types": "^3.0.17",

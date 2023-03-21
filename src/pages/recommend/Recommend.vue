@@ -23,18 +23,20 @@
           </view>
         </view>
         <view class="playlist-content" v-else>
-          <SongSheet v-for="resource in block.resources" :sheet="resource" margin-r></SongSheet>
+          <SongSheet v-for="resource, index in block.resources" :key="resource.id + '' + index || 'swiper-sheet'"
+            :sheet="resource" margin-r>
+          </SongSheet>
         </view>
       </view>
     </PageFrame>
   </view>
-  <NoLogin v-else />
+  <NoLogin v-else-if="store.noLogin && !store.noCheck" />
 </template>
   
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
 import { watch, reactive, computed, ref } from 'vue'
-import NoLogin from '../../common/nologin/NoLogin.vue'
+import NoLogin from '../../components/nologin/NoLogin.vue'
 import { useStore } from '../../store/main'
 import { getHomePageData } from '@/apis/recommend'
 import SongSheet from '../../components/songsheet/SongSheet.vue'
@@ -99,6 +101,9 @@ function resolvePlayLists(data) {
       playCount: resourceExtInfo.playCount
     }
   }
+  if (!creatives) {
+    return
+  }
   const resolved = creatives.map(creative => {
     const resources = creative.resources
     if (resources.length > 1) {
@@ -114,19 +119,32 @@ function resolveSongs(data) {
   const { creatives } = data
   const genPlayList = (resource) => {
     const { resourceId, resourceExtInfo, uiElement } = resource
-    const { mainTitle, image } = uiElement
+    const { mainTitle, image, subTitle } = uiElement
     return {
       id: resourceId,
       name: mainTitle.title,
       url: image.imageUrl,
-      author: resourceExtInfo.artists.map(t => t.name).join('、')
+      author: resourceExtInfo.artists.map(t => t.name).join('、'),
+      recommendRes: subTitle && subTitle.title || ''
     }
   }
-  creatives.forEach((creative, cindex) => {
+  const lists = []
+  creatives && creatives.forEach((creative, cindex) => {
     const resources = creative.resources
+    songs[cindex] = []
+    songs[cindex].id = Date.now()
     resources.forEach(resource => {
-      (songs[cindex] ? songs[cindex] : (songs[cindex] = [])).push(genPlayList(resource))
+      songs[cindex].push(genPlayList(resource))
+      lists.push(genPlayList(resource))
     })
+  })
+  store.setSongs({
+    sheetId: 'recommend',
+    coverImgUrl: '',
+    description: 'recommend',
+    name: 'recommend',
+    lists,
+    more: false
   })
 }
 
@@ -142,6 +160,9 @@ function resolvePlayListsOther(data) {
       playCount: resources[0].resourceExtInfo.playCount
     }
   }
+  if (!creatives) {
+    return
+  }
   playListsOther.splice(0)
   creatives.forEach(creative => {
     playListsOther.push(genPlayList(creative))
@@ -149,7 +170,7 @@ function resolvePlayListsOther(data) {
 }
 
 function resolveMianTitle(blkcs) {
-  const resolved = blkcs.filter(block => block.showType !== 'BANNER').map(block => ({ title: block.uiElement.subTitle.title }))
+  const resolved = blkcs.map(block => ({ title: block.uiElement.subTitle.title }))
   mainBlocks.splice(0)
   resolved[0].resources = playLists
   resolved[1].resources = songs
@@ -157,15 +178,23 @@ function resolveMianTitle(blkcs) {
   mainBlocks.push(...resolved)
 }
 
+function findBlockByCode(blocks, code) {
+  return blocks.find(b => b.blockCode && b.blockCode === code) || {}
+}
+
 function loadPageData() {
   getHomePageData().then(res => {
     if (res.data && res.data.blocks) {
       const blocks = res.data.blocks
-      resolveSwiperData(blocks[0])
-      resolvePlayLists(blocks[1])
-      resolveSongs(blocks[2])
-      resolvePlayListsOther(blocks[3])
-      resolveMianTitle(res.data.blocks)
+      const banner = findBlockByCode(blocks, 'HOMEPAGE_BANNER')
+      const plRcmd = findBlockByCode(blocks, 'HOMEPAGE_BLOCK_PLAYLIST_RCMD')
+      const songs = findBlockByCode(blocks, 'HOMEPAGE_BLOCK_STYLE_RCMD')
+      const plOther = findBlockByCode(blocks, 'HOMEPAGE_BLOCK_MGC_PLAYLIST')
+      resolveSwiperData(banner)
+      resolvePlayLists(plRcmd)
+      resolveSongs(songs)
+      resolvePlayListsOther(plOther)
+      resolveMianTitle([plRcmd, songs, plOther])
       loading.value = false
     }
   })
@@ -173,6 +202,7 @@ function loadPageData() {
 
 watch(() => store.noLogin, (val) => {
   if (val === false) {
+    loading.value = true
     loadPageData()
   }
 })
@@ -187,7 +217,7 @@ watch(() => store.noLogin, (val) => {
 
 .swiper {
   width: 100%;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   box-sizing: border-box;
   margin-top: $player-top-line-margin-top;
 
@@ -210,7 +240,7 @@ watch(() => store.noLogin, (val) => {
 
 .song-palylist {
   width: 100%;
-  padding: $global-padding;
+  padding: 0 $global-padding;
   box-sizing: border-box;
   margin-top: $player-top-line-margin-top;
 

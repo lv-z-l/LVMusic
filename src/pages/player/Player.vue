@@ -2,6 +2,7 @@
   <view :class="['player-box', store.playerShow ? 'show' : 'hide']" :style="{ backgroundImage: bkImage }">
     <view class="player">
       <view class="top-line" @click="topLineClick"></view>
+      <Lyric />
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
         <image ref="bg" @load="onImageLoaded"
           :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
@@ -14,7 +15,8 @@
           <text class="name">{{ store.currentSong.name }}</text>
           <text class="singer">{{ store.currentSong.author }}</text>
         </view>
-        <text class="icon-gengduo"></text>
+        <text :class="['icon-shoucang', store.likeList.includes(store.currentSong.id) ? 'like' : '']"
+          @click="like"></text>
       </view>
       <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
         <view class="songtime-bar">
@@ -25,10 +27,9 @@
         </view>
       </view>
       <view class="player-btns">
-        <text class="icon-next-fill roate" @click="nextOrlast(true)"></text>
-        <text @click.stop="store.playOrPause"
-          :class="store.currentSong.playing ? 'icon-pause-fill song-btn' : 'icon-play-fill song-btn'"></text>
-        <text class="icon-next-fill" @click="nextOrlast()"></text>
+        <text :class="lastCls" @click="last"></text>
+        <text @click.stop="playOrPause" :class="playOrPauseCls"></text>
+        <text :class="nextCls" @click="next"></text>
       </view>
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
         <text class="icon-shengyin03-mianxing"></text>
@@ -43,28 +44,21 @@
 </template>
   
 <script setup>
-
+import Lyric from './Lyric.vue'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, nextTick } from 'vue'
 import Audio from '@/controlaudio'
-import { playSong } from '@/use/useSongSheetClick.js'
+import { likeSong } from '@/apis/mine'
+
+import { usePlayerBtns } from '@/use/usePlayerBtns.js'
+
+const { playOrPause, playOrPauseCls, next, nextCls, last, lastCls } = usePlayerBtns()
 
 const store = useStore()
 
-const nextOrlast = (last) => {
-  const song = store.songs.lists.find(song => song.id === store.currentSong.id)
-  const index = store.songs.lists.indexOf(song)
-  const l = store.songs.lists.length
-  if (last) {
-    playSong(store, store.songs.lists[index > 0 ? index - 1 : l - 1])
-  } else {
-    playSong(store, store.songs.lists[index < l - 1 ? index + 1 : 0])
-  }
-}
-
 onMounted(() => {
-  Audio.regEvent(nextOrlast, nextOrlast.bind(null, true), nextOrlast)
+  Audio.regEvent(next, last, next)
 })
 
 const bkImage = computed(() => {
@@ -74,7 +68,14 @@ const bkImage = computed(() => {
 const { minute, second } = store.langObj
 
 function onImageLoaded() {
-  store.setPlayerShow(true)
+  nextTick(() => store.currentSong.playing && store.setPlayerShow(true))
+}
+
+function like() {
+  likeSong(store.currentSong.id).then(res => {
+    store.msg.open({ msg: store.langObj.likesuccess, type: 'success' })
+    store.likeList.unshift(store.currentSong.id)
+  })
 }
 
 function topLineClick() {
@@ -107,6 +108,7 @@ function onVoiceMoveEnd(val) {
   Audio.setVolume(val)
   store.setVoiceMoving(false)
 }
+
 </script>
   
 <style lang="scss">
@@ -137,16 +139,24 @@ function onVoiceMoveEnd(val) {
   display: flex;
   padding: $player-padding;
   backdrop-filter: blur(48px);
+  padding-top: var(--status-bar-height);
+  padding-bottom: 0;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: $global-padding;
+  padding-right: $global-padding;
   box-sizing: border-box;
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
+  position: relative;
 
   .top-line {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: calc($player-top-line-margin-top + $player-top-line-height) 0 0 0;
+    align-items: center;
+    padding: calc($player-top-line-margin-top) 0;
     position: relative;
 
     &::after {
@@ -155,14 +165,11 @@ function onVoiceMoveEnd(val) {
       height: $player-top-line-height;
       border-radius: $border-radius;
       background-color: $bottom-bar-split-color;
-      position: absolute;
-      bottom: 0;
     }
   }
 
   .player-image-box {
-    margin-top: $player-image-margin-top;
-    margin-bottom: $player-song-info-margin-top;
+    margin: $player-image-margin-top 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -181,7 +188,7 @@ function onVoiceMoveEnd(val) {
   .player-songtime {
     width: calc(100% - 2 * $process-padding);
     transition: $transition;
-    margin-top: $player-song-time-margin-top;
+    margin-top: $player-margin-top;
 
     &:active,
     &.moving {
@@ -205,13 +212,13 @@ function onVoiceMoveEnd(val) {
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: $player-voice-margin-top;
+    margin-top: $player-margin-top;
     height: calc(1.2 * $player-voice-bar-icon-size);
     transition: $transition;
 
     [class^=icon] {
       font-size: $player-voice-bar-icon-size;
-      color: $player-voice-icon-color;
+      color: $white-color;
       opacity: .8;
     }
 
@@ -242,12 +249,8 @@ function onVoiceMoveEnd(val) {
     align-items: center;
     justify-content: space-between;
     width: $player-btns-width;
-    margin-top: $player-btns-margin-top;
+    margin-top: $player-margin-top;
     transition: $transition;
-
-    .roate {
-      transform: rotate(180deg);
-    }
 
     [class^=icon] {
       border-radius: 50%;
@@ -259,10 +262,20 @@ function onVoiceMoveEnd(val) {
       font-size: calc(1.4 * $play-song-btn-size);
       color: $white-color;
 
-      &:active:hover {
-        animation: $player-btn-active-animation
+      &.active {
+        animation: playerBtn 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      }
+
+      &.roate {
+        transform: rotate(180deg);
+
+        &.active {
+          animation: playerBtnlast 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
       }
     }
+
+
   }
 
   .player-song-info {
@@ -283,7 +296,7 @@ function onVoiceMoveEnd(val) {
 
       .singer {
         font-size: $player-song-info-name-size;
-        color: $player-voice-icon-color;
+        color: $white-color;
         opacity: .8;
       }
     }
@@ -292,18 +305,36 @@ function onVoiceMoveEnd(val) {
       font-size: $player-song-info-icon-size;
       color: $white-color;
     }
+
+    .like {
+      color: $bottom-bar-active-color;
+    }
   }
 }
 
-@keyframes larger {
+@keyframes playerBtn {
   0% {
-    font-size: calc(1.4 * $play-song-btn-size / 2);
+    transform: scale(0);
     background-color: $play-song-btn-active-bg;
   }
 
   100% {
-    font-size: calc(1.4 * $play-song-btn-size);
-    background-color: none;
+    transform: scale(1);
+    background-color: unset;
   }
+
+}
+
+@keyframes playerBtnlast {
+  0% {
+    transform: scale(0) rotate(180deg);
+    background-color: $play-song-btn-active-bg;
+  }
+
+  100% {
+    transform: scale(1) rotate(180deg);
+    background-color: unset;
+  }
+
 }
 </style>

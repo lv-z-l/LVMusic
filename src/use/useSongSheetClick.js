@@ -1,29 +1,29 @@
-import { getSongListByCateId } from '@/apis/category'
-import { getSongUrlById } from '@/apis/song'
+import { getSongUrlById, getSongLyric } from '@/apis/song'
 import Audio from '@/controlaudio'
+import { nextTick } from 'vue'
 
 
 export function onSheetClick(store, sheet) {
-  getSongListByCateId({ id: sheet.id, limit: 20 }).then(res => {
-    const { description, coverImgUrl, name, tracks } = res.playlist
-    const lists = tracks.map(track => {
-      const { name, id, al, ar } = track
-      return {
-        name,
-        id,
-        url: al.picUrl,
-        author: ar.map(t => t.name).join('、')
-      }
-    })
-    store.setSongs({
-      sheetId: sheet.id,
-      coverImgUrl,
-      description,
-      name,
-      lists
-    })
-    store.setCurrentBar('songlist')
+  const { coverImgUrl, id, name } = sheet
+  store.setSongs({
+    sheetId: id,
+    coverImgUrl,
+    description: '',
+    name,
+    more: true,
+    lists: []
   })
+  nextTick(() => store.setCurrentBar('songlist'))
+}
+
+function formatTime(time) {
+  let temp = time.replace(/["\[\] ]/g, '').split('.')
+  const ms = temp[0]
+  const s1 = Math.round('0.' + temp[1])
+  temp = ms.split(':')
+  const m = Number(temp[0])
+  const s = Number(temp[1]) + s1
+  return m * 60 + s
 }
 
 export function playSong(store, song) {
@@ -32,12 +32,28 @@ export function playSong(store, song) {
     copy.playing = true
     copy.musicUrl = res.data[0].url
     if (!copy.musicUrl) {
-      return store.msg.open({ i: 'icon-suijibofang', msg: store.langObj.cantPlay })
+      return store.msg.open({ msg: store.langObj.cantPlay })
     }
     copy.time = res.data[0].time
     copy.start = 0
     store.$patch({ currentSong: copy })
-    // store.setPlayerShow(true)
-    Audio.play(copy.musicUrl)
+    const { musicUrl, name, author } = copy
+    Audio.play(musicUrl, name, author)
+  })
+  getSongLyric(song.id).then(res => {
+    if (res.lrc && res.lrc.lyric) {
+      const lyricArray = res.lrc.lyric.split('\n')
+      const lyricObj = {}
+
+      lyricArray.map(lyric => {
+        let key
+        const value = lyric.replace(/\[.*\] */g, match => {
+          key = match
+          return ''
+        })
+        key && value && (lyricObj[formatTime(key)] = value)
+      })
+      store.currentSong.lyric = lyricObj
+    }
   })
 }

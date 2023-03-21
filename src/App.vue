@@ -5,7 +5,7 @@ export default {
   onShow: function () {
   },
   onHide: function () {
-  },
+  }
 }
 </script>
 
@@ -14,10 +14,18 @@ export default {
 @import url(./style/iconfont.css);
 /**loading指令的样式 */
 @import url('vue-next-directive/lib/assets/loading.css');
-@import url('./style/compact.scss');
+@import url('./style/compact.css');
+@import url('./style/root.css');
 
 uni-page-wrapper {
   overflow: hidden;
+}
+
+body,
+page,
+uni-page-body {
+  background-color: var(--global-bg);
+  color: var(--global-color);
 }
 
 image {

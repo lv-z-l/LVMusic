@@ -129,7 +129,7 @@ const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${props.a
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: $player-voice-icon-color;
+  color: $white-color;
   font-size: $process-height;
   margin-top: $process-text-margin-top;
 }

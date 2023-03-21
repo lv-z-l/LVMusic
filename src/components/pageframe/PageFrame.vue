@@ -5,38 +5,50 @@
     </view>
     <view class="page-frame-content">
       <slot></slot>
-      <view class="blank-block"></view>
-      <view class="blank-block"></view>
+      <view ref="blankBlock" class="blank-block"></view>
     </view>
   </view>
 </template>
   
 <script setup>
-import { ref } from 'vue'
 import { useStore } from '../../store/main'
+import { initLazyIntersectionObserver } from '@/utils'
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 const store = useStore()
 const props = defineProps(
   { frameName: String }
 )
 
-const noScroll = ref(false)
+const blankBlock = ref()
+
+let observer
+
+onMounted(() => {
+  observer = initLazyIntersectionObserver(entry => {
+    if (entry.isIntersecting) {
+      store.loadMore()
+    }
+  })
+  observer.observe(blankBlock.value.$el)
+})
+
+onBeforeUnmount(() => observer && observer.unobserve(blankBlock.value.$el))
+
 </script>
 <style lang="scss">
-@keyframes small-h {}
-
 .page-frame {
   width: 100%;
 
   .blank-block {
     width: 100%;
-    height: $bottom-bar-height;
+    height: calc(2 * $bottom-bar-height);
   }
 
   .scroll-bar {
     width: 100%;
     box-sizing: border-box;
-    padding: $global-padding;
+    padding: 0 $global-padding;
     transition: $transition;
     margin-top: $page-frame-scroll-margin-top;
     display: flex;
@@ -46,14 +58,13 @@ const noScroll = ref(false)
       height: $page-frame-scroll-margin-top;
       z-index: 2;
       position: sticky;
-      background-color: $white-color;
-      margin-top: 0;
-      top: $scroll-bar-fixed-top;
+      background-color: var(--bg);
+      top: 0;
       border-bottom: 1rpx solid $bottom-bar-split-color;
       align-items: center;
       justify-content: center;
-      // backdrop-filter: $backdrop-filter;
-      // box-shadow: $box-shadow;
+      backdrop-filter: $backdrop-filter;
+      box-shadow: $box-shadow;
       font-size: $page-frame-fixed-text-size;
     }
   }

@@ -3,7 +3,7 @@ import { req } from '../expandunirequest'
 
 export function getCategoryTags() {
   return req({
-    url: 'playlist/highquality/tags'
+    url: '/playlist/highquality/tags'
   })
 }
 

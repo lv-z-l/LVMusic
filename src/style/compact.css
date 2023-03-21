@@ -5,7 +5,7 @@
 
   .song-sheet {
     flex: 0;
-    margin: 0 1rem 1rem 0 !important;
+    margin: 0 .8rem 1rem 0 !important;
   }
 }
 
@@ -54,7 +54,13 @@
 
   .results .song-image,
   .player-bar .song-image {
-    width: 5.9% !important;
+    width: 4.5% !important;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .songlist .list .song-list-item .song-image {
+    width: 10%;
   }
 }
 

@@ -70,6 +70,12 @@
   }
 }
 
+@media only screen and (min-width: 900px) and (min-height: 900px) {
+  .player {
+    justify-content: center !important;
+  }
+}
+
 @media only screen and (min-width: 1280px) {
   .song-content-child {
     width: 25% !important;

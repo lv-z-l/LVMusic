@@ -12,7 +12,7 @@
 @media only screen and (min-width: 800px) {
 
   .song-content-child {
-    width: 50% !important;
+    width: 38% !important;
   }
 
   .swiper-sheet {
@@ -55,6 +55,12 @@
   .results .song-image,
   .player-bar .song-image {
     width: 5.9% !important;
+  }
+}
+
+@media only screen and (min-width: 900px) and (min-height: 900px) {
+  .player {
+    justify-content: center !important;
   }
 }
 

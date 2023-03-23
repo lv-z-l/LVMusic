@@ -57,7 +57,8 @@ export const useStore = defineStore('main', {
     fixed: false,
     playerShow: false,
     timeMoving: false,
-    vioceMoving: false
+    vioceMoving: false,
+    showSongImage: true
   }),
   getters: {
     langObj() {

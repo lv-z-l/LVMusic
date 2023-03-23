@@ -4,11 +4,13 @@
       <view class="top-line" @click="topLineClick"></view>
       <Lyric />
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
-        <image ref="bg" @load="onImageLoaded"
+        <image v-show="store.showSongImage" ref="bg"
           :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
           :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
           :src="store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}`">
         </image>
+        <Disc v-show="!store.showSongImage" />
+        <view class="flower" @click="store.showSongImage = !store.showSongImage">🌹</view>
       </view>
       <view class="player-song-info">
         <view class="left">
@@ -44,6 +46,7 @@
 </template>
   
 <script setup>
+import Disc from './Disc.vue'
 import Lyric from './Lyric.vue'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
@@ -173,6 +176,12 @@ function onVoiceMoveEnd(val) {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+
+    .flower {
+      position: absolute;
+      bottom: -2rem;
+    }
 
     .player-image {
       border-radius: $border-radius;

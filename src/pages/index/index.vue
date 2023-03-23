@@ -6,7 +6,6 @@
           <component :is="store.currentComp"></component>
         </keep-alive>
       </transition>
-
     </view>
     <view class="bottom-fixed-bar">
       <view v-show="!store.playerShow" class="player-bar" @click="onPlayerBarClick">

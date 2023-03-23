@@ -4,16 +4,12 @@
       <view class="top-line" @click="topLineClick"></view>
       <Lyric />
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }">
-        <transition name="fade" mode="out-in">
-          <image v-show="store.showSongImage" ref="bg"
-            :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
-            :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
-            :src="store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}`">
-          </image>
-        </transition>
-        <transition name="fade" mode="out-in">
-          <Disc v-show="!store.showSongImage" />
-        </transition>
+        <image v-show="store.showSongImage" ref="bg"
+          :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
+          :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
+          :src="store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}`">
+        </image>
+        <Disc v-show="!store.showSongImage" />
         <view class="flower" @click="store.showSongImage = !store.showSongImage">🌹</view>
       </view>
       <view class="player-song-info">

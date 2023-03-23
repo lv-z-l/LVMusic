@@ -37,7 +37,7 @@
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
         <text class="iconfont icon-shengyin03-mianxing"></text>
         <view class="voice-bar">
-          <Process :init="0.5" :step="0.04" :max="1" :min="0" @moves="store.setVoiceMoving(true)" @movee="onVoiceMoveEnd">
+          <Process :init="0.5" :step="0.05" :max="1" :min="0" @moves="store.setVoiceMoving(true)" @movee="onVoiceMoveEnd">
           </Process>
         </view>
         <text class="iconfont icon-shengyin01-mianxing"></text>
@@ -214,22 +214,6 @@ function onVoiceMoveEnd(val) {
     width: calc(100% - 2 * $process-padding);
     transition: $transition;
     margin-top: $player-margin-top;
-
-    &:active,
-    &.moving {
-      :deep(.process-text) {
-        color: $white-color;
-      }
-
-      :deep(.process) {
-        background-color: $white-color;
-        opacity: 1;
-      }
-
-      :deep(.process-bar) {
-        transform: scaleX(1.04) scaleY(1.6);
-      }
-    }
   }
 
   .player-voice {
@@ -256,15 +240,6 @@ function onVoiceMoveEnd(val) {
     &.moving {
       .iconfont {
         color: $white-color;
-      }
-
-      :deep(.process) {
-        background-color: $white-color;
-        opacity: 1;
-      }
-
-      :deep(.process-bar) {
-        transform: scaleX(1.04) scaleY(1.6);
       }
     }
   }

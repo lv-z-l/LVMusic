@@ -2,7 +2,7 @@ const rightCode = [200, 800, 801, 802, 803]
 
 const requestCache = {}
 
-const prefix = import.meta.env.MODE === 'production' ? import.meta.env.VITE_SERVER_URL : import.meta.env.VITE_PROXY_PREFIX
+const prefix = import.meta.env.VITE_SERVER_URL
 
 export function req(args) {
   args.url = prefix + args.url

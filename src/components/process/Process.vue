@@ -1,8 +1,9 @@
 <template>
-  <view class="process-bar" @touchstart.passive="onTouchS" @touchmove.passive="throttledM" @touchend.passive="onTouchE">
+  <view :class="['process-bar', clientX > 0 ? 'moving' : '']" @touchstart.passive="onTouchS"
+    @touchmove.passive="throttledM" @touchend.passive="onTouchE">
     <view class="process" :style="{ width: processW }"></view>
   </view>
-  <view v-if="showText" class="process-text">
+  <view v-if="showText" :class="['process-text', clientX > 0 ? 'moving' : '']">
     <text>{{ formatShowText('cur', selfVal) }}</text>
     <text>{{ formatShowText('', props.max) }}</text>
   </view>
@@ -65,7 +66,7 @@ function startMove(val) {
 }
 
 function moveByStep() {
-  clientX === 0 && store.getCurrentTime()
+  clientX.value === 0 && store.getCurrentTime()
   clearTimeout(timer)
   if (store.currentSong.playing) {
     timer = setTimeout(moveByStep, 1000)
@@ -73,18 +74,18 @@ function moveByStep() {
 }
 
 const emit = defineEmits(['moves', 'movee'])
-let clientX = 0
+const clientX = ref(0)
 
 const selfVal = ref(props.init)
 
 function onTouchS(event) {
-  clientX = event.changedTouches[0].clientX
+  clientX.value = event.changedTouches[0].clientX
   emit('moves')
 }
 
 function onTouchM(event) {
   const newX = event.changedTouches[0].clientX
-  if (newX > clientX) {
+  if (newX > clientX.value) {
     if (selfVal.value < props.max) {
       selfVal.value += props.step
     }
@@ -93,12 +94,12 @@ function onTouchM(event) {
       selfVal.value -= props.step
     }
   }
-  clientX = newX
+  clientX.value = newX
 }
-const throttledM = throttle(onTouchM, 120)
+const throttledM = throttle(onTouchM, 100)
 
 function onTouchE(event) {
-  clientX = 0
+  clientX.value = 0
   emit('movee', selfVal.value)
 }
 
@@ -115,10 +116,19 @@ const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${props.a
   background-color: $bottom-bar-split-color;
   display: flex;
 
+  &.moving {
+    transform: scaleX(1.04) scaleY(1.6);
+
+    .process {
+      background-color: $white-color;
+      opacity: 1;
+    }
+  }
+
   .process {
     height: $process-height;
     border-radius: $border-radius;
-    transition: $transition;
+    transition: all .4s ease;
     background-color: $white-color;
     opacity: .8;
   }
@@ -132,5 +142,9 @@ const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${props.a
   color: $white-color;
   font-size: $process-height;
   margin-top: $process-text-margin-top;
+
+  &.moving {
+    color: $white-color;
+  }
 }
 </style>

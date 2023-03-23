@@ -33,7 +33,6 @@ export const useStore = defineStore('main', {
       time: 297875,
       lyric: {}
     },
-    showLyric: false,
     loadMoreMap: {},
     lang: 'zh-cn',
     noLogin: true,
@@ -53,7 +52,8 @@ export const useStore = defineStore('main', {
     cacheSongImageBG: {},
     playerShow: false,
     timeMoving: false,
-    vioceMoving: false
+    vioceMoving: false,
+    showSongImage: true
   }),
   getters: {
     langObj() {

@@ -4,14 +4,17 @@
       <view class="top-line" @tap="topLineClick"></view>
       <view class="player-image-box" :style="{ width: store.songImageWBigP + 'px', height: store.songImageWBigP + 'px' }"
         @touchstart.passive="onImgTouchS" @touchend.passive="onImgTouchE">
-        <view v-show="store.showLyric" style="width: 100%; height: 100%;">
+        <view v-show="cur === 'lyric'" style="width: 100%; height: 100%;">
           <Lyric />
         </view>
-        <image v-show="!store.showLyric" ref="bg" @load="onImageLoaded"
+        <image v-show="cur === 'image'" ref="bg"
           :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
           :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
           :src="store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}`">
         </image>
+        <view v-show="cur === 'disc'" style="width: 100%; height: 100%;">
+          <Disc />
+        </view>
       </view>
       <view class="player-song-info">
         <view class="left">
@@ -47,10 +50,11 @@
 </template>
   
 <script setup>
+import Disc from './Disc.vue'
 import Lyric from './Lyric.vue'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
-import { computed, onMounted, nextTick } from 'vue'
+import { computed, onMounted, nextTick, ref } from 'vue'
 import Audio from '@/controlaudio'
 
 import { likeSong } from '@/apis/mine'
@@ -63,6 +67,10 @@ const { playOrPause, playOrPauseCls, next, nextCls, last, lastCls } = usePlayerB
 const { onTouchS, onTouchE } = useTouchMove()
 
 const store = useStore()
+
+const curArr = ['image', 'lyric', 'disc']
+
+const cur = ref('image')
 
 function onPlay() {
   store.currentSong.playing = true
@@ -82,9 +90,15 @@ function onImgTouchS(event) {
 
 function onImgTouchE(event) {
   const { left, right, bottom } = onTouchE(event)
-  bottom !== undefined && !store.showLyric && store.setPlayerShow(false)
-  right !== undefined && (store.showLyric = !store.showLyric)
-  left !== undefined && (store.showLyric = !store.showLyric)
+  const index = curArr.indexOf(cur.value)
+  bottom !== undefined && cur.value !== 'lyric' && store.setPlayerShow(false)
+  if (right !== undefined) {
+    const newIndex = index === curArr.length - 1 ? 0 : index + 1
+    cur.value = curArr[newIndex]
+  } else if (left !== undefined) {
+    const newIndex = index === 0 ? curArr.length - 1 : index - 1
+    cur.value = curArr[newIndex]
+  }
 }
 
 const bkImage = computed(() => {

@@ -6,6 +6,9 @@
   <a href="https://static-mp-d22f2f25-96ec-4381-920f-a0d8df227b60.next.bspapp.com/LVMusic">PC: LVMusic</a>
 </p>
 <p align="center">
+  小程序体验版
+</p>
+<p align="center">
   <img src="./src/static/oTqEp5NslRg_tfn4JSHKkdYlYD5w.jpg"/>
 </p>
 

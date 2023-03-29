@@ -6,7 +6,7 @@
   <a href="https://static-mp-d22f2f25-96ec-4381-920f-a0d8df227b60.next.bspapp.com/LVMusic">PC: LVMusic</a>
 </p>
 <p align="center">
-  <img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dd7046051dcc4722ab3d342031b0e21f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?"/>
+  <img src="./src/static/oTqEp5NslRg_tfn4JSHKkdYlYD5w.jpg"/>
 </p>
 
 ## ☀️ 亮点

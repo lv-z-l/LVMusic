@@ -9,7 +9,7 @@
         </LazyLoader>
         <view class="play-count" v-if="props.showPlayCount">
           <text class="icon-24gf-playCircle"></text>
-          <text class="text">{{ Number.parseInt(st.playCount / 10000) + 'w' }}</text>
+          <text class="text">{{ toW(st.playCount) }}</text>
         </view>
         <view class="name" :style="{ maxWidth: pxw }">{{ st.name }}</view>
       </view>
@@ -23,7 +23,7 @@
     </LazyLoader>
     <view class="play-count" v-if="props.showPlayCount">
       <text class="icon-24gf-playCircle"></text>
-      <text class="text">{{ Number.parseInt(props.sheet.playCount / 10000) + 'w' }}</text>
+      <text class="text">{{ toW(props.sheet.playCount) }}</text>
     </view>
     <view class="name" :style="{ maxWidth: pxw }">{{ props.sheet.name }}</view>
   </view>
@@ -34,19 +34,19 @@ import { useStore } from '../../store/main'
 import { computed } from 'vue'
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
+import { toW } from '@/utils'
 
 const store = useStore()
 const props = defineProps({
   sheet: Object | Array,
   marginR: Boolean,
-  halfW: Boolean,
   showPlayCount: {
     type: Boolean,
     default: true
   }
 })
 
-const w = computed(() => props.halfW ? Number.parseInt(store.imageW / 2) : store.imageW)
+const w = computed(() => store.imageW)
 
 const pxw = computed(() => w.value + 'px')
 

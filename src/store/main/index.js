@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { defineAsyncComponent } from 'vue'
 import Recommend from '../../pages/recommend/Recommend.vue'
-import Audio from '@/controlaudio'
+import Audio from '@/use/controlaudio'
 import { loadLang } from '@/utils'
 import { getLoginStatus } from '@/apis/login'
 import { getLikeList } from '@/apis/mine'
@@ -67,7 +67,9 @@ export const useStore = defineStore('main', {
   }),
   getters: {
     langObj() {
-      const key = Object.keys(langModules).find(key => key.includes(this.lang))
+      const sysLang = uni.getLocale()
+      const prefix = sysLang.split('-')[0]
+      const key = Object.keys(langModules).find(key => key.includes(prefix))
       return langModules[key].default
     },
     currentComp() {

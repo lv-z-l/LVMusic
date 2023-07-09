@@ -48,7 +48,7 @@ onBeforeMount(() => {
   store.loginStatus()
 })
 
-onBeforeUnmount(() => Audio.destroy())
+onBeforeUnmount(() => Audio && Audio.instance && Audio.instance.destroy())
 
 onMounted(() => {
   const windowInfo = uni.getWindowInfo()

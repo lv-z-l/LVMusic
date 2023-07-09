@@ -5,33 +5,34 @@
       <text class="nick-name">{{ store.userInfo.nickname }}</text>
       <text>{{ store.userInfo.gender === 1 ? store.langObj.genderMan : store.langObj.genderWoMan }}</text>
     </view>
-    <view class="function">
-      <view class="function-item" @click="getRecentSongList">
-        <text class="icon-yinlegedanyinfu"></text>
-        <text class="text">{{ store.langObj.latest }}</text>
-      </view>
-      <view class="function-item" @click="getLikeSong">
-        <text class="icon-shoucang"></text>
-        <text class="text">{{ store.langObj.like }}</text>
-      </view>
-    </view>
     <view class="like-playlists" v-loading="loading">
       <text class="title">{{ store.langObj.likeList }}</text>
       <view class="list">
-        <SongSheet v-for="list in playList" :sheet="list" margin-r half-w :show-play-count="false">
+        <SongSheet v-for="list in playList" :sheet="list" margin-r :show-play-count="false">
         </SongSheet>
       </view>
     </view>
+    <view ref="blankBlock" class="blank-block"></view>
   </view>
+  
 </template>
 <script setup>
 import { reactive, onBeforeMount, nextTick, ref } from 'vue'
 import { useStore } from '../../store/main'
 import SongSheet from '../../components/songsheet/SongSheet.vue'
 import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'
-import { onSheetClick } from '@/use/useSongSheetClick.js'
 
-const playList = reactive([])
+const store = useStore()
+
+const playList = reactive([
+  {
+    id: 'RECENT',
+    name: store.langObj.latest,
+    coverImgUrl: store.userInfo.avatarUrl,
+    playCount: 9999,
+    subscribed: true
+  }
+])
 
 const loading = ref(false)
 
@@ -50,53 +51,13 @@ const loadData = () => {
           subscribed
         }
       })
-      playList.splice(0, playList.length, ...temp)
+      playList.splice(1, playList.length - 1, ...temp)
       loading.value = false
     }).catch(() => loading.value = false)
   }
 }
 
 onBeforeMount(loadData)
-
-const store = useStore()
-
-function getList(data) {
-  const { list } = data
-  const lists = list.map(song => {
-    const { name, id, al, ar } = song.data
-    return {
-      name,
-      id,
-      url: al.picUrl,
-      author: ar.map(t => t.name).join('、')
-    }
-  })
-  return lists
-}
-
-function getLikeSong() {
-  const likePlay = playList[0]
-  onSheetClick(store, likePlay)
-}
-
-function getRecentSongList() {
-  store.setSongs({
-    sheetId: 'recent',
-    coverImgUrl: '',
-    description: store.langObj.recent,
-    name: store.langObj.latest,
-    lists: [],
-    more: true,
-    loadMore: () => {
-      return getRecentSonglist({ limit: 20, offset: store.songs.lists.length }).then(res => {
-        const lists = getList(res.data)
-        !store.songs.coverImgUrl && (store.songs.coverImgUrl = lists[0].url)
-        store.songs.lists.push(...lists)
-      })
-    }
-  })
-  nextTick(() => store.setCurrentBar('songlist'))
-}
 </script>
 <style lang="scss">
 .my-space {
@@ -109,8 +70,15 @@ function getRecentSongList() {
   align-items: center;
   justify-content: flex-start;
 
+  .blank-block {
+    width: 100%;
+    height: calc(2 * $bottom-bar-height);
+    flex: 0 0 auto;
+  }
+
   .avatar-box {
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
     height: calc(100vh / 8);
@@ -133,7 +101,6 @@ function getRecentSongList() {
     }
   }
 
-  .function,
   .like-playlists {
     display: flex;
     align-items: center;
@@ -147,32 +114,9 @@ function getRecentSongList() {
     width: 100%;
   }
 
-  .function {
-    min-height: calc(100vh / 8);
-    width: 100%;
-    flex-direction: row;
-
-    .function-item {
-      display: flex;
-      box-sizing: border-box;
-      padding: calc($page-frame-scroll-margin-top / 4);
-      flex-direction: column;
-      align-items: center;
-    }
-
-    [class^=icon-] {
-      font-size: $bottom-bar-icon-size;
-      margin: $bottom-bar-icon-margin;
-      color: $bottom-bar-active-color;
-    }
-
-    .text {
-      font-size: calc($bottom-bar-text-size / 2);
-    }
-  }
-
   .like-playlists {
     flex-direction: column;
+    flex: 0 0 auto;
 
     .list,
     .title {
@@ -185,6 +129,7 @@ function getRecentSongList() {
     }
 
     .list {
+      justify-content: space-evenly;
       margin-top: calc($page-frame-scroll-margin-top / 4);
     }
 

@@ -7,11 +7,13 @@ export function debounce(fn, time) {
       clearTimeout(timer)
       timer = null
     } else {
-      timer = setTimeout(() => fn.apply(null, argu) && clearTimeout(timer), time)
+      timer = setTimeout(
+        () => fn.apply(null, argu) && clearTimeout(timer),
+        time
+      )
     }
   }
 }
-
 
 export function throttle(fn, time) {
   let flag = false
@@ -35,12 +37,21 @@ export function initLazyIntersectionObserver(fn) {
       rootMargin: '0px',
       threshold: 0,
     }
-  );
-  return observer;
+  )
+  return observer
+}
+
+export function toW(playCount) {
+  if (playCount > 100000000) {
+    return Number.parseInt(playCount / 100000000) + ' 亿'
+  }
+  return Number.parseInt(playCount / 10000) + ' 万'
 }
 
 export function loadLang() {
-  const langModules = import.meta.glob('../lang/*.js', { eager: true })
+  const langModules = import.meta.glob('../lang/*.js', {
+    eager: true,
+  })
   return langModules
 }
 
@@ -64,6 +75,6 @@ export async function analyzeBg(img) {
 
 export function isDeepColor(color) {
   const c = color.replace(/[rgb\(\)]/).split(',')
-  const grayLevel = c[0] * 0.299 + c[1] * 0.587 + c[2] * 0.114;
+  const grayLevel = c[0] * 0.299 + c[1] * 0.587 + c[2] * 0.114
   return grayLevel < 192
 }

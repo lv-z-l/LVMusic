@@ -1,17 +1,57 @@
 import { getSongUrlById, getSongLyric } from '@/apis/song'
-import Audio from '@/controlaudio'
+import { getRecentSonglist } from '@/apis/mine'
+import Audio from '@/use/controlaudio'
 import { nextTick } from 'vue'
-
 
 export function onSheetClick(store, sheet) {
   const { coverImgUrl, id, name } = sheet
+  if (id === 'RECENT') {
+    getRecentSong(store)
+    return
+  }
   store.setSongs({
     sheetId: id,
     coverImgUrl,
     description: '',
     name,
     more: true,
-    lists: []
+    lists: [],
+  })
+  nextTick(() => store.setCurrentBar('songlist'))
+}
+
+function getList(data) {
+  const { list } = data
+  const lists = list.map(song => {
+    const { name, id, al, ar } = song.data
+    return {
+      name,
+      id,
+      url: al.picUrl,
+      author: ar.map(t => t.name).join('、'),
+    }
+  })
+  return lists
+}
+
+function getRecentSong(store) {
+  store.setSongs({
+    sheetId: 'RECENT',
+    coverImgUrl: store.userInfo.avatarUrl,
+    description: store.langObj.recent,
+    name: store.langObj.latest,
+    lists: [],
+    more: true,
+    loadMore: () => {
+      return getRecentSonglist({
+        limit: 20,
+        offset: store.songs.lists.length,
+      }).then(res => {
+        const lists = getList(res.data)
+        !store.songs.coverImgUrl && (store.songs.coverImgUrl = lists[0].url)
+        store.songs.lists.push(...lists)
+      })
+    },
   })
   nextTick(() => store.setCurrentBar('songlist'))
 }

@@ -51,7 +51,7 @@ import Lyric from './Lyric.vue'
 import Process from '@/components/process/Process'
 import { useStore } from '@/store/main/index'
 import { computed, onMounted, nextTick } from 'vue'
-import Audio from '@/controlaudio'
+import Audio from '@/use/controlaudio'
 import { likeSong } from '@/apis/mine'
 
 import { usePlayerBtns } from '@/use/usePlayerBtns.js'

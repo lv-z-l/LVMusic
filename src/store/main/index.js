@@ -1,25 +1,21 @@
 import { defineStore } from 'pinia'
 import { defineAsyncComponent } from 'vue'
-import Recommend from '../../pages/recommend/Recommend.vue'
+import Recommend from '@/pages/recommend/Recommend.vue'
 import Audio from '@/use/controlaudio'
 import { loadLang } from '@/utils'
 import { getLoginStatus } from '@/apis/login'
 import { getLikeList } from '@/apis/mine'
-import config from '../../config'
+import config from '@/config'
 
 const langModules = loadLang()
 
 const bars = config.icons.map(icon => icon.comp)
 const compMap = {
   recommend: Recommend,
-  mine: defineAsyncComponent(() => import('../../pages/mine/Mine.vue')),
-  songlist: defineAsyncComponent(() =>
-    import('../../pages/songlist/SongList.vue')
-  ),
-  category: defineAsyncComponent(() =>
-    import('../../pages/category/CateGory.vue')
-  ),
-  search: defineAsyncComponent(() => import('../../pages/search/Search.vue')),
+  mine: defineAsyncComponent(() => import('@/pages/mine/Mine.vue')),
+  songlist: defineAsyncComponent(() => import('@/pages/songlist/SongList.vue')),
+  category: defineAsyncComponent(() => import('@/pages/category/CateGory.vue')),
+  search: defineAsyncComponent(() => import('@/pages/search/Search.vue')),
 }
 
 export const useStore = defineStore('main', {
@@ -33,8 +29,7 @@ export const useStore = defineStore('main', {
       name: 'Fade',
       author: 'AiPi',
       playing: false,
-      musicUrl:
-        'https://mp-d22f2f25-96ec-4381-920f-a0d8df227b60.cdn.bspapp.com/cloudstorage/e2d726fe-3b47-4e11-abaf-cd893dc28c10.mp3',
+      musicUrl: 'https://mp-d22f2f25-96ec-4381-920f-a0d8df227b60.cdn.bspapp.com/cloudstorage/e2d726fe-3b47-4e11-abaf-cd893dc28c10.mp3',
       url: 'http://p3.music.126.net/JUnSAoafluMhc6XE2fgdzA==/18189220858697765.jpg',
       id: '34183461',
       start: 0,
@@ -97,14 +92,7 @@ export const useStore = defineStore('main', {
           if (profile && profile.userId) {
             this.noLogin = false
             this.noCheck = false
-            const {
-              userId,
-              nickname,
-              userName,
-              backgroundUrl,
-              avatarUrl,
-              gender,
-            } = profile
+            const { userId, nickname, userName, backgroundUrl, avatarUrl, gender } = profile
             this.getLikeListIds(userId)
             const userInfo = {
               userId,
@@ -152,20 +140,11 @@ export const useStore = defineStore('main', {
     pushCompQuene(comp) {
       this.compQuene.push(comp)
     },
-    setImageWidth(
-      PLAY_LIST_ITEM_W,
-      w,
-      PLAY_LIST_IMAGE_H,
-      C_W_NO_PADDING,
-      SONG_IMAGE_W_BIG,
-      SONG_IMAGE_W_BIG_P,
-      h
-    ) {
+    setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h) {
       this.imageW = PLAY_LIST_ITEM_W > 200 ? 200 : PLAY_LIST_ITEM_W
       this.clientW = w
       this.songListImgH = PLAY_LIST_IMAGE_H > 600 ? 600 : PLAY_LIST_IMAGE_H
-      this.clientWNoPadding =
-        C_W_NO_PADDING > 740 ? C_W_NO_PADDING / 2 : C_W_NO_PADDING
+      this.clientWNoPadding = C_W_NO_PADDING > 740 ? C_W_NO_PADDING / 2 : C_W_NO_PADDING
       this.songImageWBig = SONG_IMAGE_W_BIG > 320 ? 320 : SONG_IMAGE_W_BIG
       this.songImageWBigP = SONG_IMAGE_W_BIG_P > 360 ? 360 : SONG_IMAGE_W_BIG_P
       this.clientH = h
@@ -179,8 +158,7 @@ export const useStore = defineStore('main', {
       scrollBar && (this.fixed = scrollBar.clientHeight / 2 < scrollTop)
     },
     loadMore() {
-      this.loadMoreMap[this.currentCompKey] &&
-        this.loadMoreMap[this.currentCompKey]()
+      this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
     },
     setSongs(s) {
       this.songs = s

@@ -15,8 +15,8 @@
   </view>
 </template>
 <script setup>
-import { computed } from 'vue';
-import { useStore } from '../../store/main';
+import { computed } from 'vue'
+import { useStore } from '../../store/main'
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 import { playSong } from '@/use/useSongSheetClick.js'
 import { likeSong } from '@/apis/mine'
@@ -50,7 +50,7 @@ function like(id) {
   .song-image {
     flex: 0 0 auto;
     width: $play-song-image-width;
-    height: $play-song-image-height;
+    height: $play-song-image-width;
     margin-right: $play-song-name-margin;
     border-radius: $border-radius;
   }

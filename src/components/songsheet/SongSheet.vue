@@ -30,8 +30,8 @@
 </template>
   
 <script setup>
-import { useStore } from '../../store/main';
-import { computed } from 'vue';
+import { useStore } from '../../store/main'
+import { computed } from 'vue'
 import LazyLoader from '@/components/lazyloader/LazyLoader.vue'
 import { onSheetClick } from '@/use/useSongSheetClick.js'
 
@@ -61,11 +61,7 @@ const emit = defineEmits(['sheet-click'])
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: $song-sheet-margin;
-
-  &.need-margin-r {
-    margin-right: 5.33%;
-  }
+  margin-bottom: $song-sheet-margin-bottom;
 
   .play-count {
     position: absolute;
@@ -101,10 +97,6 @@ const emit = defineEmits(['sheet-click'])
 .swiper-sheet {
   flex: 0 0 auto;
   height: auto;
-
-  &.need-margin-r {
-    margin-right: 5.33%;
-  }
 
   .song-sheet {
     width: 100%;

@@ -7,10 +7,10 @@
         <image v-show="store.showSongImage" ref="bg"
           :style="{ width: store.songImageWBig + 'px', height: store.songImageWBig + 'px' }"
           :class="['player-image', store.currentSong.playing ? 'playing' : 'stop']"
-          :src="store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}`">
+          :src="store.currentSong.url + `?param=${store.songImageWBig}y${store.songImageWBig}`"
+          @click="store.showSongImage = !store.showSongImage">
         </image>
         <Disc v-show="!store.showSongImage" />
-        <view class="flower" @click="store.showSongImage = !store.showSongImage">🌹</view>
       </view>
       <view class="player-song-info">
         <view class="left">
@@ -177,11 +177,6 @@ function onVoiceMoveEnd(val) {
     justify-content: center;
     align-items: center;
     position: relative;
-
-    .flower {
-      position: absolute;
-      bottom: -2rem;
-    }
 
     .player-image {
       border-radius: $border-radius;

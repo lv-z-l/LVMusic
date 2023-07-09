@@ -17,8 +17,8 @@
 <script setup>
 import PageFrame from '@/components/pageframe/PageFrame'
 import { getCategoryTags, getCategoryPlayList, getHotOrNewCategoryPlayList } from '@/apis/category'
-import { onBeforeMount, reactive, ref, defineAsyncComponent } from 'vue';
-import { useStore } from '../../store/main';
+import { onBeforeMount, reactive, ref, defineAsyncComponent } from 'vue'
+import { useStore } from '../../store/main'
 import NoData from '@/components/nodata/NoData.vue'
 
 const store = useStore()

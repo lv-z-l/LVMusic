@@ -56,11 +56,10 @@ onMounted(() => {
   // 5.33% 是 padding
   const PLAY_LIST_ITEM_W = Number.parseInt((w - (0.0533 * w * 3)) / 2)
   const C_W_NO_PADDING = Number.parseInt((w - (0.0533 * w * 2)))
-  const SONG_IMAGE_W_LITTLE = Number.parseInt(C_W_NO_PADDING * 0.143)
   const SONG_IMAGE_W_BIG = w * 0.64
   const PLAY_LIST_IMAGE_H = h * 0.48
   const SONG_IMAGE_W_BIG_P = w * 0.872
-  store.setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h)
+  store.setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h)
   store.regMessage(msg)
 })
 
@@ -172,7 +171,7 @@ function onPlayerBarClick() {
 
   .song-image {
     width: $play-song-image-width;
-    height: $play-song-image-height;
+    height: $play-song-image-width;
     border-radius: calc($border-radius / 2);
     margin-right: $play-song-name-margin;
   }

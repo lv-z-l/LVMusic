@@ -1,8 +1,10 @@
 <template>
   <view class="page-frame">
-    <view v-if="props.frameName" :class="['scroll-bar', store.fixed ? 'fixed' : '']">
-      {{ props.frameName }}
-    </view>
+      <view v-if="props.frameName" :class="['scroll-bar', store.fixed ? 'fixed' : '']">
+        <view>{{ props.frameName }}</view>
+        <slot name="scrollbar"></slot>
+      </view>
+    
     <view class="page-frame-content">
       <slot></slot>
       <view ref="blankBlock" class="blank-block"></view>
@@ -52,6 +54,7 @@ onBeforeUnmount(() => observer && observer.unobserve(blankBlock.value.$el))
     transition: $transition;
     margin-top: $page-frame-scroll-margin-top;
     display: flex;
+    align-items: center;
     font-size: $page-frame-scroll-text-size;
 
     &.fixed {

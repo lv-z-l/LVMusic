@@ -1,11 +1,6 @@
-@media only screen and (min-width: 480px) {
-  .song-sheets {
-    justify-content: flex-start !important;
-  }
-
-  .song-sheet {
-    flex: 0;
-    margin: 0 .8rem 1rem 0 !important;
+@media only screen and (min-width: 360px) {
+  .need-margin-r {
+    margin-right: 5.33%;
   }
 }
 
@@ -13,10 +8,6 @@
 
   .song-content-child {
     width: 38% !important;
-  }
-
-  .swiper-sheet {
-    margin-right: 1rem !important;
   }
 
   .swiper-dayrecom-box {
@@ -42,26 +33,10 @@
     padding-right: 4%;
   }
 
-  .songlist .list .song-list-item .song-image {
-    width: 8%;
-  }
-
-
   .player {
     padding: 0 25% !important;
   }
 
-
-  .results .song-image,
-  .player-bar .song-image {
-    width: 4.5% !important;
-  }
-}
-
-@media only screen and (min-width: 1000px) {
-  .songlist .list .song-list-item .song-image {
-    width: 10%;
-  }
 }
 
 @media only screen and (min-width: 900px) and (min-height: 900px) {
@@ -80,10 +55,8 @@
   .song-content-child {
     width: 25% !important;
   }
-
-  .results .song-image,
-  .player-bar .song-image {
-    width: 3.6% !important;
+  .need-margin-r {
+    margin-right: 0;
   }
 }
 

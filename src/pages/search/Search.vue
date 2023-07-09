@@ -1,7 +1,11 @@
 <template>
   <PageFrame :frame-name="store.langObj.search">
-    <input class="icon-search-fill search-input" placeholder="关键字" v-model="keywords" v-debounceInput:600="searchProvide"
-      @confirm="onConfirm" />
+    <template #scrollbar>
+      <view :class="['search-input-wrapper', keywords ? 'show' : '']">
+        <view class="icon-search-fill search-icon"></view>
+        <input class="search-input" placeholder="关键字" v-model="keywords" v-debounceInput:600="searchProvide" @confirm="onConfirm"/>
+      </view>
+    </template>
     <view class="hot-search-words" v-show="!keywords">
       <text class="hot-text" @click="proClick(text)" v-for="text in hotTexts">{{ text }}</text>
     </view>
@@ -77,27 +81,51 @@ function onConfirm() {
 </script>
   
 <style lang="scss">
-.search-input {
+.search-input-wrapper {
+  flex: 2 0 auto;
   display: flex;
   align-items: center;
-  width: calc(100% - 2 * $global-padding);
-  height: 2rem;
-  color: var(--bottom-bar-color);
-  margin: $player-top-line-margin-top $global-padding;
-  border: 1px solid $bottom-bar-split-color;
-  border-radius: 2 * $border-radius;
+  justify-content: flex-start;
+  position: relative;
 
-  &::before {
-    font-size: 1rem;
-    margin: 0 .8rem;
+  .search-icon {
+    font-size: 2rem;
+    position: absolute;
+    left: 1.6rem;
+    transition: $transition;
   }
+
+  .search-input {
+    height: 2rem;
+    color: var(--bottom-bar-color);
+    margin-left: 1rem;
+    width: 0;
+    border: none;
+    border-radius: 2 * $border-radius;
+    text-indent: 2rem;
+    transition: $transition;
+  }
+
+  &:hover,
+  &.show {
+    .search-icon {
+      font-size: 1rem;
+    }
+
+    .search-input {
+      width: 30%;
+      border: 1px solid $bottom-bar-split-color;
+    }
+
+  }
+
 }
 
 .provides,
 .results,
 .hot-search-words {
   width: 100%;
-  padding: 0 $global-padding;
+  padding: 2rem $global-padding;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;

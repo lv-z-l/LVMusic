@@ -1,5 +1,6 @@
 <template>
-  <div :class="['turntable', store.currentSong.playing ? 'playing' : '']">
+  <div :class="['turntable', store.currentSong.playing ? 'playing' : '']"
+    @click="store.showSongImage = !store.showSongImage">
     <div class="disc">
       <img src="../../static/disc.1.png" class="disc-1" />
       <img src="../../static/disc-2.png" class="disc-2" />

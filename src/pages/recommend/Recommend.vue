@@ -270,6 +270,7 @@ watch(() => store.noLogin, (val) => {
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: auto;
+    justify-content: space-between;
 
     &::-webkit-scrollbar {
       width: 0;

@@ -12,10 +12,14 @@ const langModules = loadLang()
 const bars = config.icons.map(icon => icon.comp)
 const compMap = {
   recommend: Recommend,
-  mine: defineAsyncComponent(() => import(/* webpackChunkName: "mine" */'../../pages/mine/Mine.vue')),
-  songlist: defineAsyncComponent(() => import(/* webpackChunkName: "songlist" */'../../pages/songlist/SongList.vue')),
-  category: defineAsyncComponent(() => import(/* webpackChunkName: "category" */'../../pages/category/CateGory.vue')),
-  search: defineAsyncComponent(() => import(/* webpackChunkName: "search" */'../../pages/search/Search.vue'))
+  mine: defineAsyncComponent(() => import('../../pages/mine/Mine.vue')),
+  songlist: defineAsyncComponent(() =>
+    import('../../pages/songlist/SongList.vue')
+  ),
+  category: defineAsyncComponent(() =>
+    import('../../pages/category/CateGory.vue')
+  ),
+  search: defineAsyncComponent(() => import('../../pages/search/Search.vue')),
 }
 
 export const useStore = defineStore('main', {
@@ -29,12 +33,13 @@ export const useStore = defineStore('main', {
       name: 'Fade',
       author: 'AiPi',
       playing: false,
-      musicUrl: 'https://mp-d22f2f25-96ec-4381-920f-a0d8df227b60.cdn.bspapp.com/cloudstorage/e2d726fe-3b47-4e11-abaf-cd893dc28c10.mp3',
+      musicUrl:
+        'https://mp-d22f2f25-96ec-4381-920f-a0d8df227b60.cdn.bspapp.com/cloudstorage/e2d726fe-3b47-4e11-abaf-cd893dc28c10.mp3',
       url: 'http://p3.music.126.net/JUnSAoafluMhc6XE2fgdzA==/18189220858697765.jpg',
       id: '34183461',
       start: 0,
       time: 297875,
-      lyric: {}
+      lyric: {},
     },
     loadMoreMap: {},
     lang: 'zh-cn',
@@ -48,7 +53,7 @@ export const useStore = defineStore('main', {
     clientW: 350,
     clientH: 750,
     songListImgH: 750,
-    songImageW: 49,
+    songImageW: 48,
     songImageWBig: 200,
     songImageWBigP: 300,
     clientWNoPadding: 350,
@@ -58,7 +63,7 @@ export const useStore = defineStore('main', {
     playerShow: false,
     timeMoving: false,
     vioceMoving: false,
-    showSongImage: true
+    showSongImage: true,
   }),
   getters: {
     langObj() {
@@ -70,7 +75,7 @@ export const useStore = defineStore('main', {
         this.compQuene.push(this.currentCompKey)
       }
       return compMap[this.currentCompKey]
-    }
+    },
   },
   actions: {
     getLikeListIds(userId) {
@@ -79,30 +84,41 @@ export const useStore = defineStore('main', {
       })
     },
     loginStatus() {
+      Audio.instance.onCanplay(() => (this.currentSong.playing = true))
+      Audio.instance.onError(() => (this.currentSong.playing = false))
       if (import.meta.env.MODE === 'production') {
         this.cookie = localStorage.getItem('MUSIC_COOKIE') || ''
       }
-      return getLoginStatus().then(res => {
-        const { profile } = res.data
-        if (profile && profile.userId) {
-          this.noLogin = false
-          this.noCheck = false
-          const { userId, nickname, userName, backgroundUrl, avatarUrl, gender } = profile
-          this.getLikeListIds(userId)
-          const userInfo = {
-            userId,
-            nickname,
-            userName,
-            backgroundUrl,
-            avatarUrl,
-            gender
+      return getLoginStatus()
+        .then(res => {
+          const { profile } = res.data
+          if (profile && profile.userId) {
+            this.noLogin = false
+            this.noCheck = false
+            const {
+              userId,
+              nickname,
+              userName,
+              backgroundUrl,
+              avatarUrl,
+              gender,
+            } = profile
+            this.getLikeListIds(userId)
+            const userInfo = {
+              userId,
+              nickname,
+              userName,
+              backgroundUrl,
+              avatarUrl,
+              gender,
+            }
+            Object.assign(this.userInfo, userInfo)
+          } else {
+            this.noCheck = false
           }
-          Object.assign(this.userInfo, userInfo)
-        } else {
-          this.noCheck = false
-        }
-        return profile
-      }).catch(() => this.noCheck = false)
+          return profile
+        })
+        .catch(() => (this.noCheck = false))
     },
     regMessage(msg) {
       this.msg = msg
@@ -115,13 +131,17 @@ export const useStore = defineStore('main', {
       this.currentSong.start = currentTime
     },
     playOrPause() {
-      if (this.currentSong.playing) { // 暂停
+      if (this.currentSong.playing) {
+        this.currentSong.playing = !this.currentSong.playing
+        // 暂停
         Audio.pause()
       } else {
         const { musicUrl, name, author } = this.currentSong
+        if (Audio.instance.src === musicUrl) {
+          this.currentSong.playing = !this.currentSong.playing
+        }
         Audio.play(musicUrl, name, author)
       }
-      this.currentSong.playing = !this.currentSong.playing
     },
     back() {
       this.compQuene.pop()
@@ -130,12 +150,20 @@ export const useStore = defineStore('main', {
     pushCompQuene(comp) {
       this.compQuene.push(comp)
     },
-    setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, SONG_IMAGE_W_LITTLE, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h) {
+    setImageWidth(
+      PLAY_LIST_ITEM_W,
+      w,
+      PLAY_LIST_IMAGE_H,
+      C_W_NO_PADDING,
+      SONG_IMAGE_W_BIG,
+      SONG_IMAGE_W_BIG_P,
+      h
+    ) {
       this.imageW = PLAY_LIST_ITEM_W > 200 ? 200 : PLAY_LIST_ITEM_W
       this.clientW = w
       this.songListImgH = PLAY_LIST_IMAGE_H > 600 ? 600 : PLAY_LIST_IMAGE_H
-      this.songImageW = SONG_IMAGE_W_LITTLE
-      this.clientWNoPadding = C_W_NO_PADDING > 740 ? C_W_NO_PADDING / 2 : C_W_NO_PADDING
+      this.clientWNoPadding =
+        C_W_NO_PADDING > 740 ? C_W_NO_PADDING / 2 : C_W_NO_PADDING
       this.songImageWBig = SONG_IMAGE_W_BIG > 320 ? 320 : SONG_IMAGE_W_BIG
       this.songImageWBigP = SONG_IMAGE_W_BIG_P > 360 ? 360 : SONG_IMAGE_W_BIG_P
       this.clientH = h
@@ -149,7 +177,8 @@ export const useStore = defineStore('main', {
       scrollBar && (this.fixed = scrollBar.clientHeight / 2 < scrollTop)
     },
     loadMore() {
-      this.loadMoreMap[this.currentCompKey] && this.loadMoreMap[this.currentCompKey]()
+      this.loadMoreMap[this.currentCompKey] &&
+        this.loadMoreMap[this.currentCompKey]()
     },
     setSongs(s) {
       this.songs = s
@@ -174,6 +203,6 @@ export const useStore = defineStore('main', {
     },
     putCacheSongImageBG(url, bg) {
       this.cacheSongImageBG[url] = bg
-    }
+    },
   },
 })

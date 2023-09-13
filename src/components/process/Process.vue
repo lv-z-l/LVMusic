@@ -1,6 +1,5 @@
 <template>
-  <view :class="['process-bar', clientX > 0 ? 'moving' : '']" @touchstart.passive="onTouchS"
-    @touchmove.passive="throttledM" @touchend.passive="onTouchE">
+  <view :class="['process-bar', clientX > 0 ? 'moving' : '']">
     <view class="process" :style="{ width: processW }"></view>
   </view>
   <view v-if="showText" :class="['process-text', clientX > 0 ? 'moving' : '']">
@@ -72,36 +71,9 @@ function moveByStep() {
     timer = setTimeout(moveByStep, 1000)
   }
 }
-
-const emit = defineEmits(['moves', 'movee'])
 const clientX = ref(0)
 
 const selfVal = ref(props.init)
-
-function onTouchS(event) {
-  clientX.value = event.changedTouches[0].clientX
-  emit('moves')
-}
-
-function onTouchM(event) {
-  const newX = event.changedTouches[0].clientX
-  if (newX > clientX.value) {
-    if (selfVal.value < props.max) {
-      selfVal.value += props.step
-    }
-  } else {
-    if (selfVal.value > props.min) {
-      selfVal.value -= props.step
-    }
-  }
-  clientX.value = newX
-}
-const throttledM = throttle(onTouchM, 100)
-
-function onTouchE(event) {
-  clientX.value = 0
-  emit('movee', selfVal.value)
-}
 
 const processW = computed(() => !selfVal.value ? '0px' : `calc(100% * (${props.autoMove ? selfVal.value * 1000 : selfVal.value} / ${props.max}))`)
 

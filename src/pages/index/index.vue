@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']">
+    <view class="music-scroll">
       <transition name="fade" mode="out-in">
         <Recommend v-if="store.currentCompKey === 'recommend'"></Recommend>
         <Mine v-else-if="store.currentCompKey === 'mine'"></Mine>
@@ -102,15 +102,6 @@ function onPlayerBarClick() {
   &::-webkit-scrollbar {
     width: 0;
     height: 0;
-  }
-
-
-  &.hide {
-    transform: scale(.94);
-  }
-
-  &.show {
-    transform: scale(1);
   }
 }
 

@@ -27,8 +27,7 @@
       <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
         <view class="songtime-bar">
           <Process :init="store.currentSong.start" :auto-move-step="1000" :max="store.currentSong.time" auto-move
-            :formatShowText="formatShowText" :min="0" :step="10" show-text @moves="store.setTimeMoving(true)"
-            @movee="onTimeMoveEnd">
+            :formatShowText="formatShowText" :min="0" :step="10" show-text>
           </Process>
         </view>
       </view>
@@ -40,7 +39,7 @@
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
         <text class="iconfont icon-shengyin03-mianxing"></text>
         <view class="voice-bar">
-          <Process :init="0.5" :step="0.05" :max="1" :min="0" @moves="store.setVoiceMoving(true)" @movee="onVoiceMoveEnd">
+          <Process :init="0.5" :step="0.05" :max="1" :min="0">
           </Process>
         </view>
         <text class="iconfont icon-shengyin01-mianxing"></text>
@@ -139,21 +138,12 @@ function formatShowText(type, val) {
   }
 }
 
-function onTimeMoveEnd(val) {
-  Audio.seek(val)
-  store.setTimeMoving(false)
-}
-
-function onVoiceMoveEnd(val) {
-  Audio.setVolume(val)
-  store.setVoiceMoving(false)
-}
 </script>
   
 <style lang="scss">
 .player-box {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: absolute;
   top: 0;
   z-index: 2;

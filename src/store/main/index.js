@@ -26,14 +26,14 @@ export const useStore = defineStore('main', {
     currentCompKey: 'recommend',
     compQuene: ['recommend'],
     currentSong: {
-      name: 'Fade',
-      author: 'AiPi',
+      name: '暂无歌曲',
+      author: '未知歌手',
       playing: false,
-      musicUrl: 'https://mp-d22f2f25-96ec-4381-920f-a0d8df227b60.cdn.bspapp.com/cloudstorage/e2d726fe-3b47-4e11-abaf-cd893dc28c10.mp3',
-      url: 'http://p3.music.126.net/JUnSAoafluMhc6XE2fgdzA==/18189220858697765.jpg',
-      id: '34183461',
+      musicUrl: '',
+      url: '',
+      id: '888',
       start: 0,
-      time: 297875,
+      time: 0,
       lyric: {},
     },
     loadMoreMap: {},
@@ -121,6 +121,9 @@ export const useStore = defineStore('main', {
       this.currentSong.start = currentTime
     },
     playOrPause() {
+      if (!this.currentSong.musicUrl) {
+        return
+      }
       if (this.currentSong.playing) {
         this.currentSong.playing = !this.currentSong.playing
         // 暂停
@@ -140,7 +143,15 @@ export const useStore = defineStore('main', {
     pushCompQuene(comp) {
       this.compQuene.push(comp)
     },
-    setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h) {
+    setImageWidth() {
+      const windowInfo = uni.getWindowInfo()
+      const { windowWidth: w, windowHeight: h } = windowInfo
+      // 5.33% 是 padding
+      const PLAY_LIST_ITEM_W = Math.floor((w - 0.0533 * w * 3) / 2)
+      const C_W_NO_PADDING = Math.floor(w - 0.0533 * w * 2)
+      const SONG_IMAGE_W_BIG = w * 0.64
+      const PLAY_LIST_IMAGE_H = h * 0.48
+      const SONG_IMAGE_W_BIG_P = w * 0.872
       this.imageW = PLAY_LIST_ITEM_W > 200 ? 200 : PLAY_LIST_ITEM_W
       this.clientW = w
       this.songListImgH = PLAY_LIST_IMAGE_H > 600 ? 600 : PLAY_LIST_IMAGE_H

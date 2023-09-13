@@ -8,7 +8,7 @@
     <view class="like-playlists" v-loading="loading">
       <text class="title">{{ store.langObj.likeList }}</text>
       <view class="list">
-        <SongSheet v-for="list in playList" :sheet="list" margin-r :show-play-count="false">
+        <SongSheet v-for="list in playList" :sheet="list" :show-play-count="false">
         </SongSheet>
       </view>
     </view>
@@ -17,10 +17,10 @@
   
 </template>
 <script setup>
-import { reactive, onBeforeMount, nextTick, ref } from 'vue'
+import { reactive, onBeforeMount, ref } from 'vue'
 import { useStore } from '../../store/main'
 import SongSheet from '../../components/songsheet/SongSheet.vue'
-import { getUserPlaylist, getRecentSonglist } from '@/apis/mine'
+import { getUserPlaylist } from '@/apis/mine'
 
 const store = useStore()
 
@@ -129,7 +129,6 @@ onBeforeMount(loadData)
     }
 
     .list {
-      justify-content: space-evenly;
       margin-top: calc($page-frame-scroll-margin-top / 4);
     }
 

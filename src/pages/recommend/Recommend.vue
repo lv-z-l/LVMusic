@@ -24,7 +24,7 @@
         </view>
         <view class="playlist-content" v-else>
           <SongSheet v-for="resource, index in block.resources" :key="resource.id + '' + index || 'swiper-sheet'"
-            :sheet="resource" margin-r>
+            :sheet="resource">
           </SongSheet>
         </view>
       </view>

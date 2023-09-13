@@ -46,22 +46,20 @@ const msg = ref()
 
 onBeforeMount(() => {
   store.loginStatus()
+  uni.offWindowResize(watchWindowResize)
 })
 
 onBeforeUnmount(() => Audio && Audio.instance && Audio.instance.destroy())
 
 onMounted(() => {
-  const windowInfo = uni.getWindowInfo()
-  const { windowWidth: w, windowHeight: h } = windowInfo
-  // 5.33% 是 padding
-  const PLAY_LIST_ITEM_W = Number.parseInt((w - (0.0533 * w * 3)) / 2)
-  const C_W_NO_PADDING = Number.parseInt((w - (0.0533 * w * 2)))
-  const SONG_IMAGE_W_BIG = w * 0.64
-  const PLAY_LIST_IMAGE_H = h * 0.48
-  const SONG_IMAGE_W_BIG_P = w * 0.872
-  store.setImageWidth(PLAY_LIST_ITEM_W, w, PLAY_LIST_IMAGE_H, C_W_NO_PADDING, SONG_IMAGE_W_BIG, SONG_IMAGE_W_BIG_P, h)
+  watchWindowResize()
   store.regMessage(msg)
+  uni.onWindowResize(watchWindowResize)
 })
+
+function watchWindowResize() {
+  store.setImageWidth()
+}
 
 const iconList = reactive(MainConfig.icons)
 
@@ -172,6 +170,7 @@ function onPlayerBarClick() {
   .song-image {
     width: $play-song-image-width;
     height: $play-song-image-width;
+    background-color: beige;
     border-radius: calc($border-radius / 2);
     margin-right: $play-song-name-margin;
   }

@@ -23,8 +23,7 @@
       <view :class="['player-songtime', store.timeMoving ? 'moving' : '']">
         <view class="songtime-bar">
           <Process :init="store.currentSong.start" :auto-move-step="1000" :max="store.currentSong.time" auto-move
-            :formatShowText="formatShowText" :min="0" :step="10" show-text @moves="store.setTimeMoving(true)"
-            @movee="onTimeMoveEnd">
+            :formatShowText="formatShowText" :min="0" :step="10" show-text>
           </Process>
         </view>
       </view>
@@ -36,7 +35,7 @@
       <view :class="['player-voice', store.vioceMoving ? 'moving' : '']">
         <text class="icon-shengyin03-mianxing"></text>
         <view class="voice-bar">
-          <Process :init="0.5" :step="0.04" :max="1" :min="0" @moves="store.setVoiceMoving(true)" @movee="onVoiceMoveEnd">
+          <Process :init="0.5" :step="0.04" :max="1" :min="0">
           </Process>
         </view>
         <text class="icon-shengyin01-mianxing"></text>
@@ -100,16 +99,6 @@ function formatShowText(type, val) {
 
     return float[0] + minute + Math.ceil((Number('0.' + float[1]) * 60)) + second
   }
-}
-
-function onTimeMoveEnd(val) {
-  Audio.seek(val)
-  store.setTimeMoving(false)
-}
-
-function onVoiceMoveEnd(val) {
-  Audio.setVolume(val)
-  store.setVoiceMoving(false)
 }
 
 </script>
@@ -181,6 +170,7 @@ function onVoiceMoveEnd(val) {
     .player-image {
       border-radius: $border-radius;
       transition: all .4s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+      background-color: beige;
 
       &.playing {
         width: 100% !important;

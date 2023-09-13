@@ -1,5 +1,5 @@
 <template>
-  <swiper v-if="props.sheet.length" :class="['swiper-sheet', props.marginR ? 'need-margin-r' : '']"
+  <swiper v-if="props.sheet.length" class="swiper-sheet need-margin-r"
     :style="{ width: pxw }" vertical circular autoplay indicator-dots :interval="3000">
     <swiper-item class="swiper-item" v-for="st in props.sheet" :key="st.id">
       <view class="song-sheet" @click="onSheetClick(store, st)">
@@ -15,7 +15,7 @@
       </view>
     </swiper-item>
   </swiper>
-  <view v-else :style="{ width: pxw }" :class="['song-sheet', props.marginR ? 'need-margin-r' : '']"
+  <view v-else :style="{ width: pxw }" class="song-sheet need-margin-r"
     @click="onSheetClick(store, props.sheet)">
     <LazyLoader :w="pxw" :h="pxw">
       <image class="image" :style="{ width: pxw, height: pxw }" :src="props.sheet.coverImgUrl + `?param=${w}y${w}`">
@@ -55,6 +55,10 @@ const emit = defineEmits(['sheet-click'])
 </script>
   
 <style lang="scss">
+.need-margin-r:not(:last-child) {
+  margin-right: calc($global-padding / 2);
+}
+
 .song-sheet {
   position: relative;
   text-align: center;

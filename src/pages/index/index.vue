@@ -166,6 +166,7 @@ function onPlayerBarClick() {
   .song-image {
     width: $play-song-image-width;
     height: $play-song-image-height;
+	background-color: #d98ec8;
     border-radius: calc($border-radius / 2);
     margin-right: $play-song-name-margin;
   }

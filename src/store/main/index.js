@@ -80,9 +80,14 @@ export const useStore = defineStore('main', {
         res.ids && this.likeList.splice(0, this.likeList.length, ...res.ids)
       })
     },
-    loginStatus() {
+    removeAudioEvent() {
+      Audio.instance.destory()
+    },
+    addAudioEvent() {
       Audio.instance.onCanplay(() => (this.currentSong.playing = true))
       Audio.instance.onError(() => (this.currentSong.playing = false))
+    },
+    loginStatus() {
       if (import.meta.env.MODE === 'production') {
         this.cookie = localStorage.getItem('MUSIC_COOKIE') || ''
       }

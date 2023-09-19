@@ -1,5 +1,5 @@
 <template>
-  <view class="content">
+  <view class="content" v-loading="loading">
     <view :class="['music-scroll', store.playerShow ? 'hide' : 'show']" @scroll.passive="onContentScroll">
       <transition name="fade" mode="out-in">
         <keep-alive>
@@ -44,12 +44,19 @@ const { playOrPause, playOrPauseCls, next, nextCls } = usePlayerBtns()
 
 const msg = ref()
 
+const loading = ref(true)
+
 onBeforeMount(() => {
-  store.loginStatus()
-  uni.offWindowResize(watchWindowResize)
+  store.addAudioEvent()
+  store.loginStatus().finally(() => {
+    loading.value = false
+  })
 })
 
-onBeforeUnmount(() => Audio && Audio.instance && Audio.instance.destroy())
+onBeforeUnmount(() => {
+  store.removeAudioEvent()
+  uni.offWindowResize(watchWindowResize)
+})
 
 onMounted(() => {
   watchWindowResize()

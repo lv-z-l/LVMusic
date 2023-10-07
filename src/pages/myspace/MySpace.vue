@@ -130,6 +130,7 @@ onBeforeMount(loadData)
 
     .list {
       margin-top: calc($page-frame-scroll-margin-top / 4);
+      gap: $song-sheet-margin-right;
     }
 
     .title {

@@ -126,7 +126,7 @@ store.regLoadMore('category', () => {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: space-between;
+    gap: calc($song-sheet-margin-right * .9);
   }
 }
 </style>

@@ -1,0 +1,16 @@
+{
+  "name": "LV Music",
+  "short_name": "LV Music",
+  "description": "My Progressive Web App",
+  "start_url": "/LVMusic",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0078d4",
+  "icons": [
+    {
+      "src": "https://mp-cb2e47ef-a802-469a-a81c-2b6efa9f8b60.cdn.bspapp.com/logo1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 <template>
   <view class="song-list-item" @click="playSong(store, props.song)">
     <LazyLoader :w="w + 'px'" :h="w + 'px'">
-      <image class="song-image" :src="props.song.url + `?param=${w}y${w}`"></image>
+      <image class="song-image" :src="props.song.url + `?param=${w}y${w}`" :alt="song.name"></image>
     </LazyLoader>
     <view class="name-author">
       <text class="name">{{ props.song.name }}</text>

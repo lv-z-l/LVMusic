@@ -1,6 +1,6 @@
 <template>
   <view class="no-login">
-    <image class="img" src="../../static/tologin.svg"></image>
+    <image class="img" src="../../static/tologin.svg" alt="tologin.svg"></image>
     <text class="to-login" @click="toLogin">{{ store.langObj.needLogin }}</text>
   </view>
 </template>

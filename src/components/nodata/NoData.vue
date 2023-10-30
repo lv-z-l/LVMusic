@@ -1,6 +1,6 @@
 <template>
   <view class="no-data">
-    <image class="img" src="../../static/nodata.svg"></image>
+    <image class="img" src="../../static/nodata.svg" alt="nodata.svg"></image>
     <text>{{ store.langObj.nodata }}</text>
   </view>
 </template>

@@ -2,8 +2,8 @@
   <div :class="['turntable', store.currentSong.playing ? 'playing' : '']"
     @click="store.showSongImage = !store.showSongImage">
     <div class="disc">
-      <img src="../../static/disc.1.png" class="disc-1" />
-      <img src="../../static/disc-2.png" class="disc-2" />
+      <img src="../../static/disc.1.png" class="disc-1" alt="disc.1.png"/>
+      <img src="../../static/disc-2.png" class="disc-2" alt="disc-2.png"/>
       <div class="disc-3"></div>
       <img
         src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNCIgaGVpZ2h0PSI0IiB2aWV3Qm94PSIwIDAgNCA0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8Y2lyY2xlIGN4PSIyIiBjeT0iMiIgcj0iMiIgZmlsbD0idXJsKCNwYWludDBfcmFkaWFsXzIwMzFfMjQ1NzApIi8+CjxkZWZzPgo8cmFkaWFsR3JhZGllbnQgaWQ9InBhaW50MF9yYWRpYWxfMjAzMV8yNDU3MCIgY3g9IjAiIGN5PSIwIiByPSIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSgxIDEpIHJvdGF0ZSg2My40MzUpIHNjYWxlKDIuMjM2MDcpIj4KPHN0b3Agc3RvcC1jb2xvcj0id2hpdGUiLz4KPHN0b3Agb2Zmc2V0PSIxIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+Cg=="
